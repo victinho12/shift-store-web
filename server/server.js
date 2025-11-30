@@ -1,0 +1,26 @@
+require("dotenv").config();
+const express = require("express");
+ 
+
+const cors = require('cors');
+
+const clothesRouter = require("./router/clothes");
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+
+// Rotas principais
+app.use('/roupas', clothesRouter);
+
+
+// Rota raiz
+app.get("/", (req, res) => {
+    res.send('api rodando ')
+});
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, "localhost", () => {
+    console.log("http://localhost:3000 rodando")
+})
