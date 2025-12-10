@@ -64,9 +64,9 @@ router.delete("/:id", async (req, res) => {
 router.put("/:id", async (req, res) => {
   try{
     const id = parseInt(req.params.id);
-    const resultUpdate = await pool.query(`UPDATE PUBLIC.roupas `)
+    const resultUpdate = await pool.query(`UPDATE PUBLIC.roupas `);
   }catch(err){
-
+    res.send("erro ao atulizar roupa", err.message)
   }
 })
 
