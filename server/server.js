@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require("express");
- 
+const validar_chave_api_shfit = require("./key");
 
 const cors = require('cors');
 
@@ -12,6 +12,7 @@ app.use(express.json());
 
 
 // Rotas principais
+app.use(validar_chave_api_shfit);
 app.use('/roupas', clothesRouter);
 
 
