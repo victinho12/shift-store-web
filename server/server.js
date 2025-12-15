@@ -1,9 +1,9 @@
 require("dotenv").config();
 const express = require("express");
-const validar_chave_api_shfit = require("./key");
-
+const validar_chave_api_shfit = require("./middleware/key");
+//const multer = require("multer");
 const cors = require('cors');
-
+const path = require("path");
 const usuarioRouter = require("./router/usuarios")
 const clothesRouter = require("./router/clothes");
 
@@ -13,6 +13,10 @@ app.use(express.json());
 
 
 // Rotas principais
+app.use(
+  "/uploads",
+  express.static(path.join(__dirname, "uploads"))
+);
 app.use(validar_chave_api_shfit);
 app.use('/roupas', clothesRouter);
 app.use('/usuario', usuarioRouter);

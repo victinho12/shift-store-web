@@ -1,15 +1,10 @@
 require("dotenv").config();
-const KEY_API_SHIFT = process.env.KEY_API_SHIFT_STORE
-
-const couter = 0
+const KEY_API_SHIFT = process.env.KEY_API_SHIFT_STORE;
 
 
 function validarKeyApi(req,res, next){
     const KEY_API_FRONT = req.header("shift-api-key");
-    if(KEY_API_FRONT === KEY_API_SHIFT && couter <=3){
-        if(couter > 3){
-            return
-        }
+    if(KEY_API_FRONT === KEY_API_SHIFT){
         next();
         console.log("Deu bom")
 

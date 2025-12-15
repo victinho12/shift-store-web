@@ -1,10 +1,10 @@
 require("dotenv").config();
 const express = require("express");
 const pool = require("../db");
-
 const router = express.Router();
+const uploads = require("../middleware/upload")
 
-router.get("/", async (req, res) => {
+router.get("/",async (req, res) => {
   try {
     let {offset, limit, ordem, nome} = req.query;
 
@@ -43,14 +43,21 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", uploads.single("img"),async (req, res) => {
   try {
+    if (!req.file) {
+      return res.status(400).json({
+        error: "Imagem não enviada"
+      });
+    }
     const { nome, cor, tamanho, preco, quantidade } = req.body;
+    const img = req.file.filename;
     const resultPost = await pool.query(
-      `INSERT INTO PUBLIC.roupas (nome, cor, tamanho, preco, quantidade) VALUES ($1, $2, $3, $4, $5) RETURNING * `,
-      [nome, cor, tamanho, preco, quantidade]
+      `INSERT INTO PUBLIC.roupas (nome, cor, tamanho, preco, quantidade, img) VALUES ($1, $2, $3, $4, $5, $6) RETURNING * `,
+      [nome, cor, tamanho, preco, quantidade, img]
     );
     res.status(201).json(resultPost.rows[0]);
+     console.log("FILE:", req.file);
   } catch (err) {
     res
       .status(500)
