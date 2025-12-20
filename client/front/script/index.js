@@ -7,6 +7,20 @@ const API_CLIENT_KEY = "VICTOR_EDUARDO_MARTINS_123";
 
 const lista_produtos_shift = document.getElementById("lista-produtos");
 
+const imgs = document.getElementById("img");
+const img = document.querySelectorAll("#img img");
+
+let idx =0;
+function carrocel(){
+  idx++;
+  if(idx > img.length -1){
+  idx = 0;
+  }
+  imgs.style.transform = `translateX(${-idx * 100}%)`
+}
+setInterval(carrocel,3000);
+
+
 
 async function carregarProdutos() {
   try {
@@ -41,4 +55,5 @@ function couterCarrinhoFunc(){
     couterCarrinho = couterCarrinho + 1
     const carrinho = document.getElementById("carrinho").textContent = couterCarrinho;
 }
+ 
 carregarProdutos();
