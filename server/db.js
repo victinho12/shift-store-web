@@ -1,12 +1,34 @@
 require("dotenv").config();
 const { Pool } = require("pg");
 
-const pool = new Pool({
-  host: process.env.PGHOST,
-  user: process.env.PGUSER,
-  password: process.env.PGPASSWORD,
-  database: process.env.PGDATABASE,
-  port: process.env.PGPORT
+const isProduction =  process.env.NODE_ENV === "production";
+
+const pool = new Pool(
+  isProduction
+  //SE CONECTANDO COM SUPABASE
+    ? {
+        connectionString: process.env.DATABASE_URL,
+        ssl: {
+          rejectUnauthorized: false
+        },
+        family: 4
+      
+      }
+      // UM IF TERNARIO
+    : {
+        host: process.env.PGHOST,
+        user: process.env.PGUSER,
+        password: process.env.PGPASSWORD,
+        database: process.env.PGDATABASE,
+        port: process.env.PGPORT
+      }
+);
+console.log(process.env.DATABASE_URL);
+
+console.log("🔥 DB CONFIG:1", {
+  nodeEnv: process.env.NODE_ENV,
+  usandoDatabaseUrl: !!process.env.DATABASE_URL
 });
-console.log(process.env.PGPORT)
+
+
 module.exports = pool;
