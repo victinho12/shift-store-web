@@ -1,22 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="../style/cadastro.css" />
-    <script src="../script/cadastro.js" defer></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login</title>
+    <title>Cadastro</title>
+
+    <!-- Fonte -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="../style/cadastro.css" />
   </head>
+
   <body>
-    <section class="conteiner-body">
-        <div class="input-cadastro">
-      <input type="text" id="nome" placeholder="digite o seu nome" />
-      <input type="text" id="email" placeholder="digite seu email" />
-      <input type="text" id="senha" placeholder="digite um senha valida" />
-      <button id="btn-cadastro">Enviar</button>
-      <button id="limpar_input">Limpar</button>
+    <!-- HEADER -->
+    <header class="conteiner-header">
+      <div class="header">
+        <a href="#">
+          <img src="../assets/goku (1).png" alt="Logo" />
+        </a>
       </div>
-      <a href="login.html">Ja está cadastrado?</a>
-    </section>
+
+      <nav class="header-infos">
+        <a href="home.html">Home</a>
+        <a href="#">Produtos</a>
+        <a href="#">Atendimento</a>
+        <a href="#">Sobre nos</a>
+      </nav>
+
+      <div class="entrar-cadastrar">
+        <a href="index.html">Entrar</a>
+        <a href="cadastro.html">Cadastrar-se</a>
+      </div>
+    </header>
+
+    <!-- CONTEÚDO CENTRAL -->
+    <main class="pagina-cadastro">
+      <section class="conteiner-body">
+        <h2>Cadastro</h2>
+
+        <div class="input-cadastro">
+          <input type="text" id="nome" placeholder="Digite seu nome" />
+          <input type="email" id="email" placeholder="Digite seu email" />
+          <input type="password" id="senha" placeholder="Digite sua senha" />
+        </div>
+
+        <div class="btns">
+          <button id="btn-cadastro">Enviar</button>
+          <button id="limpar_input">Limpar</button>
+        </div>
+
+        <a href="login.html">Já está cadastrado?</a>
+      </section>
+    </main>
+
+    <script src="../script/cadastro.js"></script>
   </body>
 </html>

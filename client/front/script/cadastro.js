@@ -58,7 +58,7 @@ btnInsertUser.addEventListener("click", async () => {
     }
   } catch (err) {
     console.log(err.message);
-    alert("Erro", err.message);
+    alert(err.message);
   }
 });
 

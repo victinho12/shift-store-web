@@ -1,48 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="../assets/goku.svg" type="image/x-icon" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../style/index.css" />
-    <script src="../script/index.js" defer></script>
-    <title>Home</title>
-  </head>
-  <body>
-    <header class="conteiner-header">
-      <nav class="header">
-        <a href="index.html"><img src="../assets/goku (1).png" alt="" /></a>
-      </nav>
-      <nav class="header-infos">
-        <a href="">Home</a>
-        <a href="">Produtos</a>
-        <a href="">Atendimento</a>
-        <a href="">sobre nós</a>
-      </nav>
-      <nav class="entrar-cadastrar">
-        <a href="">Entrar</a>
-        <a href="./cadastro.html">Cadastrar-se</a>
-        <p id="carrinho">0</p>
-        <img
-          src="../assets/ChatGPT Image Dec 15, 2025, 04_44_20 AM.png"
-          alt=""
-        />
-      </nav>
-    </header>
-    <section class="conteiner-body">
-      <div class="conteiner-carrocel">
-      <div class="carrocel">
-        <div class="conteiner" id="img">
-          <img src="../assets/img-carrocel1.png" />
-          <img src="../assets/carrocel2.png" alt="" />
-          <img src="../assets/carrocel3.png" alt="" />
-        </div>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+
+  <!-- Fonte -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="../style/index.css" />
+</head>
+
+
+<!-- LOGIN.JS -->
+<script src="../script/index.js" defer></script>
+
+<body>
+
+  <!-- HEADER -->
+  <header class="conteiner-header">
+    <nav class="header">
+      <a href="home.html">
+        <img src="../assets/goku (1).png" alt="Logo" />
+      </a>
+    </nav>
+
+    <nav class="header-infos">
+      <a href="home.html">Home</a>
+      <a href="#">Produtos</a>
+      <a href="#">Atendimento</a>
+      <a href="#">Sobre nós</a>
+    </nav>
+
+    <nav class="entrar-cadastrar">
+      <a href="index.html">Entrar</a>
+      <a href="cadastro.html">Cadastrar-se</a>
+    </nav>
+    <nav id="user-icon">
+      <p id="nome_cliente">nome</p>
+      <img src="../assets/avatar-do-usuario.png" alt="">
+    </nav>
+  </header>
+
+  <!-- LOGIN -->
+  <main class="pagina-login">
+    <section class="login-card">
+      <h2>Entrar</h2>
+
+      <div class="inputs-login">
+        <input id="email" type="email" placeholder="E-mail" />
+        <input id="senha" type="password" placeholder="Senha" />
       </div>
-      </div>
-      <div class="produtos">
-        <h1>Mais vendidos</h1>
-        <div id="lista-produtos" class="conteiner-produtos"></div>
-      </div>
-      
-  </body>
+
+      <button id="btn-entrar">Entrar</button>
+
+      <a href="cadastro.html">Não tem conta? Cadastre-se</a>
+    </section>
+  </main>
+
+</body>
 </html>

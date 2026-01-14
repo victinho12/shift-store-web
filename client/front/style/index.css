@@ -1,196 +1,160 @@
+/* ================= RESET ================= */
 * {
   margin: 0;
   padding: 0;
-  margin-left: 0;
-  margin-right: 0;
-  margin-bottom: 0;
-  margin-top: 0;
+  box-sizing: border-box;
   font-family: "Inter", sans-serif;
-  font-optical-sizing: auto;
 }
+
+/* ================= BODY ================= */
 body {
+  min-height: 100vh;
   background-color: rgb(51, 13, 13);
+  color: white;
 }
-/* area que meche no header do site */
+
+/* ================= HEADER ================= */
 .conteiner-header {
   background-color: black;
   display: flex;
   align-items: center;
-  padding-bottom: 20px;
+  justify-content: space-between;
+  padding: 15px 5%;
+  border-bottom: 2px solid #8b0000;
 }
-.header {
-  display: flex;
-  width: 20%;
-}
+
 .header img {
-  width: 100%;
-  margin-top: 1%;
-  padding-bottom: 0.5%;
+  width: 90px;
 }
-.header a {
-  width: 40%;
-  margin-left: 50%;
-}
-.header-infos a {
-  font-size: 1.2vw;
-  color: white;
-  text-decoration: none;
-  align-items: center;
-  text-align: center;
-  margin-left: 10%;
-}
+
 .header-infos {
   display: flex;
-  text-align: center;
-  width: 40%;
-  padding-top: 1.3%;
+  gap: 30px;
 }
+
+.header-infos a {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
 .header-infos a:hover {
   color: rgb(150, 24, 24);
-  transition: 0.3s;
 }
+
 .entrar-cadastrar {
   display: flex;
-  padding-left: 5%;
-  width: 20%;
-  text-align: center;
-  align-items: center;
-  padding-top: 1.5%;
+  gap: 10px;
 }
+
 .entrar-cadastrar a {
   text-decoration: none;
   color: white;
-  font-size: 1vw;
-  background-color: rgb(0, 0, 0);
+  font-size: 0.9rem;
+  background-color: black;
   border-radius: 16px;
-  padding: 2.5%;
+  padding: 6px 14px;
   border: 2px solid white;
-  margin-left: 5%;
-}
-.entrar-cadastrar img{
-    width: 10%;
-}
-.entrar-cadastrar a:hover {
-  background-color: rgb(150, 24, 24);
   transition: 0.3s;
 }
-#carrinho {
-  margin-left: 15%;
-  color: white;
+
+.entrar-cadastrar a:hover {
+  background-color: rgb(150, 24, 24);
+  border-color: rgb(150, 24, 24);
+}
+#user-icon{
+  width: 10%;
+}
+#user-icon img{
+  width: 40%;
+}
+
+/* ================= LOGIN ================= */
+.pagina-login {
+  min-height: calc(100vh - 90px);
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
-.carrocel {
-  width: 100%;
-   display: flex;
-  justify-content: center;
-  overflow: hidden;
-  position: relative;
-}
-.conteiner{
-  display: flex;
-  transition: transform 0.5s ease-in-out;
-  transform: translateX(0);
-}
-.carrocel img {
-   flex-shrink: 0;
-   width: 100%;
-  object-fit: cover;
-  position: relative;
-box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.6);
-transition: box-shadow 0.3s ease;
-}
 
-#btn-flutuante {
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  border-radius: 20px;
-  left: 600px;
-  top: 450px;
-  background-color: rgb(0, 0, 0);
-  border: solid 2px white;
-  color: white;
-}
-#btn-flutuante:active {
-  transform: scale(0.95);
-  background-color: white;
-  color: black;
-  transition: 0.1s;
-}
-#btn-flutuante:hover {
-  background-color: aliceblue;
-  color: black;
-}
-
-.produtos {
-  text-align: center;
-  color: white;
-  padding-top: 5%;
-}
-
-/*classe car que criei no js*/
-.conteiner-produtos {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-.card {
-  margin-left: 3%;
-  margin-top: 3%;
-  width: 260px;
+/* Card */
+.login-card {
+  width: 340px;
   background: #111;
-  color: #fff;
+  padding: 35px;
   border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+.login-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.8);
 }
 
-.card-img img {
+.login-card h2 {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+/* Inputs */
+.inputs-login {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.inputs-login input {
+  background: #000;
+  border: 1px solid #333;
+  padding: 12px;
+  border-radius: 8px;
+  color: white;
+  transition: 0.3s;
+}
+
+.inputs-login input:focus {
+  outline: none;
+  border-color: #8b0000;
+  box-shadow: 0 0 6px rgba(139, 0, 0, 0.6);
+}
+
+/* Botão */
+#btn-entrar {
   width: 100%;
-  height: 320px;
-  object-fit: cover;
-}
-
-.card-info {
-  padding: 16px;
-}
-
-.card-title {
-  font-size: 1.1rem;
-  margin-bottom: 8px;
-}
-
-.card-color {
-  font-size: 0.9rem;
-  color: #ccc;
-  margin-bottom: 6px;
-}
-
-.card-price {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #8b0000; /* vinho */
-  margin-bottom: 12px;
-}
-
-.card-btn {
-  width: 100%;
-  padding: 10px;
+  margin-top: 22px;
+  padding: 12px;
   background: #8b0000;
   border: none;
   border-radius: 8px;
-  color: #fff;
+  color: white;
+  font-weight: bold;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background 0.3s, transform 0.2s;
 }
 
-.card-btn:hover {
+#btn-entrar:hover {
   background: #a00000;
+}
+
+#btn-entrar:active {
+  transform: scale(0.97);
+}
+
+/* Link */
+.login-card a {
+  display: block;
+  text-align: center;
+  margin-top: 18px;
+  color: #8b0000;
+  text-decoration: none;
+}
+
+.login-card a:hover {
+  color: #a00000;
+  text-decoration: underline;
+}
+#nome_cliente {
+  display: none;
 }

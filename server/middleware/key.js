@@ -6,7 +6,7 @@ async function validarKeyApi(req, res, next) {
   try {
     const API_KEY_FRONT = req.header("shift-api-key");
     if (!API_KEY_FRONT) {
-      res.status(401).json({ erro: "chave da api não informada" });
+      return res.status(401).json({ erro: "chave da api não informada" });
     }
     const result = await pool.query(
       `select * from public.api_keys where api_key = $1;`,
@@ -17,11 +17,11 @@ async function validarKeyApi(req, res, next) {
     const hoje = new Date().toISOString().split("T")[0];
     //console.log(hoje);
     if (result.rows.length !== 1) {
-      res.status(401).json({ erro: "chave de api invalida" });
+      return res.status(401).json({ erro: "chave de api invalida" });
     }
     let ultima_data = result.rows[0].criado_em;
     let formatarUltima_data = new Date(ultima_data).toISOString().split("T")[0];
-    console.log(formatarUltima_data);
+    //console.log(formatarUltima_data);
     let novoConsumo = 0;
     if (formatarUltima_data !== hoje) {
       await pool.query(

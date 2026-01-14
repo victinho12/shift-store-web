@@ -1,59 +1,60 @@
-const API = "http://localhost:3000/roupas";
-let limit = 2;
-let offset = 0;
-let couterCarrinho = 0;
+const API = "http://localhost:3000/user";
+const API_LOGIN = "http://localhost:3000/user/login";
 
+const email = document.getElementById("email");
+const senha = document.getElementById("senha");
+const btnEntrar = document.getElementById("btn-entrar");
 const API_CLIENT_KEY = "VICTOR_EDUARDO_MARTINS_123";
 
-const lista_produtos_shift = document.getElementById("lista-produtos");
 
-const imgs = document.getElementById("img");
-const img = document.querySelectorAll("#img img");
+btnEntrar.addEventListener("click", async () => {
+  const email = document.getElementById("email");
+  const senha = document.getElementById("senha");
+  const nome = document.getElementById("nome_cliente");
 
-let idx =0;
-function carrocel(){
-  idx++;
-  if(idx > img.length -1){
-  idx = 0;
+  if (!validarEmail(email)) return;
+  const buscarUser = await fetch(API_LOGIN, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "shift-api-key": API_CLIENT_KEY,
+      
+    },
+    body: JSON.stringify({
+      email: email.value,
+      senha: senha.value,
+    }),
+  });
+  const dadosUser = await buscarUser.json();
+  localStorage.setItem('token', dadosUser.token)
+  console.log(dadosUser);
+  
+  if (!buscarUser.ok) {
+    alert(
+      "usuario não encontrado, crie uma conta para continuar " + dadosUser.msg
+    );
+    
+  } else {
+    alert(`seja bem vindo(a) de volta, ${dadosUser.nome}`);
+    nome.textContent = dadosUser.nome;
+    aparecerNomeCliente(nome);
+    window.location.href = "./home.html"
   }
-  imgs.style.transform = `translateX(${-idx * 100}%)`
-}
-setInterval(carrocel,3000);
+});
 
+function validarEmail(email) {
+  let validar = true;
 
-
-async function carregarProdutos() {
-  try {
-    const res = await fetch(`${API}/?limit=${limit}&offset=${offset}`, {
-      headers: {
-        "shift-api-key": API_CLIENT_KEY,
-      },
-    });
-    const resJson = await res.json();
-
-    resJson.forEach((roupa) => {
-      const card = document.createElement("div");
-      card.classList.add("card");
-      card.innerHTML = `
-  <div class="card-img">
-    <img src="http://localhost:3000/uploads/${roupa.img}" alt="${roupa.nome}">
-  </div>
-  <div class="card-info">
-    <h2 class="card-title">${roupa.nome}</h2>
-    <p class="card-color">Cor: ${roupa.cor}</p>
-    <p class="card-price">R$ ${Number(roupa.preco).toFixed(2)}</p>
-    <button class="card-btn" onclick= couterCarrinhoFunc()>Adicionar ao carrinho</button>
-  </div>
-`;
-      lista_produtos_shift.appendChild(card);
-    });
-  } catch (err) {
-    console.log(err.message);
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email.value)) {
+    email.value = "";
+    email.placeholder = "Email inválido (ex: nome@email.com)";
+    email.classList.add("erro");
+    return (validar = false);
   }
+  email.classList.remove("erro");
+  return validar;
 }
-function couterCarrinhoFunc(){
-    couterCarrinho = couterCarrinho + 1
-    const carrinho = document.getElementById("carrinho").textContent = couterCarrinho;
+function aparecerNomeCliente(nome) {
+  nome.style.display = "block";
 }
- 
-carregarProdutos();

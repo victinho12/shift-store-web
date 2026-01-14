@@ -1,0 +1,194 @@
+/* ================= RESET ================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+/* ================= BODY ================= */
+body {
+  background-color: rgb(51, 13, 13);
+  color: white;
+}
+
+/* ================= HEADER ================= */
+.conteiner-header {
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 5%;
+  border-bottom: 2px solid #8b0000;
+}
+
+/* Logo */
+.header img {
+  width: 90px;
+}
+
+/* Navegação central */
+.header-infos {
+  display: flex;
+  gap: 30px;
+}
+
+.header-infos a {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+.header-infos a:hover {
+  color: rgb(150, 24, 24);
+}
+
+/* Entrar / Cadastrar / Carrinho */
+.entrar-cadastrar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.entrar-cadastrar a {
+  text-decoration: none;
+  color: white;
+  font-size: 0.9rem;
+  background-color: black;
+  border-radius: 16px;
+  padding: 6px 14px;
+  border: 2px solid white;
+  transition: 0.3s;
+}
+
+.entrar-cadastrar a:hover {
+  background-color: rgb(150, 24, 24);
+  border-color: rgb(150, 24, 24);
+}
+
+/* Carrinho */
+#carrinho {
+  font-weight: bold;
+  color: white;
+}
+
+.entrar-cadastrar img {
+  width: 28px;
+  cursor: pointer;
+}
+
+/* ================= CONTEÚDO ================= */
+.conteiner-body {
+  width: 100%;
+}
+
+/* ================= CARROCEL ================= */
+.conteiner-carrocel {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.carrocel {
+  width: 90%;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+.conteiner {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carrocel img {
+  width: 100%;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+/* ================= PRODUTOS ================= */
+.produtos {
+  text-align: center;
+  padding: 60px 0 40px;
+}
+
+.produtos h1 {
+  font-size: 2.2rem;
+  margin-bottom: 40px;
+}
+
+/* ================= LISTA DE PRODUTOS ================= */
+.conteiner-produtos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+}
+
+/* ================= CARD ================= */
+.card {
+  width: 260px;
+  background: #111;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* Imagem do card */
+.card-img img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+}
+
+/* Informações */
+.card-info {
+  padding: 16px;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  margin-bottom: 6px;
+}
+
+.card-color {
+  font-size: 0.9rem;
+  color: #ccc;
+  margin-bottom: 6px;
+}
+
+.card-price {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #8b0000;
+  margin-bottom: 12px;
+}
+
+/* Botão */
+.card-btn {
+  width: 100%;
+  padding: 10px;
+  background: #8b0000;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.card-btn:hover {
+  background: #a00000;
+}
+
+.card-btn:active {
+  transform: scale(0.97);
+}

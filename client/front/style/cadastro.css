@@ -1,3 +1,182 @@
-.erro::placeholder{
-    color: rgb(177, 8, 8);
+/* ================= RESET ================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+/* ================= BODY ================= */
+body {
+  min-height: 100vh;
+  background-color: rgb(51, 13, 13);
+  color: white;
+}
+
+/* ================= HEADER ================= */
+
+.conteiner-header {
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 5%;
+  border-bottom: 2px solid #8b0000;
+}
+
+.header img {
+  width: 80px;
+}
+
+.header-infos {
+  display: flex;
+  gap: 30px;
+}
+
+.header-infos a {
+  font-size: 1rem;
+  color: white;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.header-infos a:hover {
+  color: rgb(150, 24, 24);
+}
+
+.entrar-cadastrar {
+  display: flex;
+  gap: 10px;
+}
+
+.entrar-cadastrar a {
+  text-decoration: none;
+  color: white;
+  font-size: 0.9rem;
+  background-color: black;
+  border-radius: 16px;
+  padding: 6px 14px;
+  border: 2px solid white;
+  transition: 0.3s;
+}
+
+.entrar-cadastrar a:hover {
+  background-color: rgb(150, 24, 24);
+  border-color: rgb(150, 24, 24);
+}
+
+/* ================= ÁREA CENTRAL ================= */
+
+.pagina-cadastro {
+  min-height: calc(100vh - 90px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 0;
+}
+
+/* ================= CARD DE CADASTRO ================= */
+
+.conteiner-body {
+  width: 360px;
+  background: #111;
+  border-radius: 12px;
+  padding: 35px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.conteiner-body:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.8);
+}
+
+.conteiner-body h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 1.6rem;
+  color: white;
+}
+
+/* ================= INPUTS ================= */
+
+.input-cadastro {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.input-cadastro input {
+  background: #000;
+  border: 1px solid #333;
+  padding: 12px;
+  border-radius: 8px;
+  color: white;
+  font-size: 0.95rem;
+  transition: border 0.3s, box-shadow 0.3s;
+}
+
+.input-cadastro input::placeholder {
+  color: #aaa;
+}
+
+.input-cadastro input:focus {
+  outline: none;
+  border-color: #8b0000;
+  box-shadow: 0 0 6px rgba(139, 0, 0, 0.6);
+}
+
+/* ================= BOTÕES ================= */
+
+.btns {
+  display: flex;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.btns button {
+  flex: 1;
+  padding: 11px;
+  border-radius: 8px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* ENVIAR */
+#btn-cadastro {
+  background: #8b0000;
+  color: white;
+}
+
+#btn-cadastro:hover {
+  background: #a00000;
+}
+
+/* LIMPAR */
+#limpar_input {
+  background: black;
+  border: 1px solid #8b0000;
+  color: white;
+}
+
+#limpar_input:hover {
+  background: #8b0000;
+}
+
+/* ================= LINK ================= */
+
+.conteiner-body a {
+  display: block;
+  text-align: center;
+  margin-top: 18px;
+  color: #8b0000;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.conteiner-body a:hover {
+  color: #a00000;
+  text-decoration: underline;
 }
