@@ -77,6 +77,39 @@ body {
   width: 28px;
   cursor: pointer;
 }
+#user-icon {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 20px;
+  padding: 6px 12px;
+  border-radius: 30px;
+  background-color: rgba(255, 255, 255, 0.05);
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+/* Hover elegante */
+#user-icon:hover {
+  background-color: rgba(139, 0, 0, 0.2);
+}
+
+/* Nome do usuário */
+#user-icon .nome {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #fff;
+  white-space: nowrap;
+}
+
+/* Avatar */
+#user-icon img {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #8b0000;
+}
 
 /* ================= CONTEÚDO ================= */
 .conteiner-body {
@@ -138,10 +171,6 @@ body {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.6);
-}
 
 /* Imagem do card */
 .card-img img {
@@ -169,7 +198,7 @@ body {
 .card-price {
   font-size: 1.2rem;
   font-weight: bold;
-  color: #8b0000;
+  color: #10cc10;
   margin-bottom: 12px;
 }
 

@@ -7,6 +7,17 @@ const btnInsertUser = document.getElementById("btn-cadastro");
 
 const btn_limpar_campos_input = document.getElementById("limpar_input");
 
+const nome = document.getElementById("nome_cliente");
+const nome_value = localStorage.getItem("nome");
+if(nome_value){
+  nome.textContent = nome_value;
+  nome.style.display = "block";
+}else{
+  nome.textContent = "user";
+  nome.style.display = "block";
+}
+
+
 btnInsertUser.addEventListener("click", async () => {
   try {
     const nome = document.getElementById("nome");
@@ -55,6 +66,7 @@ btnInsertUser.addEventListener("click", async () => {
 
       alert("deu bom");
       console.log("deu bom");
+      window.location.href = "./index.html";
     }
   } catch (err) {
     console.log(err.message);

@@ -1,7 +1,5 @@
 //dotenv para acessar a varialvel de ambiente .env
 require("dotenv").config();
-//express para poder fazer as rotas, requisão e respostas
-const express = require("express");
 //jwt pra fazer os tokens de acesso, isso ajuda a proeteger as nossas rotas 
 const jwt = require("jsonwebtoken");
 

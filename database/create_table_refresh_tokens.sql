@@ -1,0 +1,7 @@
+CREATE TABLE refresh_tokens (
+  id SERIAL PRIMARY KEY,
+  usuario_id INTEGER NOT NULL,
+  token TEXT NOT NULL UNIQUE,
+  criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  expira_em TIMESTAMP NOT NULL
+);

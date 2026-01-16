@@ -1,0 +1,9 @@
+CREATE TABLE api_keys (
+  id SERIAL PRIMARY KEY,
+  api_key TEXT NOT NULL,
+  plano TEXT NOT NULL,
+  consumo INTEGER NOT NULL DEFAULT 0,
+  limite INTEGER NOT NULL,
+  criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  tempo_uso TIMESTAMP
+);

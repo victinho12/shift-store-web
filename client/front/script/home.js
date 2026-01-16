@@ -1,3 +1,10 @@
+const token = localStorage.getItem("token");
+
+if (!token) {
+  // bloqueia acesso a pagina se não existir token
+  window.location.href = "./index.html";
+}
+
 const API = "http://localhost:3000/roupas";
 let limit = 4;
 let offset = 0;
@@ -19,16 +26,38 @@ function carrocel() {
 }
 setInterval(carrocel, 3000);
 
+const nome = document.getElementById("nome_cliente");
+
+const nome_value = localStorage.getItem("nome");
+if(nome_value){
+  nome.textContent = nome_value;
+  nome.style.display = "block";
+}else{
+  nome.textContent = "user";
+  nome.style.display = "block";
+}
 
 
 async function carregarProdutos() {
   try {
-    const res = await fetch(`${API}/?limit=${limit}&offset=${offset}`, {
+    const res = await fetchAuth(`${API}/?limit=${limit}&offset=${offset}`, {
       headers: {
         "shift-api-key": API_CLIENT_KEY,
+       
       },
     });
+
+    if(!res.ok){
+      const erroText = res.text()
+      throw new Error(erroText);
+    }
+
     const resJson = await res.json();
+
+    if(!Array.isArray(resJson)){
+      console.error("Resposta inesperada", resJson)
+      return;
+    }
 
     resJson.forEach((roupa) => {
       const card = document.createElement("div");
@@ -47,7 +76,7 @@ async function carregarProdutos() {
       lista_produtos_shift.appendChild(card);
               });
   } catch (err) {
-    console.log(err.message);
+    console.error("error ou carregar produto:",err.message);
   }
 }
 function couterCarrinhoFunc() {

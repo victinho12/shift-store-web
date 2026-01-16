@@ -2,15 +2,27 @@ const API = "http://localhost:3000/user";
 const API_LOGIN = "http://localhost:3000/user/login";
 
 const email = document.getElementById("email");
+
 const senha = document.getElementById("senha");
+
 const btnEntrar = document.getElementById("btn-entrar");
+
 const API_CLIENT_KEY = "VICTOR_EDUARDO_MARTINS_123";
 
+const nome = document.getElementById("nome_cliente");
+
+const nome_value = localStorage.getItem("nome");
+if(nome_value){
+  nome.textContent = nome_value;
+  nome.style.display = "block";
+}else{
+  nome.textContent = "user";
+  nome.style.display = "block";
+}
 
 btnEntrar.addEventListener("click", async () => {
   const email = document.getElementById("email");
   const senha = document.getElementById("senha");
-  const nome = document.getElementById("nome_cliente");
 
   if (!validarEmail(email)) return;
   const buscarUser = await fetch(API_LOGIN, {
@@ -18,7 +30,6 @@ btnEntrar.addEventListener("click", async () => {
     headers: {
       "Content-Type": "application/json",
       "shift-api-key": API_CLIENT_KEY,
-      
     },
     body: JSON.stringify({
       email: email.value,
@@ -26,22 +37,24 @@ btnEntrar.addEventListener("click", async () => {
     }),
   });
   const dadosUser = await buscarUser.json();
-  localStorage.setItem('token', dadosUser.token)
+  localStorage.setItem("token", dadosUser.token);
+  localStorage.setItem("refreshToken", dadosUser.refreshToken)
+  localStorage.setItem("nome", dadosUser.nome);
   console.log(dadosUser);
-  
+
   if (!buscarUser.ok) {
     alert(
       "usuario não encontrado, crie uma conta para continuar " + dadosUser.msg
     );
-    
   } else {
     alert(`seja bem vindo(a) de volta, ${dadosUser.nome}`);
-    nome.textContent = dadosUser.nome;
-    aparecerNomeCliente(nome);
-    window.location.href = "./home.html"
+    limparCampos(email, senha);
+    window.location.href = "./home.html";
   }
 });
 
+
+//função de validar email com regex
 function validarEmail(email) {
   let validar = true;
 
@@ -55,6 +68,8 @@ function validarEmail(email) {
   email.classList.remove("erro");
   return validar;
 }
-function aparecerNomeCliente(nome) {
-  nome.style.display = "block";
+//função pra limpar os campos do input quando o ususario realizar o login
+function limparCampos(email, senha){
+  email.value = "";
+  senha.value = "";
 }

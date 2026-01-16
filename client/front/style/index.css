@@ -63,11 +63,38 @@ body {
   background-color: rgb(150, 24, 24);
   border-color: rgb(150, 24, 24);
 }
-#user-icon{
-  width: 10%;
+#user-icon {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 20px;
+  padding: 6px 12px;
+  border-radius: 30px;
+  background-color: rgba(255, 255, 255, 0.05);
+  transition: 0.3s;
+  cursor: pointer;
 }
-#user-icon img{
-  width: 40%;
+
+/* Hover elegante */
+#user-icon:hover {
+  background-color: rgba(139, 0, 0, 0.2);
+}
+
+/* Nome do usuário */
+#user-icon .nome {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #fff;
+  white-space: nowrap;
+}
+
+/* Avatar */
+#user-icon img {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #8b0000;
 }
 
 /* ================= LOGIN ================= */
@@ -154,7 +181,4 @@ body {
 .login-card a:hover {
   color: #a00000;
   text-decoration: underline;
-}
-#nome_cliente {
-  display: none;
 }

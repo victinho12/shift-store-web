@@ -6,10 +6,10 @@ const uploads = require("../middleware/upload")
 const validarKeyApi = require("../middleware/key");
 const controller = require("../controllers/clothes.controller");
 const admin = require("../middleware/admin");
+const authToken = require("../middleware/authToken");
+router.get("/", authToken ,controller.buscarRoupa);
 
-router.get("/", controller.buscarRoupa);
-
-router.get("/:id", controller.buscarRoupaPorId);
+router.get("/:id", authToken ,controller.buscarRoupaPorId);
 
 router.post("/", uploads.single("img"), validarKeyApi, admin, controller.inserirRoupa);
 
