@@ -11,6 +11,9 @@ const API_CLIENT_KEY = "VICTOR_EDUARDO_MARTINS_123";
 
 const nome = document.getElementById("nome_cliente");
 
+const btnLogout = document.getElementById("logout-btn");
+btnLogout.addEventListener("click", logoutUser);
+
 const nome_value = localStorage.getItem("nome");
 if(nome_value){
   nome.textContent = nome_value;
@@ -21,6 +24,7 @@ if(nome_value){
 }
 
 btnEntrar.addEventListener("click", async () => {
+  try{
   const email = document.getElementById("email");
   const senha = document.getElementById("senha");
 
@@ -40,16 +44,18 @@ btnEntrar.addEventListener("click", async () => {
   localStorage.setItem("token", dadosUser.token);
   localStorage.setItem("refreshToken", dadosUser.refreshToken)
   localStorage.setItem("nome", dadosUser.nome);
-  console.log(dadosUser);
+  console.log(dadosUser.getUserByTokenJson);
 
   if (!buscarUser.ok) {
-    alert(
-      "usuario não encontrado, crie uma conta para continuar " + dadosUser.msg
-    );
+    alert(dadosUser.msg);
+    localStorage.clear()
   } else {
     alert(`seja bem vindo(a) de volta, ${dadosUser.nome}`);
     limparCampos(email, senha);
     window.location.href = "./home.html";
+  }
+  }catch(err){
+    console.error(err.message);
   }
 });
 
@@ -73,3 +79,6 @@ function limparCampos(email, senha){
   email.value = "";
   senha.value = "";
 }
+
+
+
