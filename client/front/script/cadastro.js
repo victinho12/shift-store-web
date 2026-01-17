@@ -17,6 +17,8 @@ if(nome_value){
   nome.style.display = "block";
 }
 
+const btnLogout = document.getElementById("logout-btn");
+btnLogout.addEventListener("click", logoutUser);
 
 btnInsertUser.addEventListener("click", async () => {
   try {
@@ -69,7 +71,7 @@ btnInsertUser.addEventListener("click", async () => {
       window.location.href = "./index.html";
     }
   } catch (err) {
-    console.log(err.message);
+    console.error(err.message);
     alert(err.message);
   }
 });

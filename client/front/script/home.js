@@ -16,6 +16,9 @@ const lista_produtos_shift = document.getElementById("lista-produtos");
 const imgs = document.getElementById("img");
 const img = document.querySelectorAll("#img img");
 
+const btnLogout = document.getElementById("logout-btn");
+btnLogout.addEventListener("click", logoutUser);
+
 let idx = 0;
 function carrocel() {
   idx++;
@@ -48,12 +51,14 @@ async function carregarProdutos() {
     });
 
     if(!res.ok){
-      const erroText = res.text()
+      const erroText = await res.text()
       throw new Error(erroText);
     }
 
     const resJson = await res.json();
-
+    if(!resJson.ok){
+      console.error(resJson.msg);
+    }
     if(!Array.isArray(resJson)){
       console.error("Resposta inesperada", resJson)
       return;
@@ -76,7 +81,8 @@ async function carregarProdutos() {
       lista_produtos_shift.appendChild(card);
               });
   } catch (err) {
-    console.error("error ou carregar produto:",err.message);
+    console.error(err.message);
+    alert(err.message);
   }
 }
 function couterCarrinhoFunc() {

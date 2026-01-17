@@ -27,6 +27,7 @@ async function refreshToken(req, res) {
   } catch (err) {
     return res.status(403).json({ error: "Refresh token expirado" });
   }
+
 };
 module.exports = {
     refreshToken,

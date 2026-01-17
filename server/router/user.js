@@ -89,6 +89,7 @@ router.post("/login", async (req, res) => {
       { expiresIn: "7d" }
     );
 
+    await pool.query(`DELETE from public.refresh_tokens where usuario_id = $1`,[userInfos.id])
     // data de expiração (7 dias)
     const expiraEm = new Date();
     expiraEm.setDate(expiraEm.getDate() + 7);
@@ -101,7 +102,7 @@ router.post("/login", async (req, res) => {
       token, refreshToken
     });
   } catch (err) {
-    res.status(401).json({ err });
+    res.status(401).json({msg: `error ao logar ${err.message}` });
   }
 });
 
