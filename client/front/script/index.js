@@ -11,6 +11,15 @@ const API_CLIENT_KEY = "VICTOR_EDUARDO_MARTINS_123";
 
 const nome = document.getElementById("nome_cliente");
 
+
+const hamburger = document.getElementById("hamburger");
+const menu = document.querySelector(".header-infos");
+
+hamburger.addEventListener("click", () => {
+  menu.classList.toggle("active");
+});
+
+
 const btnLogout = document.getElementById("logout-btn");
 btnLogout.addEventListener("click", logoutUser);
 

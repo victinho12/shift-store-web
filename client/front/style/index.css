@@ -185,89 +185,68 @@ body {
 
 
 
-/* ================= MOBILE LOGIN (ARRUMADO) ================= */
+/* ================= HAMBURGER ================= */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.hamburger span {
+  width: 26px;
+  height: 3px;
+  background: white;
+  border-radius: 2px;
+  transition: 0.3s;
+}
+
+/* ================= MOBILE HEADER ================= */
 @media (max-width: 768px) {
 
-  /* REMOVE ALTURA FORÇADA */
-  body {
-    min-height: auto;
-  }
-
-  /* HEADER MAIS COMPACTO */
   .conteiner-header {
-    padding: 10px 15px;
-    flex-direction: row;
+    padding: 12px 16px;
   }
 
-  .header img {
-    width: 60px;
+  /* MOSTRA HAMBURGER */
+  .hamburger {
+    display: flex;
   }
 
+  /* ESCONDE MENU */
   .header-infos {
-    display: none; /* some no login */
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background: black;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 25px 0;
+    border-bottom: 2px solid #8b0000;
+
+    /* ESCONDIDO */
+    transform: translateY(-120%);
+    transition: transform 0.3s ease;
+    z-index: 999;
   }
 
+  /* MENU ABERTO */
+  .header-infos.active {
+    transform: translateY(0);
+  }
+
+  .header-infos a {
+    font-size: 1.1rem;
+  }
+
+  /* ENTRAR / USUÁRIO */
   .entrar-cadastrar {
     gap: 8px;
   }
 
-  .entrar-cadastrar a {
-    font-size: 0.8rem;
-    padding: 6px 12px;
-  }
-
-  /* CENTRALIZA LOGIN */
-  .pagina-login {
-    min-height: calc(100vh - 70px);
-    padding: 20px;
-    align-items: flex-start;
-  }
-
-  /* CARD DE LOGIN */
-  .login-card {
-    width: 100%;
-    max-width: 420px;
-    padding: 26px 22px;
-    margin-top: 30px;
-    border-radius: 14px;
-  }
-
-  .login-card h2 {
-    font-size: 1.5rem;
-    margin-bottom: 22px;
-  }
-
-  /* INPUTS GRANDES (DE VERDADE) */
-  .inputs-login input {
-    padding: 16px;
-    font-size: 1rem;
-    border-radius: 10px;
-  }
-
-  /* BOTÃO */
-  #btn-entrar {
-    padding: 16px;
-    font-size: 1.05rem;
-    border-radius: 10px;
-    margin-top: 24px;
-  }
-
-  /* LINK */
-  .login-card a {
-    font-size: 0.95rem;
-    margin-top: 20px;
-  }
-}
-
-/* ================= CELULARES PEQUENOS ================= */
-@media (max-width: 480px) {
-
-  .login-card {
-    padding: 22px 18px;
-    margin-top: 20px;
-  }
-
-  .login-card h2 {
-    font-size: 1.35rem;
+  #user-icon {
+    margin-left: 0;
   }
 }
