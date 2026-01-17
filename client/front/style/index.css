@@ -182,3 +182,105 @@ body {
   color: #a00000;
   text-decoration: underline;
 }
+
+
+
+/* ================= RESPONSIVO (CELULAR) ================= */
+@media (max-width: 768px) {
+
+  /* BODY */
+  body {
+    font-size: 14px;
+  }
+
+  /* HEADER */
+  .conteiner-header {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .header img {
+    width: 70px;
+  }
+
+  .header-infos {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .header-infos a {
+    font-size: 0.95rem;
+  }
+
+  .entrar-cadastrar {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .entrar-cadastrar a {
+    padding: 8px 18px;
+    font-size: 0.85rem;
+  }
+
+  /* USER ICON */
+  #user-icon {
+    margin-left: 0;
+    padding: 8px 14px;
+  }
+
+  #user-icon img {
+    width: 34px;
+    height: 34px;
+  }
+
+  #user-icon .nome {
+    font-size: 0.85rem;
+  }
+
+  /* LOGIN */
+  .pagina-login {
+    padding: 20px;
+  }
+
+  .login-card {
+    width: 100%;
+    max-width: 360px;
+    padding: 25px;
+  }
+
+  .login-card h2 {
+    font-size: 1.3rem;
+  }
+
+  .inputs-login input {
+    padding: 14px;
+    font-size: 0.95rem;
+  }
+
+  #btn-entrar {
+    padding: 14px;
+    font-size: 1rem;
+  }
+}
+
+/* ================= CELULARES PEQUENOS ================= */
+@media (max-width: 480px) {
+
+  .header-infos {
+    gap: 10px;
+  }
+
+  .header-infos a {
+    font-size: 0.85rem;
+  }
+
+  .login-card {
+    padding: 22px;
+  }
+
+  .login-card h2 {
+    font-size: 1.2rem;
+  }
+}

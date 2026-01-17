@@ -221,3 +221,129 @@ body {
 .card-btn:active {
   transform: scale(0.97);
 }
+
+
+
+/* ================= RESPONSIVO ================= */
+@media (max-width: 768px) {
+
+  /* HEADER */
+  .conteiner-header {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .header img {
+    width: 70px;
+  }
+
+  .header-infos {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .header-infos a {
+    font-size: 0.95rem;
+  }
+
+  .entrar-cadastrar {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .entrar-cadastrar a {
+    font-size: 0.85rem;
+    padding: 8px 16px;
+  }
+
+  #user-icon {
+    margin-left: 0;
+    padding: 8px 14px;
+  }
+
+  /* CARROCEL */
+  .carrocel {
+    width: 95%;
+    border-radius: 10px;
+  }
+
+  .carrocel img {
+    height: 220px;
+  }
+
+  /* PRODUTOS */
+  .produtos {
+    padding: 40px 15px;
+  }
+
+  .produtos h1 {
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+  }
+
+  /* LISTA */
+  .conteiner-produtos {
+    gap: 18px;
+  }
+
+  /* CARD */
+  .card {
+    width: 46%;
+    min-width: 160px;
+  }
+
+  .card-img img {
+    height: 240px;
+  }
+
+  .card-title {
+    font-size: 1rem;
+  }
+
+  .card-price {
+    font-size: 1.1rem;
+  }
+
+  .card-btn {
+    padding: 12px;
+    font-size: 0.95rem;
+  }
+}
+
+/* ================= CELULARES PEQUENOS ================= */
+@media (max-width: 480px) {
+
+  /* HEADER */
+  .header-infos {
+    gap: 10px;
+  }
+
+  .header-infos a {
+    font-size: 0.85rem;
+  }
+
+  .entrar-cadastrar img {
+    width: 24px;
+  }
+
+  /* CARROCEL */
+  .carrocel img {
+    height: 180px;
+  }
+
+  /* CARD */
+  .card {
+    width: 90%;
+  }
+
+  .card-img img {
+    height: 260px;
+  }
+
+  .produtos h1 {
+    font-size: 1.6rem;
+  }
+}

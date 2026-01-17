@@ -214,3 +214,92 @@ body {
   color: #a00000;
   text-decoration: underline;
 }
+
+
+
+/* ================= RESPONSIVO ================= */
+@media (max-width: 768px) {
+
+  /* HEADER */
+  .conteiner-header {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px;
+  }
+
+  .header img {
+    width: 65px;
+  }
+
+  .header-infos {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+  }
+
+  .header-infos a {
+    font-size: 0.95rem;
+  }
+
+  .entrar-cadastrar {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  #user-icon {
+    margin-left: 0;
+    padding: 8px 14px;
+  }
+
+  /* ÁREA CENTRAL */
+  .pagina-cadastro {
+    padding: 25px 15px;
+  }
+
+  /* CARD */
+  .conteiner-body {
+    width: 100%;
+    max-width: 380px;
+    padding: 28px;
+  }
+
+  .conteiner-body h2 {
+    font-size: 1.4rem;
+  }
+
+  /* INPUTS */
+  .input-cadastro input {
+    padding: 14px;
+    font-size: 1rem;
+  }
+
+  /* BOTÕES */
+  .btns {
+    flex-direction: column;
+  }
+
+  .btns button {
+    padding: 14px;
+    font-size: 1rem;
+  }
+}
+
+/* ================= CELULARES PEQUENOS ================= */
+@media (max-width: 480px) {
+
+  .header-infos {
+    gap: 10px;
+  }
+
+  .header-infos a {
+    font-size: 0.85rem;
+  }
+
+  .conteiner-body {
+    padding: 22px;
+  }
+
+  .conteiner-body h2 {
+    font-size: 1.3rem;
+  }
+}
