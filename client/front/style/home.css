@@ -21,6 +21,11 @@ body {
   padding: 15px 5%;
   border-bottom: 2px solid #8b0000;
 }
+.conteiner-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
 
 /* Logo */
 .header img {
@@ -56,7 +61,7 @@ body {
   color: white;
   font-size: 0.9rem;
   background-color: black;
-  border-radius: 16px;
+  border-radius: 18px;
   padding: 6px 14px;
   border: 2px solid white;
   transition: 0.3s;
@@ -67,11 +72,47 @@ body {
   border-color: rgb(150, 24, 24);
 }
 
-/* Carrinho */
-#carrinho {
-  font-weight: bold;
-  color: white;
+/* ================= CARRINHO ================= */
+.carrinhoStyle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
 }
+
+/* Ícone */
+.carrinhoStyle img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+/* Badge (quantidade) */
+#carrinho {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: #8b0000;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
+  transition: transform 0.2s ease;
+}
+
+.carrinhoStyle:hover #carrinho {
+  transform: scale(1.1);
+}
+
 
 .entrar-cadastrar img {
   width: 28px;
@@ -109,6 +150,38 @@ body {
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid #8b0000;
+}
+/* ================= LOGOUT ================= */
+.logoutClass {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 12px;
+}
+
+#logout-btn {
+  background: linear-gradient(135deg, #000000, #000000);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 18px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid white
+}
+
+/* Hover */
+#logout-btn:hover {
+  background: linear-gradient(135deg, hsl(0, 100%, 27%), hsl(0, 100%, 27%));
+  border: 2px solid hsl(0, 100%, 27%)
+}
+
+/* Click */
+#logout-btn:active {
+  transform: scale(0.96);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
 }
 
 /* ================= CONTEÚDO ================= */

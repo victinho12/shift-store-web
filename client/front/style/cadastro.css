@@ -23,7 +23,11 @@ body {
   padding: 15px 5%;
   border-bottom: 2px solid #8b0000;
 }
-
+.conteiner-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
 .header img {
   width: 80px;
 }
@@ -99,6 +103,39 @@ body {
   border: 2px solid #8b0000;
 }
 
+/* ================= LOGOUT ================= */
+.logoutClass {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 12px;
+}
+
+#logout-btn {
+  background: linear-gradient(135deg, #000000, #000000);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 18px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid white
+}
+
+/* Hover */
+#logout-btn:hover {
+  background: linear-gradient(135deg, hsl(0, 100%, 27%), hsl(0, 100%, 27%));
+  border: 2px solid hsl(0, 100%, 27%)
+}
+
+/* Click */
+#logout-btn:active {
+  transform: scale(0.96);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
+}
+
 /* ================= ÁREA CENTRAL ================= */
 
 .pagina-cadastro {
@@ -113,17 +150,13 @@ body {
 
 .conteiner-body {
   width: 360px;
-  background: #111;
+  background: #000000;
   border-radius: 12px;
   padding: 35px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.conteiner-body:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.8);
-}
+
 
 .conteiner-body h2 {
   text-align: center;
