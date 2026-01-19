@@ -12,7 +12,11 @@ const controller = require("../controllers/clothes.controller");
 
 router.get("/", authToken ,controller.buscarRoupa);
 
+router.get("/genero", authToken, controller.buscarRoupaPorGenero);
+
 router.get("/:id", authToken ,controller.buscarRoupaPorId);
+
+
 
 router.post("/", authToken ,validarKeyApi, admin, uploads.single("img"), controller.inserirRoupa);
 

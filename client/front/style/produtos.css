@@ -183,99 +183,166 @@ body {
   transform: scale(0.96);
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
 }
+#btn-genero-masc, #btn-genero-feme{
+    display: none;
+}
 
-/* ================= CONTEÚDO ================= */
 .conteiner-body {
   width: 100%;
 }
 
-/* ================= CARROCEL ================= */
-.conteiner-carrocel {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
 
-.carrocel {
-  width: 90%;
-  overflow: hidden;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-}
 
 .conteiner {
   display: flex;
   transition: transform 0.5s ease-in-out;
 }
 
-.carrocel img {
-  width: 100%;
-  flex-shrink: 0;
-  object-fit: cover;
-}
-
 /* ================= PRODUTOS ================= */
-.produtos {
-  text-align: center;
-  padding: 60px 0 40px;
+/* ====== Página ====== */
+.produtos-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-.produtos h1 {
-  font-size: 2.2rem;
-  margin-bottom: 40px;
-}
-
-/* ================= LISTA DE PRODUTOS ================= */
-.conteiner-produtos {
+/* ====== Header ====== */
+.produtos-header {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 25px;
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
-/* ================= CARD ================= */
+.produtos-header h1 {
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+/* ====== Filtro ====== */
+.filtro-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-filtrar {
+  padding: 8px 16px;
+  border: none;
+  background-color: #111;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-filtrar:hover {
+  background-color: #333;
+}
+
+/* ====== Botões de gênero ====== */
+.filtro-genero {
+  display: none;
+  gap: 8px;
+}
+
+.filtro-genero.ativo {
+  display: flex;
+}
+
+.btn-genero {
+  padding: 8px 14px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-genero:hover {
+  background-color: #f2f2f2;
+}
+
+.btn-genero.ativo {
+  background-color: #111;
+  color: #fff;
+  border-color: #111;
+}
+
+/* ====== Produtos ====== */
+.lista-produtos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+/* ===== Card ===== */
+.card-link{
+  text-decoration: none;
+  list-style: none;
+}
 .card {
-  width: 260px;
-  background: #111;
-  border-radius: 12px;
+ background: #111;
+  border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  
 }
 
+.card:hover {
+  transform: translateY(-2px);
+}
 
-/* Imagem do card */
+/* ===== Imagem ===== */
+.card-img {
+  width: 100%;
+  height: 240px;
+  background-color: #f4f4f4;
+}
+
 .card-img img {
   width: 100%;
-  height: 320px;
+  height: 100%;
   object-fit: cover;
 }
 
-/* Informações */
+/* ===== Conteúdo ===== */
 .card-info {
   padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .card-title {
   font-size: 1.1rem;
-  margin-bottom: 6px;
+  font-weight: 600;
+  color: #ffffff;
 }
 
+.card-category {
+  font-size: 0.85rem;
+  color: #777;
+  text-transform: uppercase;
+}
+
+/* ===== Texto ===== */
 .card-color {
   font-size: 0.9rem;
-  color: #ccc;
-  margin-bottom: 6px;
+  color: #555;
 }
 
 .card-price {
   font-size: 1.2rem;
-  font-weight: bold;
-  color: #10cc10;
-  margin-bottom: 12px;
+  color: #107c02;
+  margin-top: 6px;
 }
 
-/* Botão */
+/* ===== Botão ===== */
 .card-btn {
   margin-top: 12px;
   padding: 12px;
@@ -297,6 +364,7 @@ body {
 .card-btn:active {
   transform: scale(0.97);
 }
+
 /* ===== Skeleton ===== */
 .skeleton {
   pointer-events: none;
@@ -316,7 +384,7 @@ body {
 }
 
 .skeleton .card-img {
-  height: 300px;
+  height: 240px;
 }
 
 .skeleton-text {
@@ -352,6 +420,8 @@ body {
     background-position: -100% 0;
   }
 }
+
+
 
 .footer {
   background-color: #000;
@@ -408,129 +478,4 @@ body {
   border-top: 1px solid #333;
   font-size: 0.85rem;
   color: #aaa;
-}
-
-
-/* ================= RESPONSIVO ================= */
-@media (max-width: 768px) {
-
-  /* HEADER */
-  .conteiner-header {
-    flex-direction: column;
-    gap: 15px;
-    padding: 15px;
-  }
-
-  .header img {
-    width: 70px;
-  }
-
-  .header-infos {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-  }
-
-  .header-infos a {
-    font-size: 0.95rem;
-  }
-
-  .entrar-cadastrar {
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .entrar-cadastrar a {
-    font-size: 0.85rem;
-    padding: 8px 16px;
-  }
-
-  #user-icon {
-    margin-left: 0;
-    padding: 8px 14px;
-  }
-
-  /* CARROCEL */
-  .carrocel {
-    width: 95%;
-    border-radius: 10px;
-  }
-
-  .carrocel img {
-    height: 220px;
-  }
-
-  /* PRODUTOS */
-  .produtos {
-    padding: 40px 15px;
-  }
-
-  .produtos h1 {
-    font-size: 1.8rem;
-    margin-bottom: 30px;
-  }
-
-  /* LISTA */
-  .conteiner-produtos {
-    gap: 18px;
-  }
-
-  /* CARD */
-  .card {
-    width: 46%;
-    min-width: 160px;
-  }
-
-  .card-img img {
-    height: 240px;
-  }
-
-  .card-title {
-    font-size: 1rem;
-  }
-
-  .card-price {
-    font-size: 1.1rem;
-  }
-
-  .card-btn {
-    padding: 12px;
-    font-size: 0.95rem;
-  }
-}
-
-/* ================= CELULARES PEQUENOS ================= */
-@media (max-width: 480px) {
-
-  /* HEADER */
-  .header-infos {
-    gap: 10px;
-  }
-
-  .header-infos a {
-    font-size: 0.85rem;
-  }
-
-  .entrar-cadastrar img {
-    width: 24px;
-  }
-
-  /* CARROCEL */
-  .carrocel img {
-    height: 180px;
-  }
-
-  /* CARD */
-  .card {
-    width: 90%;
-  }
-
-  .card-img img {
-    height: 260px;
-  }
-
-  .produtos h1 {
-    font-size: 1.6rem;
-  }
 }

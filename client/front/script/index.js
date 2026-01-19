@@ -50,6 +50,7 @@ btnEntrar.addEventListener("click", async () => {
     }),
   });
   const dadosUser = await buscarUser.json();
+  localStorage.clear()
   localStorage.setItem("token", dadosUser.token);
   localStorage.setItem("refreshToken", dadosUser.refreshToken)
   localStorage.setItem("nome", dadosUser.nome);

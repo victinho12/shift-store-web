@@ -8,12 +8,13 @@
 
 /* ================= BODY ================= */
 body {
-  background-color: rgb(51, 13, 13);
-  color: white;
+  background-color:  rgb(51, 13, 13);
+  color: black;
 }
 
 /* ================= HEADER ================= */
 .conteiner-header {
+
   background-color: black;
   display: flex;
   align-items: center;
@@ -184,119 +185,119 @@ body {
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
 }
 
-/* ================= CONTEÚDO ================= */
-.conteiner-body {
-  width: 100%;
+.produto-unico {
+  max-width: 1100px;
+  margin: 35px auto;
+  padding: 20px;
 }
 
-/* ================= CARROCEL ================= */
-.conteiner-carrocel {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
+.produtos h1{
+    align-items: center;
+    text-align: center;
+    color: white;
 }
 
-.carrocel {
-  width: 90%;
-  overflow: hidden;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-}
 
-.conteiner {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
-}
 
-.carrocel img {
-  width: 100%;
-  flex-shrink: 0;
-  object-fit: cover;
-}
-
-/* ================= PRODUTOS ================= */
-.produtos {
-  text-align: center;
-  padding: 60px 0 40px;
-}
-
-.produtos h1 {
-  font-size: 2.2rem;
-  margin-bottom: 40px;
-}
-
-/* ================= LISTA DE PRODUTOS ================= */
 .conteiner-produtos {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 25px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+  padding: 20px;
 }
 
-/* ================= CARD ================= */
+/* CARD */
 .card {
-  width: 260px;
-  background: #111;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 40px;
+  background: rgb(51, 13, 13);
+  padding: 32px;
 }
 
 
-/* Imagem do card */
+/* IMAGEM */
+.card-img {
+  width: 100%;
+  height: 520px;
+  background: #1a1a1a;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
 .card-img img {
   width: 100%;
-  height: 320px;
+  height: 100%;
   object-fit: cover;
 }
 
-/* Informações */
+/* INFO */
 .card-info {
-  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  color: #ffffff;
 }
 
+/* TITULO */
 .card-title {
-  font-size: 1.1rem;
-  margin-bottom: 6px;
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: #ffffff;
 }
 
-.card-color {
-  font-size: 0.9rem;
-  color: #ccc;
-  margin-bottom: 6px;
+.card-category {
+  align-self: flex-start;
+  background: #000000;
+  color: #ffffff;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 1rem;
+  font-weight: 600;
 }
 
+/* DETALHES */
+.card-details {
+  margin-top: 10px;
+}
+
+.card-details p {
+  font-size: 1.3rem;
+  color: #ffffff;
+  margin-bottom: 6px;
+}
+/* FOOTER */
+.card-footer {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* PREÇO */
 .card-price {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #10cc10;
-  margin-bottom: 12px;
+  font-size: 3rem;
+  font-weight: 800;
+  color: #00ad40;
+  margin: 20px 0;
 }
 
-/* Botão */
-.card-btn {
-  margin-top: 12px;
-  padding: 12px;
+/* BOTÃO */
+.btn-add {
+  width: 100%;
+  padding: 16px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #000000, #000000);
+  color: #ffffff;
   border: none;
-  border-radius: 10px;
-  background-color: #030303;
-  color: #fff;
-  font-size: 0.95rem;
-  font-weight: 500;
+  border-radius: 14px;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.15s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.card-btn:hover {
-  background-color: #333;
-  transform: scale(1.03);
-}
-
-.card-btn:active {
-  transform: scale(0.97);
-}
 /* ===== Skeleton ===== */
 .skeleton {
   pointer-events: none;
@@ -316,7 +317,7 @@ body {
 }
 
 .skeleton .card-img {
-  height: 300px;
+  height: 240px;
 }
 
 .skeleton-text {
@@ -352,6 +353,7 @@ body {
     background-position: -100% 0;
   }
 }
+
 
 .footer {
   background-color: #000;
@@ -411,126 +413,131 @@ body {
 }
 
 
-/* ================= RESPONSIVO ================= */
-@media (max-width: 768px) {
 
-  /* HEADER */
-  .conteiner-header {
-    flex-direction: column;
-    gap: 15px;
-    padding: 15px;
+/* Overlay */
+.cart-overlay {
+
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.cart-overlay.hidden {
+  display: none;
+}
+
+/* Modal */
+.cart-modal {
+  width: 420px;
+  max-height: 85vh;
+  background: #0f0f0f;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8);
+  animation: slideUp 0.3s ease;
+   z-index: 2001;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
   }
-
-  .header img {
-    width: 70px;
-  }
-
-  .header-infos {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-  }
-
-  .header-infos a {
-    font-size: 0.95rem;
-  }
-
-  .entrar-cadastrar {
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-
-  .entrar-cadastrar a {
-    font-size: 0.85rem;
-    padding: 8px 16px;
-  }
-
-  #user-icon {
-    margin-left: 0;
-    padding: 8px 14px;
-  }
-
-  /* CARROCEL */
-  .carrocel {
-    width: 95%;
-    border-radius: 10px;
-  }
-
-  .carrocel img {
-    height: 220px;
-  }
-
-  /* PRODUTOS */
-  .produtos {
-    padding: 40px 15px;
-  }
-
-  .produtos h1 {
-    font-size: 1.8rem;
-    margin-bottom: 30px;
-  }
-
-  /* LISTA */
-  .conteiner-produtos {
-    gap: 18px;
-  }
-
-  /* CARD */
-  .card {
-    width: 46%;
-    min-width: 160px;
-  }
-
-  .card-img img {
-    height: 240px;
-  }
-
-  .card-title {
-    font-size: 1rem;
-  }
-
-  .card-price {
-    font-size: 1.1rem;
-  }
-
-  .card-btn {
-    padding: 12px;
-    font-size: 0.95rem;
+  to {
+    transform: translateY(0);
+    opacity: 1;
   }
 }
 
-/* ================= CELULARES PEQUENOS ================= */
-@media (max-width: 480px) {
+/* Header */
+.cart-header {
+  padding: 20px;
+  border-bottom: 1px solid #222;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  /* HEADER */
-  .header-infos {
-    gap: 10px;
-  }
+.cart-header h2 {
+  font-size: 1.4rem;
+  color: white;
+}
 
-  .header-infos a {
-    font-size: 0.85rem;
-  }
+.cart-header button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #ffffff;
+  cursor: pointer;
+}
 
-  .entrar-cadastrar img {
-    width: 24px;
-  }
+/* Itens */
+.cart-items {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
 
-  /* CARROCEL */
-  .carrocel img {
-    height: 180px;
-  }
+/* Item */
+.cart-item {
+  display: grid;
+  grid-template-columns: 70px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 16px;
+}
 
-  /* CARD */
-  .card {
-    width: 90%;
-  }
+.cart-item img {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 12px;
+}
 
-  .card-img img {
-    height: 260px;
-  }
+.cart-item-info h4 {
+  font-size: 1rem;
+  color: white;
+}
 
-  .produtos h1 {
-    font-size: 1.6rem;
-  }
+.cart-item-info span {
+  font-size: 0.85rem;
+  color: #ffffff;
+}
+
+.cart-item-price {
+  font-weight: 700;
+  color: #22c55e;
+}
+
+/* Footer */
+.cart-footer {
+  padding: 20px;
+  border-top: 1px solid #222;
+}
+.cart-total span{
+    color: white;
+} 
+
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+  color: #22c55e
+}
+.btn-checkout {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  border: none;
+  color: white;
+  background: linear-gradient(135deg, #000000, #000000);
+  font-weight: 700;
+  cursor: pointer;
 }

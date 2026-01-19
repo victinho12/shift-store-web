@@ -8,16 +8,27 @@ if (!token) {
 const API = "http://localhost:3000/roupas";
 let limit = 4;
 let offset = 0;
-let couterCarrinho = 0;
+let couter = 0;
 
 const API_CLIENT_KEY = "VICTOR_EDUARDO_MARTINS_123";
-
+const cartNun = document.getElementById("carrinho")
 const lista_produtos_shift = document.getElementById("lista-produtos");
-const imgs = document.getElementById("img");
-const img = document.querySelectorAll("#img img");
 
 const btnLogout = document.getElementById("logout-btn");
 btnLogout.addEventListener("click", logoutUser);
+const nome = document.getElementById("nome_cliente");
+const nome_value = localStorage.getItem("nome");
+if(nome_value){
+  nome.textContent = nome_value;
+  nome.style.display = "block";
+}else{
+  nome.textContent = "user";
+  nome.style.display = "block";
+}
+
+
+const imgs = document.getElementById("img");
+const img = document.querySelectorAll("#img img");
 
 let idx = 0;
 function carrocel() {
@@ -29,20 +40,12 @@ function carrocel() {
 }
 setInterval(carrocel, 3000);
 
-const nome = document.getElementById("nome_cliente");
 
-const nome_value = localStorage.getItem("nome");
-if(nome_value){
-  nome.textContent = nome_value;
-  nome.style.display = "block";
-}else{
-  nome.textContent = "user";
-  nome.style.display = "block";
-}
 
 
 async function carregarProdutos() {
   try {
+    mostrarSkeleton(4)
     const res = await fetchAuth(`${API}/?limit=${limit}&offset=${offset}`, {
       headers: {
         "shift-api-key": API_CLIENT_KEY,
@@ -57,12 +60,13 @@ async function carregarProdutos() {
 
     const resJson = await res.json();
     if(!resJson.ok){
-      console.error(resJson.msg);
+      console.error(resJson);
     }
     if(!Array.isArray(resJson)){
       console.error("Resposta inesperada", resJson)
       return;
     }
+    lista_produtos_shift.innerHTML = ''
 
     resJson.forEach((roupa) => {
       const card = document.createElement("div");
@@ -75,7 +79,6 @@ async function carregarProdutos() {
     <h2 class="card-title">${roupa.nome}</h2>
     <p class="card-color">Cor: ${roupa.cor}</p>
     <p class="card-price">R$ ${Number(roupa.preco).toFixed(2)}</p>
-    <button class="card-btn" onclick= couterCarrinhoFunc()>Adicionar ao carrinho</button>
   </div>
 `;
       lista_produtos_shift.appendChild(card);
@@ -85,10 +88,32 @@ async function carregarProdutos() {
     alert(err.message);
   }
 }
-function couterCarrinhoFunc() {
-  couterCarrinho = couterCarrinho + 1;
-  const carrinho = (document.getElementById("carrinho").textContent =
-    couterCarrinho);
+
+
+function mostrarSkeleton(qtd = 4) {
+  lista_produtos_shift.innerHTML = "";
+
+  for (let i = 0; i < qtd; i++) {
+    const skeleton = document.createElement("div");
+    skeleton.classList.add("card", "skeleton");
+
+    skeleton.innerHTML = `
+      <div class="card-img"></div>
+      <div class="card-info">
+        <div class="skeleton-text title"></div>
+        <div class="skeleton-text small"></div>
+        <div class="skeleton-text price"></div>
+        <div class="skeleton-btn"></div>
+      </div>
+    `;
+
+    lista_produtos_shift.appendChild(skeleton);
+  }
+}
+function atualizaCart() {
+  couter = parseInt(localStorage.getItem("couterCar")) || 0;
+  cartNun.textContent = couter;
 }
 
 carregarProdutos();
+atualizaCart()

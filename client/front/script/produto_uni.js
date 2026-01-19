@@ -1,0 +1,196 @@
+const API = "http://localhost:3000/roupas/";
+const API_CLIENT_KEY = "VICTOR_EDUARDO_MARTINS_123";
+
+// ========== pegando valores do localstorage ==========
+const nome_value = localStorage.getItem("nome");
+const token = localStorage.getItem("token");
+let couter = 0;
+// ========== Pagando id do html ==========
+const cartNun = document.getElementById('carrinho');
+const nome = document.getElementById("nome_cliente");
+const btnLogout = document.getElementById("logout-btn");
+const lista_produtos_shift = document.getElementById("lista-produtos");
+const cartOverlay = document.getElementById("cart-overlay");
+const btnCloseCart = document.getElementById("btn-close-cart");
+const btnCartIcon = document.querySelector(".carrinhoStyle");
+
+if (!token) {
+  // bloqueia acesso a pagina se não existir token
+  window.location.href = "./index.html";
+}
+if (nome_value) {
+  nome.textContent = nome_value;
+  nome.style.display = "block";
+} else {
+  nome.textContent = "user";
+  nome.style.display = "block";
+}
+
+// ========== Elementos de click ==========
+btnCartIcon.addEventListener("click", () => {
+  cartOverlay.classList.remove("hidden");
+  renderCart();
+});
+document.addEventListener("click", function(e) {
+  if (e.target.classList.contains("btn-add")) {
+    const btn = e.target;
+    const produto = {
+      id: btn.dataset.id,
+      nome: btn.dataset.nome,
+      preco: parseFloat(btn.dataset.preco),
+      img: btn.dataset.img
+    };
+
+    addToCart(produto);
+    couter = couter + 1
+    localStorage.setItem("couterCar", couter)
+    cartNun.textContent = localStorage.getItem("couterCar")
+    renderCart(); // Atualiza o carrinho automaticamente
+    
+  }
+});
+
+btnCloseCart.addEventListener("click", () => {
+  cartOverlay.classList.add("hidden");
+});
+btnLogout.addEventListener("click", logoutUser);
+
+const params = new URLSearchParams(window.location.search);
+const produtoId = params.get("id");
+
+async function carregarProdutoUni(produtoId) {
+  try {
+    mostrarSkeleton(1);
+    const res = await fetchAuth(`${API}${produtoId}`, {
+      headers: {
+        "shift-api-key": API_CLIENT_KEY,
+      },
+    });
+
+    if (!res.ok) {
+      const erroText = await res.text();
+      throw new Error(erroText);
+    }
+
+    const resJson = await res.json();
+
+    lista_produtos_shift.innerHTML = ""; // remove skeleton
+
+    resJson.forEach((roupa) => {
+      const card = document.createElement("div");
+      card.classList.add("card");
+      card.innerHTML = `
+  <div class="card-img">
+      <img 
+        src="http://localhost:3000/uploads/${roupa.img}" 
+        alt="${roupa.nome_roupa}" 
+      />
+    </div>
+
+    <div class="card-info">
+      <h2 class="card-title">${roupa.nome_roupa}</h2>
+      <span class="card-category">${roupa.cate_nome}</span>
+
+      <div class="card-details">
+        <p><strong>Cor:</strong> ${roupa.cor}</p>
+        <p><strong>Tamanho:</strong> ${roupa.tamanho}</p>
+        <p><strong>Estoque:</strong> ${roupa.quantidade}</p>
+      </div>
+
+      <div class="card-footer">
+        <p class="card-price">
+          R$ ${Number(roupa.preco).toFixed(2)}
+        </p>
+        <button class="btn-add"
+  data-id="${roupa.id}"
+  data-nome="${roupa.nome_roupa}"
+  data-preco="${roupa.preco}"
+  data-img="${roupa.img}">
+  Adicionar
+</button>
+      </div>
+    </div>
+`;
+      lista_produtos_shift.appendChild(card);
+    });
+  } catch (err) {
+    console.error("Erro ao carregar produto:", err.message);
+  }
+}
+
+function mostrarSkeleton(qtd = 20) {
+  lista_produtos_shift.innerHTML = "";
+
+  for (let i = 0; i < qtd; i++) {
+    const skeleton = document.createElement("div");
+    skeleton.classList.add("card", "skeleton");
+
+    skeleton.innerHTML = `
+      <div class="card-img"></div>
+      <div class="card-info">
+        <div class="skeleton-text title"></div>
+        <div class="skeleton-text small"></div>
+        <div class="skeleton-text price"></div>
+        <div class="skeleton-btn"></div>
+      </div>
+    `;
+
+    lista_produtos_shift.appendChild(skeleton);
+  }
+}
+function renderCart() {
+  const cartItems = document.getElementById("cart-items");
+  const cartTotal = document.getElementById("cart-total");
+
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  cartItems.innerHTML = "";
+  let total = 0;
+
+  cart.forEach((item) => {
+    total += item.preco * item.qtd;
+
+    cartItems.innerHTML += `
+      <div class="cart-item">
+        <img src="http://localhost:3000/uploads/${item.img}">
+        <div class="cart-item-info">
+          <h4>${item.nome}</h4>
+          <span>Qtd: ${item.qtd}</span>
+        </div>
+        <div class="cart-item-price">
+          R$ ${(item.preco * item.qtd).toFixed(2)}
+        </div>
+      </div>
+    `;
+  });
+
+  cartTotal.textContent = `R$ ${total.toFixed(2)}`;
+}
+function addToCart(produto) {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  const itemExistente = cart.find((item) => item.id === produto.id);
+
+  if (itemExistente) {
+    itemExistente.qtd += 1;
+  } else {
+    cart.push({
+      id: produto.id,
+      nome: produto.nome,
+      preco: produto.preco,
+      img: produto.img,
+      qtd: 1,
+    });
+  }
+  
+
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+function atualizaCart() {
+  couter = parseInt(localStorage.getItem("couterCar")) || 0;
+  cartNun.textContent = couter;
+}
+
+carregarProdutoUni(produtoId);
+atualizaCart()

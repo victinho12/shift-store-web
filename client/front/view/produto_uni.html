@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produtos</title>
-    <link rel="stylesheet" href="../style/produtos.css">
+    <title>protudoUni</title>
+    <link rel="stylesheet" href="../style/produto_uni.css">
     <script src="../script/services/logout.js" defer></script>
     <script src="../script/services/fetchAuth.js" defer></script>
-    <script src="../script/produtos.js" defer></script>
+    <script src="../script/produto_uni.js" defer></script>
 </head>
 <body>
-     <header class="conteiner-header">
+    <header class="conteiner-header">
       <nav class="header">
         <a href="home.html"><img src="../assets/goku (1).png" alt="" /></a>
       </nav>
@@ -38,35 +38,13 @@
         <img src="../assets/ChatGPT Image Dec 15, 2025, 04_44_20 AM.png"alt=""/>
     </nav>
     </header>
-    <div class="produtos-page">
 
-  <!-- Cabeçalho -->
-  <header class="produtos-header">
-    <h1>Produtos</h1>
-
-    <div class="filtro-container">
-      <button id="btn-filtrar" class="btn-filtrar">
-        Filtrar
-      </button>
-
-      <div class="filtro-genero">
-        <button id="btn-genero-masc" class="btn-genero">
-          Masculino
-        </button>
-        <button id="btn-genero-feme" class="btn-genero">
-          Feminino
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <!-- Lista de produtos -->
-  <main class="produtos">
-    <div id="lista-produtos" class="lista-produtos"></div>
-  </main>
+    <div class="produtos">
+  <h1>Produto</h1>
+  <div id="lista-produtos" class="produto-unico">
+    
+  </div>
 </div>
-
-
 
 <footer class="footer">
   <div class="footer-container">
@@ -106,13 +84,36 @@
       <p>Email: suporte@shiftstore.com</p>
       <p>Horário: Seg à Sex - 9h às 18h</p>
     </div>
-
   </div>
 
   <div class="footer-bottom">
     <p>© 2026 Shift Store — Todos os direitos reservados</p>
   </div>
 </footer>
+
+
+<div id="cart-overlay" class="cart-overlay hidden">
+  <div class="cart-modal">
+    <header class="cart-header">
+      <h2>Seu carrinho</h2>
+      <button id="btn-close-cart">✕</button>
+    </header>
+
+    <div id="cart-items" class="cart-items"></div>
+
+    <footer class="cart-footer">
+      <div class="cart-total">
+        <span>Total</span>
+        <strong id="cart-total">R$ 0,00</strong>
+      </div>
+
+      <button class="btn-checkout">
+        Finalizar compra
+      </button>
+    </footer>
+  </div>
+</div>
+
 
 </body>
 </html>
