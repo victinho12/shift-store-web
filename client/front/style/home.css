@@ -235,6 +235,9 @@ body {
 }
 
 /* ================= CARD ================= */
+.card-link{
+  text-decoration: none;
+}
 .card {
   width: 260px;
   background: #111;
@@ -254,6 +257,7 @@ body {
 
 /* Informações */
 .card-info {
+  color: white;
   padding: 16px;
 }
 
