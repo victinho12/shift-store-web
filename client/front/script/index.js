@@ -24,47 +24,52 @@ const btnLogout = document.getElementById("logout-btn");
 btnLogout.addEventListener("click", logoutUser);
 
 const nome_value = localStorage.getItem("nome");
-if(nome_value){
+if (nome_value) {
   nome.textContent = nome_value;
   nome.style.display = "block";
-}else{
+} else {
   nome.textContent = "user";
   nome.style.display = "block";
 }
 
 btnEntrar.addEventListener("click", async () => {
-  try{
-  const email = document.getElementById("email");
-  const senha = document.getElementById("senha");
+  try {
+    const email = document.getElementById("email");
+    const senha = document.getElementById("senha");
 
-  if (!validarEmail(email)) return;
-  const buscarUser = await fetch(API_LOGIN, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "shift-api-key": API_CLIENT_KEY,
-    },
-    body: JSON.stringify({
-      email: email.value,
-      senha: senha.value,
-    }),
-  });
-  const dadosUser = await buscarUser.json();
-  localStorage.clear()
-  localStorage.setItem("token", dadosUser.token);
-  localStorage.setItem("refreshToken", dadosUser.refreshToken)
-  localStorage.setItem("nome", dadosUser.nome);
-  console.log(dadosUser.getUserByTokenJson);
-
-  if (!buscarUser.ok) {
-    alert(dadosUser.msg);
+    if (!validarEmail(email)) return;
+    const buscarUser = await fetch(API_LOGIN, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "shift-api-key": API_CLIENT_KEY,
+      },
+      body: JSON.stringify({
+        email: email.value,
+        senha: senha.value,
+      }),
+    });
+    const dadosUser = await buscarUser.json();
     localStorage.clear()
-  } else {
-    alert(`seja bem vindo(a) de volta, ${dadosUser.nome}`);
-    limparCampos(email, senha);
-    window.location.href = "./home.html";
-  }
-  }catch(err){
+    localStorage.setItem("token", dadosUser.token);
+    localStorage.setItem("refreshToken", dadosUser.refreshToken)
+    localStorage.setItem("nome", dadosUser.nome);
+    const payload = JSON.parse(atob(localStorage.getItem('token').split('.')[1]));
+
+    if (payload.tipo_user === 'admin') {
+      window.location.href = '/admin/dashboard.html';
+    }
+    console.log(dadosUser.getUserByTokenJson);
+
+    if (!buscarUser.ok) {
+      alert(dadosUser.msg);
+      localStorage.clear()
+    } else {
+      alert(`seja bem vindo(a) de volta, ${dadosUser.nome}`);
+      limparCampos(email, senha);
+      window.location.href = "./home.html";
+    }
+  } catch (err) {
     console.error(err.message);
   }
 });
@@ -85,7 +90,7 @@ function validarEmail(email) {
   return validar;
 }
 //função pra limpar os campos do input quando o ususario realizar o login
-function limparCampos(email, senha){
+function limparCampos(email, senha) {
   email.value = "";
   senha.value = "";
 }
