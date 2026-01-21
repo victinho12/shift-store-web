@@ -54,6 +54,7 @@ btnEntrar.addEventListener("click", async () => {
   localStorage.setItem("token", dadosUser.token);
   localStorage.setItem("refreshToken", dadosUser.refreshToken)
   localStorage.setItem("nome", dadosUser.nome);
+  
   console.log(dadosUser.getUserByTokenJson);
 
   if (!buscarUser.ok) {

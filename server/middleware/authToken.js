@@ -9,10 +9,10 @@ function authToken(req, res, next){
     return res.status(401).json({ msg: "Token não fornecido" });
   }
     const token = autHeader.split(" ")[1];
-    if(!token) return res.sendStatus(401);
+    if(!token) return res.sendStatus(401, "ddd");
        
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-        if(err) return res.sendStatus(401)
+        if(err) return res.sendStatus(401, "dd")
         req.user = user
         next()
     })

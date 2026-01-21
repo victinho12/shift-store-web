@@ -21,7 +21,7 @@ async function refreshToken(req, res) {
     const novoAcessoToken = jwt.sign(
       {id: payload.id,},
       process.env.JWT_SECRET,
-      { expiresIn: "15m" }
+      { expiresIn: "24h" }
     );
     return res.json({accessToken: novoAcessoToken});
   } catch (err) {

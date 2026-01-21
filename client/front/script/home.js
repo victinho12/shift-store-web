@@ -72,14 +72,16 @@ async function carregarProdutos() {
       const card = document.createElement("div");
       card.classList.add("card");
       card.innerHTML = `
+      <a href="produto_uni.html?id=${roupa.id}" class="card-link">
   <div class="card-img">
     <img src="http://localhost:3000/uploads/${roupa.img}" alt="${roupa.nome}">
   </div>
   <div class="card-info">
-    <h2 class="card-title">${roupa.nome}</h2>
+    <h2 class="card-title">${roupa.nome} ${roupa.tamanho}</h2>
     <p class="card-color">Cor: ${roupa.cor}</p>
     <p class="card-price">R$ ${Number(roupa.preco).toFixed(2)}</p>
   </div>
+  </a>
 `;
       lista_produtos_shift.appendChild(card);
               });

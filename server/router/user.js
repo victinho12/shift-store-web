@@ -79,8 +79,8 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ msg: "senha Incorreta" });
     }
     // criação do token para quando o usuario for logar no sistema, usando jwt
-    const token = jwt.sign({ id: userInfos.id }, process.env.JWT_SECRET, {
-      expiresIn: "15m",
+    const token = jwt.sign({ id: userInfos.id, tipo_user: userInfos.tipo_user }, process.env.JWT_SECRET, {
+      expiresIn: "24h",
     });
 
     const refreshToken = jwt.sign(
@@ -107,5 +107,7 @@ router.post("/login", async (req, res) => {
 });
 
 router.post("//refresh-token", refreshToken);
+
+
 
 module.exports = router;
