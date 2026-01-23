@@ -6,8 +6,10 @@ const bcrypt = require("bcrypt");
 const express = require("express");
 //pool para fazer o crud do banco de dados
 const pool = require("../db");
+const validarKeyApi = require("../middleware/key");
+const admin = require("../middleware/admin");
 const authToken = require("../middleware/authToken");
-const {refreshToken} = require ("../controllers/user.controller")
+const controller = require ("../controllers/user.controller")
 //jwt pra fazer os tokens de acesso, isso ajuda a proeteger as nossas rotas
 const jwt = require("jsonwebtoken");
 //router no express para criar rotas como, user, roupas etc.
@@ -15,6 +17,9 @@ const router = express.Router();
 //criando rotas no express usando o router
 
 //get para pegar os usuarios (experimental)
+
+router.get('/count', authToken, validarKeyApi ,admin ,controller.contarUser);
+
 router.get("/", async (req, res) => {
   try {
     let { email } = req.query;
@@ -29,6 +34,7 @@ router.get("/", async (req, res) => {
     res.status(500).json({ error: "Erro interno do servidor", err });
   }
 });
+
 
 //post usando para criar o usuario na tela de cadastro
 router.post("/", async (req, res) => {
@@ -106,7 +112,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.post("//refresh-token", refreshToken);
+router.post("//refresh-token", controller.refreshToken);
 
 
 

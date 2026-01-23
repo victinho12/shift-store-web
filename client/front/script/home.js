@@ -1,3 +1,5 @@
+import { API_ROUPAS, API_CLIENT_KEY } from "./services/config.js";
+
 const token = localStorage.getItem("token");
 
 if (!token) {
@@ -5,12 +7,11 @@ if (!token) {
   window.location.href = "./index.html";
 }
 
-const API = "http://localhost:3000/roupas";
 let limit = 4;
 let offset = 0;
 let couter = 0;
 
-const API_CLIENT_KEY = "VICTOR_EDUARDO_MARTINS_123";
+
 const cartNun = document.getElementById("carrinho")
 const lista_produtos_shift = document.getElementById("lista-produtos");
 
@@ -46,7 +47,7 @@ setInterval(carrocel, 3000);
 async function carregarProdutos() {
   try {
     mostrarSkeleton(4)
-    const res = await fetchAuth(`${API}/?limit=${limit}&offset=${offset}`, {
+    const res = await fetchAuth(`${API_ROUPAS}/?limit=${limit}&offset=${offset}`, {
       headers: {
         "shift-api-key": API_CLIENT_KEY,
        

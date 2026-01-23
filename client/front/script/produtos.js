@@ -1,6 +1,5 @@
 // ========== dados da api ==========
-const API = "http://localhost:3000/roupas/genero";
-const API_CLIENT_KEY = "VICTOR_EDUARDO_MARTINS_123";
+import { API_ROUPAS, API_CLIENT_KEY } from "./services/config.js";
 let limit = 20;
 let offset = 0;
 let couter = 0;
@@ -66,7 +65,7 @@ async function carregarProdutos(genero) {
     }
      mostrarSkeleton(limit);
     const res = await fetchAuth(
-      `${API}/?limit=${limit}&offset=${offset}&categoria_nome=${genero}`,
+      `${API_ROUPAS}genero?limit=${limit}&offset=${offset}&categoria_nome=${genero}`,
       {
         headers: {
           "shift-api-key": API_CLIENT_KEY,

@@ -1,80 +1,66 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+    <script src="../script/services/logout.js" defer></script>
+    <script type="module" src="../script/index.js" defer></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../style/index.css" />
+  </head>
 
-  <!-- Fonte -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
-    rel="stylesheet"
-  />
+  <body>
+    <header class="conteiner-header">
+      <nav class="header">
+        <a href="home.html">
+          <img src="../assets/goku (1).png" alt="Logo" />
+        </a>
+      </nav>
 
-  <!-- CSS -->
-  <link rel="stylesheet" href="../style/index.css" />
-</head>
-
-
-<!-- LOGIN.JS -->
- <script src="../script/services/logout.js" defer></script>
-<script src="../script/index.js" defer></script>
-
-<body>
-
-  <!-- HEADER -->
-  <header class="conteiner-header">
-    <nav class="header">
-      <a href="home.html">
-        <img src="../assets/goku (1).png" alt="Logo" />
-      </a>
-    </nav>
-
-    <div class="hamburger" id="hamburger">
-  <span></span>
-  <span></span>
-  <span></span>
-</div>
-
-    <nav class="header-infos">
-      <a href="home.html">Home</a>
-      <a href="produtos.html">Produtos</a>
-      <a href="#">Atendimento</a>
-      <a href="#">Sobre nós</a>
-    </nav>
-
-    <nav class="entrar-cadastrar">
-      <a href="index.html">Entrar</a>
-      <a href="cadastro.html">Cadastrar-se</a>
-    </nav>
-    
-    <nav id="user-icon">
-      <p id="nome_cliente" class="nome">nome</p>
-      <img src="../assets/avatar-do-usuario.png" alt="">
-    </nav>
-
-    <nav class="logoutClass" >
-      <button id="logout-btn">Sair</button>
-    </nav>
-
-
-  </header>
-
-  <!-- LOGIN -->
-  <main class="pagina-login">
-    <section class="login-card">
-      <h2>Entrar</h2>
-
-      <div class="inputs-login">
-        <input id="email" type="email" placeholder="E-mail" />
-        <input id="senha" type="password" placeholder="Senha" />
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
       </div>
 
-      <button id="btn-entrar">Entrar</button>
+      <nav class="header-infos">
+        <a href="home.html">Home</a>
+        <a href="produtos.html">Produtos</a>
+        <a href="#">Atendimento</a>
+        <a href="#">Sobre nós</a>
+      </nav>
 
-      <a href="cadastro.html">Não tem conta? Cadastre-se</a>
-    </section>
-  </main>
+      <nav class="entrar-cadastrar">
+        <a href="index.html">Entrar</a>
+        <a href="cadastro.html">Cadastrar-se</a>
+      </nav>
 
-</body>
+      <nav id="user-icon">
+        <p id="nome_cliente" class="nome">nome</p>
+        <img src="../assets/avatar-do-usuario.png" alt="" />
+      </nav>
+
+      <nav class="logoutClass">
+        <button id="logout-btn">Sair</button>
+      </nav>
+    </header>
+    <main class="pagina-login">
+      <section class="login-card">
+        <h2>Entrar</h2>
+
+        <div class="inputs-login">
+          <input id="email" type="email" placeholder="E-mail" />
+          <input id="senha" type="password" placeholder="Senha" />
+        </div>
+
+        <button id="btn-entrar">Entrar</button>
+
+        <a href="cadastro.html">Não tem conta? Cadastre-se</a>
+      </section>
+    </main>
+  </body>
 </html>

@@ -1,12 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin-dash</title>
-    <script src="./admin.js" defer></script>
-</head>
-<body>
-    
-</body>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="./styleAdm/dashboard.css">
+    <script src="../script/services/logout.js" defer></script>
+    <script src="../script/services/fetchAuth.js" defer></script>
+    <script type="module" src="./admin.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>Dashboard Administrativo Shift-store</h1>
+    </header>
+
+    <main>
+      <section class="cards" id="cards">
+        <a href="usuariosAdm.html">
+        <div class="card">
+          <h2>Usuários</h2>
+          <p>Gerenciar usuários do sistema</p>
+          <p>Quantidade de usuarios: </p>
+          <p id="qtd-usuarios"></p>
+        </div>
+        </a>
+
+        <a href="produtoAdm.html">
+          <div class="card">
+            <h2>Produtos</h2>
+            <p>Adicionar, editar ou remover produtos</p>
+            <div class="qtd-produtos">
+              <p>Quantidade de Produtos:</p>
+              <p id="qtd-produtos"></p>
+          </div>
+          </div>
+        </a>
+
+        <div class="card">
+          <h2>Pedidos</h2>
+          <p>Visualizar pedidos realizados</p>
+          <p>Quantidade de pedidos: <p id="qtd-pedidos"></p></p>
+        </div>
+
+        <div class="card">
+          <h2>Configurações</h2>
+          <p>Ajustes gerais do sistema</p>
+        </div>
+      </section>
+
+      <footer>© 2026 - Área Administrativa</footer>
+    </main>
+  </body>
 </html>

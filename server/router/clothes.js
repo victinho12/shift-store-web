@@ -14,7 +14,10 @@ router.get("/", authToken ,controller.buscarRoupa);
 
 router.get("/genero", authToken, controller.buscarRoupaPorGenero);
 
+router.get('/count', authToken, validarKeyApi, admin, controller.contarRoupas )
+
 router.get("/:id", authToken ,controller.buscarRoupaPorId);
+
 
 
 

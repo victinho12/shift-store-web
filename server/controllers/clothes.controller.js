@@ -33,6 +33,14 @@ async function buscarRoupaPorId(req, res) {
     });
   }
 }
+async function contarRoupas(req, res) {
+  try{
+    const resCount = await pool.query(`SELECT count(*) as total FROM PUBLIC.roupas`);
+    res.json(resCount.rows[0]);
+  }catch(err){
+    res.status(500).json({ msg: err.message });
+  }
+}
 
 async function inserirRoupa(req, res) {
   try {
@@ -120,4 +128,5 @@ module.exports = {
   deletarRoupa,
   alterarRoupa,
   buscarRoupaPorGenero,
+  contarRoupas,
 };

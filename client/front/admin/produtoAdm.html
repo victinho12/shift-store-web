@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Produtos | Admin Shift</title>
+
+  <link rel="stylesheet" href="styleAdm/produtosAdm.css">
+  <script src="produtosAdm.js" defer></script>
+</head>
+
+<body>
+
+  <header>
+    <h1>Dashboard Administrativo — Shift Store</h1>
+  </header>
+
+  <!-- FORMULÁRIO DE CADASTRO -->
+  <section class="add-produtos">
+    <h2>Adicionar Produto</h2>
+
+    <form id="form-produto">
+      <label>
+        Nome
+        <input type="text" id="nome" required>
+      </label>
+
+      <label>
+        Cor
+        <input type="text" id="cor" required>
+      </label>
+
+      <label>
+        Tamanho
+        <input type="text" id="tamanho" placeholder="PP ou P ou M ou G ou GG"  required>
+      </label>
+
+      <label>
+        Preço
+        <input type="number" id="preco" step="0.01" required>
+      </label>
+
+      <label>
+        Quantidade
+        <input type="number" id="quantidade" required>
+      </label>
+
+      <label>
+        Imagem do Produto
+        <input type="file" id="imagem" accept="image/*">
+      </label>
+
+      <label>
+        Categoria
+        <input type="text" id="categoria" required>
+      </label>
+
+      <button type="submit">Adicionar Produto</button>
+    </form>
+  </section>
+
+  <!-- LISTAGEM -->
+  <section class="conteiner-body">
+
+    <h2>Produtos na Loja</h2>
+
+    <div id="lista-produtos">
+      <!-- produtos renderizados via JS -->
+    </div>
+  </section>
+
+</body>
+</html>

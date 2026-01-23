@@ -29,7 +29,17 @@ async function refreshToken(req, res) {
   }
 
 };
+
+async function contarUser(req, res) {
+  try{
+    const resCount = await pool.query(`SELECT count(*) as total_user FROM PUBLIC.usuarios`);
+    res.json(resCount.rows[0]);
+  }catch(err){
+    res.status(500).json({ msg: err.message });
+  }
+}
 module.exports = {
     refreshToken,
+    contarUser
 
 }

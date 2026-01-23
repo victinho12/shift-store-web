@@ -1,5 +1,4 @@
-const API = "http://localhost:3000/roupas/";
-const API_CLIENT_KEY = "VICTOR_EDUARDO_MARTINS_123";
+import { API_ROUPAS, API_CLIENT_KEY } from "./services/config.js";
 
 // ========== pegando valores do localstorage ==========
 const nome_value = localStorage.getItem("nome");
@@ -61,7 +60,7 @@ const produtoId = params.get("id");
 async function carregarProdutoUni(produtoId) {
   try {
     mostrarSkeleton(1);
-    const res = await fetchAuth(`${API}${produtoId}`, {
+    const res = await fetchAuth(`${API_ROUPAS}${produtoId}`, {
       headers: {
         "shift-api-key": API_CLIENT_KEY,
       },
