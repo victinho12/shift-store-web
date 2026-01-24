@@ -2,7 +2,7 @@ import { API_ROUPAS, API_CLIENT_KEY } from "./services/config.js";
 
 const token = localStorage.getItem("token");
 
-if (!token) {
+if (!token || token === undefined) {
   // bloqueia acesso a pagina se não existir token
   window.location.href = "./index.html";
 }

@@ -1,0 +1,149 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background-color: #b4b4b4;
+  color: #333;
+}
+
+header {
+  background-color: #111;
+  color: #fff;
+  padding: 15px 30px;
+  display: flex;
+  align-items: center;
+}
+header h1 {
+  font-size: 20px;
+}
+
+input {
+  padding: 5px;
+  font-size: 0.9rem;
+}
+input:focus {
+  outline: none;
+  border: 2px solid #111;
+}
+label {
+  font-size: 1rem;
+  margin-bottom: 15px;
+  color: #222;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 350px;
+}
+.pesquisar {
+  padding-top: 2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2%;
+}
+
+.pesquisar button {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+  background-color: #111;
+  color: #fff;
+  transition: background 0.2s;
+}
+
+.pesquisar button:hover {
+  background-color: #333;
+}
+/* CARD */
+
+#lista-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(40%, 1fr));
+  gap: 32px;
+  padding: 30px;
+}
+
+.card {
+  background: #ffffff;
+  padding: 22px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* AVATAR */
+.user-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #8a0117; /* azul moderno */
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* INFO */
+.user-info h3 {
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+
+.user-info p {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.user-info small {
+  font-size: 0.75rem;
+  color: #999;
+}
+
+/* AÇÕES */
+.user-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+}
+
+.user-actions button {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: background 0.2s;
+}
+
+.user-actions .edit {
+  background: #e0e0e0;
+}
+
+.user-actions .edit:hover {
+  background: #d0d0d0;
+}
+
+.user-actions .delete {
+  background: #111;
+  color: #fff;
+}
+
+.user-actions .delete:hover {
+  background: #333;
+}

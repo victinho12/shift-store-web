@@ -38,21 +38,6 @@ btnInsertUser.addEventListener("click", async () => {
     if (!validarCamposObrigatorios(campos)) return;
 
     if (!validarEmail(email)) return;
-
-    const fetchSelect = await fetch(`${API_LOGIN}/?email=${email.value}`, {
-      headers: {
-        "shift-api-key": API_CLIENT_KEY,
-      },
-    });
-    if (!fetchSelect.ok) {
-      throw new Error("Erro ao verificar usuário");
-    }
-    let select = await fetchSelect.json();
-    console.log(select.length);
-    if (select.length == 1 || select.length > 1) {
-      alert("usuario ja cadastrado");
-      return;
-    } else {
       const novoUser = {
         nome: nome.value,
         email: email.value,
@@ -66,17 +51,20 @@ btnInsertUser.addEventListener("click", async () => {
         },
         body: JSON.stringify(novoUser),
       });
+      const dados = await fetchInsert.json()
       if (!fetchInsert.ok) {
-        throw new Error("Error ou inserir");
+        alert(dados.msg);
+        return
       }
 
       alert("deu bom");
       console.log("deu bom");
       window.location.href = "./index.html";
-    }
+    
   } catch (err) {
-    console.error(err.message);
     alert(err.message);
+    console.error(err.message);
+    
   }
 });
 // Validação de dados que são passados nos inputs

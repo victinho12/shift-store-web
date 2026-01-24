@@ -1,4 +1,4 @@
-import { API_ROUPAS, API_CLIENT_KEY, API_LOGIN } from "../script/services/config.js";
+import { API_ROUPAS, API_CLIENT_KEY, API_LOGIN } from "../../script/services/config.js";
 
 const cards = document.getElementById("cards");
 const cardsOriginaisHTML = cards.innerHTML;
@@ -61,5 +61,7 @@ function mostrarSkeleton(qtd) {
     cards.appendChild(skeleton);
   }
 }
+
+
 
 carregarProdutosAdm();

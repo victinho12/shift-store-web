@@ -27,11 +27,11 @@
         color: black;
         text-decoration: none;
       }
-      .qtd-produtos{
+      .qtd{
         display: flex;
-        gap: 3px;
+        gap: 10px;
       }
-      #qtd-produtos{
+      #qtd-produtos, #qtd-usuarios{
         color: rgb(8, 0, 128);
       }
       .cards {

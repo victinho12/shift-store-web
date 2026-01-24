@@ -6,8 +6,6 @@ const senha = document.getElementById("senha");
 
 const btnEntrar = document.getElementById("btn-entrar");
 
-
-
 const nome = document.getElementById("nome_cliente");
 
 const hamburger = document.getElementById("hamburger");
@@ -47,18 +45,31 @@ btnEntrar.addEventListener("click", async () => {
       }),
     });
     const dadosUser = await buscarUser.json();
+
+    if (!buscarUser.ok) {
+      alert(dadosUser.msg);
+      localStorage.clear();
+      return;
+    }
     localStorage.clear();
     localStorage.setItem("token", dadosUser.token);
     localStorage.setItem("refreshToken", dadosUser.refreshToken);
     localStorage.setItem("nome", dadosUser.nome);
-    const token_tipo_user = localStorage.getItem("token");
-    const base64Url = token_tipo_user.split(".")[1];
-    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+
+    const token_tipo_user = dadosUser.token;
+
+    // valida o formato
+    const partes = token_tipo_user.split(".");
+    if (partes.length !== 3) {
+      throw new Error("Token inválido");
+    }
+
+    const base64 = partes[1].replace(/-/g, "+").replace(/_/g, "/");
     const payload = JSON.parse(atob(base64));
 
     if (payload.tipo_user === "admin") {
       window.location.href = "../admin/dashboard.html";
-      return
+      return;
     }
 
     if (!buscarUser.ok) {

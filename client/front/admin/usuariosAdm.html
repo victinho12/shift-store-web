@@ -1,34 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Usuarios-adm-shift</title>
-</head>
-    <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    body {
-      background-color: #b4b4b4;
-      color: #333;
-    }
-
-    header {
-      background-color: #111;
-      color: #fff;
-      padding: 15px 30px;
-    }
-    header h1 {
-        font-size: 20px;
-      }
-  </style>
+    <link rel="stylesheet" href="styleAdm/usuariosAdm.css" />
+    <script src="../script/services/fetchAuth.js" defer></script>
+    <script src="../script/services/logout.js" defer></script>
+    <script type="module" src="scriptAdm/usuariosAdm.js" defer></script>
+  </head>
+  <body>
     <header>
-      <h1>Dashboard Administrativo Shift-store</h1>
+      <h1>Dashboard Administrativo — Shift Store</h1>
     </header>
-</body>
+    <section class="conteiner-body">
+      <div class="pesquisar">
+        <label>
+          Pesquisar E-mail
+          <input id="email" type="text" />
+        </label>
+        <button id="btn-pesquisar">Pesquisar</button>
+        <button id="btn-limpar">limpar E-mail</button>
+      </div>
+      <div id="lista-cards">
+
+      </div>
+    </section>
+  </body>
 </html>
+
