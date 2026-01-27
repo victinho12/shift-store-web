@@ -88,7 +88,6 @@ async function carregarProdutos() {
               });
   } catch (err) {
     console.error(err.message);
-    alert(err.message);
   }
 }
 

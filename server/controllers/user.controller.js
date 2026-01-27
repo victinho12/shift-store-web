@@ -1,8 +1,8 @@
-const e = require("express");
 const pool = require("../db");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const bcrypt = require("bcrypt");
+const { purge } = require("../router/user");
 
 
 async function buscarUser(req, res) {
@@ -143,6 +143,35 @@ async function deletarUser(req, res) {
   }catch(err){
     res.status(401).json({msg: "Não foi possivel deletar usuario"})
   }
+};
+async function mudarUser(req, res) {
+  try{
+    let id = parseInt(req.params.id);
+    let {nome, email} = req.body;
+    update = `update public.usuarios set nome = COALESCE($1, nome), email = COALESCE($2, email) where id = $3 RETURNING id`;
+
+    const resUpdate = await pool.query(update,[nome, email, id]);
+    if(resUpdate.rows.length !== 1){
+      console.table(resUpdate.rows);
+      return res.status(500).json({msg: "Usuario não encontrado"});
+    }
+      res.status(204).end();
+  }catch(err){
+    res.status(401).json({msg: err.message});
+  }
+}
+
+async function buscarUserPorId(req, res) {
+  try{
+    let id = parseInt(req.params.id);
+    selectId = `select * from public.usuarios where id = $1`;
+    const resSelectId = await pool.query(selectId,[id]);
+
+    if(resSelectId.rows.length !== 1) return res.status(500).json({msg: "Usuario não encontrado"});
+    res.json(resSelectId.rows);
+  }catch(err){
+    res.status(401).json({msg: err.message})
+  }
 }
 
 
@@ -153,5 +182,7 @@ module.exports = {
     cadastrarUser,
     loginUser,
     deletarUser,
+    mudarUser,
+    buscarUserPorId
 
 }

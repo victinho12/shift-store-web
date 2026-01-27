@@ -147,3 +147,130 @@ label {
 .user-actions .delete:hover {
   background: #333;
 }
+
+/* overlay */
+.conteiner-update {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: none; /* abre via JS */
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* caixa do modal */
+.modal-update {
+  position: relative;
+  width: 420px;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 1.8rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  animation: modalIn 0.25s ease;
+}
+
+/* botão fechar */
+#fechar-jenela {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #555;
+}
+
+#fechar-jenela:hover {
+  color: #e63946;
+}
+
+/* infos do usuário */
+#infos-user {
+  margin-bottom: 1rem;
+}
+
+#nome-user {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+#email-user {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* formulário */
+.modal-form label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.8rem;
+  font-size: 0.85rem;
+}
+
+.modal-form input {
+  margin-top: 0.3rem;
+  padding: 0.65rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+}
+
+.modal-form input:focus {
+  outline: none;
+  border-color: #4361ee;
+}
+
+/* botões */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+#btn-mandar-modal {
+  background: #4361ee;
+  color: #fff;
+  border: none;
+  padding: 0.55rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#btn-limpar-modal {
+  background: #e63946;
+  color: #fff;
+  border: none;
+  padding: 0.55rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#btn-mandar-modal:hover {
+  background: #364fc7;
+}
+
+#btn-limpar-modal:hover {
+  background: #c92a2a;
+}
+
+/* animação */
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* responsivo */
+@media (max-width: 480px) {
+  .modal-update {
+    width: 90%;
+  }
+}

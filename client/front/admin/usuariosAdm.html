@@ -1,31 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Usuarios-adm-shift</title>
-    <link rel="stylesheet" href="styleAdm/usuariosAdm.css" />
-    <script src="../script/services/fetchAuth.js" defer></script>
-    <script src="../script/services/logout.js" defer></script>
-    <script type="module" src="scriptAdm/usuariosAdm.js" defer></script>
-  </head>
-  <body>
-    <header>
-      <h1>Dashboard Administrativo — Shift Store</h1>
-    </header>
-    <section class="conteiner-body">
-      <div class="pesquisar">
-        <label>
-          Pesquisar E-mail
-          <input id="email" type="text" />
-        </label>
-        <button id="btn-pesquisar">Pesquisar</button>
-        <button id="btn-limpar">limpar E-mail</button>
-      </div>
-      <div id="lista-cards">
 
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Usuarios-adm-shift</title>
+  <link rel="stylesheet" href="styleAdm/usuariosAdm.css" />
+  <script src="../script/services/fetchAuth.js" defer></script>
+  <script src="../script/services/logout.js" defer></script>
+  <script type="module" src="scriptAdm/usuariosAdm.js" defer></script>
+</head>
+
+<body>
+  <header>
+    <h1>Dashboard Administrativo — Shift Store</h1>
+  </header>
+  <section class="conteiner-body">
+    <div class="pesquisar">
+      <label>
+        Pesquisar E-mail
+        <input id="email" type="text" />
+      </label>
+      <button id="btn-pesquisar">Pesquisar</button>
+      <button id="btn-limpar">limpar E-mail</button>
+    </div>
+    <div id="lista-cards">
+
+    </div>
+    <div class="conteiner-update" id="conteiner-update">
+      <div class="modal-update">
+        <button id="fechar-jenela">✕</button>
+
+        <div id="infos-user">
+          <p id="nome-user">user</p>
+          <p id="email-user">user@gmail</p>
+        </div>
+
+        <div class="modal-form">
+          <label>
+            Nome
+            <input type="text" id="nome-input">
+          </label>
+
+          <label>
+            E-mail
+            <input type="text" id="email-input">
+          </label>
+
+          <div class="modal-actions">
+            <button id="btn-mandar-modal">Salvar</button>
+            <button id="btn-limpar-modal">Apagar</button>
+          </div>
+        </div>
       </div>
-    </section>
-  </body>
+    </div>
+  </section>
+</body>
+
 </html>
-

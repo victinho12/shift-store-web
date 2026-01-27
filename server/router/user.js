@@ -12,18 +12,25 @@ const authToken = require("../middleware/authToken");
 const controller = require ("../controllers/user.controller")
 //jwt pra fazer os tokens de acesso, isso ajuda a proeteger as nossas rotas
 const jwt = require("jsonwebtoken");
+const { buscarRoupa } = require("../controllers/clothes.controller");
 //router no express para criar rotas como, user, roupas etc.
 const router = express.Router();
 //criando rotas no express usando o router
 
+
 //get usado para fazer a conta de quantos usuarios estão registrados no sistema 
 router.get('/count', authToken, validarKeyApi ,admin ,controller.contarUser);
 //get usado para buscar os usuarios na tela de admin
-router.get("/", authToken, validarKeyApi , admin, controller.buscarUser)
+router.get("/", authToken, validarKeyApi , admin, controller.buscarUser);
+
+router.get('/buscar/:id',  authToken, validarKeyApi ,admin, controller.buscarUserPorId );
+
 //post usando para criar o usuario na tela de cadastro
 router.post("/", controller.cadastrarUser);
 //post usando para validar o usuario que está fazendo o login
 router.post("/login", controller.loginUser);
+//put usando para mudar informações do usuario
+router.patch("/update/:id", authToken, validarKeyApi, admin, controller.mudarUser)
 //post usado para fazer refresh do token que ele esta usando e armazenar no banco
 router.post("//refresh-token", controller.refreshToken);
 router.delete('/:id', authToken, validarKeyApi ,admin ,controller.deletarUser)

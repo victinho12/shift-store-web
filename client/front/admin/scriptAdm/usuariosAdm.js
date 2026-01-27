@@ -1,11 +1,17 @@
+
 import { API_LOGIN, API_CLIENT_KEY } from "../../script/services/config.js";
 
 const btnLimpar = document.getElementById('btn-limpar');
 const btnPesquisar = document.getElementById('btn-pesquisar');
 const email = document.getElementById('email');
+const modal = document.getElementById('conteiner-update');
+const fecherModal = document.getElementById('fechar-jenela');
 
+fecherModal.addEventListener('click', () =>{
+  modal.style.display = 'none';
+})
 btnLimpar.addEventListener('click', () =>{
-  email.value = '';
+  email.value = ' ';
 })
 
 btnPesquisar.addEventListener('click', () => {
@@ -54,34 +60,79 @@ function criarCardUser(user) {
 
     <div class="user-actions">
       <button class="edit">Editar</button>
-      <button class="delete" onclick = ${deletarUsuario(user.id)} >Excluir</button>
+      <button class="delete">Excluir</button>
     </div>
   `;
+
+  card.querySelector('.edit').addEventListener('click', async () => {
+    abrirModal();
+    buscarUserPorId(user.id);
+       
+  })
+
+  card.querySelector(".delete").addEventListener("click", async () => {
+    
+    deletarUsuario(user.id);
+    card.remove();
+  })
   document.getElementById('lista-cards').appendChild(card);
 
 }
 
 async function deletarUsuario(id) {
   try{
-    const resDelete = await fetchAuth(`${API_LOGIN}/${id}`,{
+    await fetchAuth(`${API_LOGIN}/${id}`,{
       method: "DELETE",
       headers:{
-        "Content-Type": "application/json",
         "shift-api-key": API_CLIENT_KEY,
       }
     });
-    const dados_user_delete = await resDelete.json();
+    card.innerHTML = ' '
     carregarUsuarios(email);
-    if(!resDelete.ok){
-      console.error(dados_user_delete.msg);
-      return
-    }
   }catch(err){
     console.error(err.message)
   }
 }
 
+async function atualizaUsuario(id, nome, email) {
+  try {
 
+    const updateUser = {nome, email};
+    await fetchAuth(`${API_LOGIN}/update${id}`, {
+      method: "PATCH",
+      headers: {
+        "shift-api-key": API_CLIENT_KEY,
+      },
+      body: JSON.stringify(updateUser),
+    });
+    
+  } catch (err) {
+    
+  }
+}
+
+async function buscarUserPorId(id) {
+ try{
+  const selectId = await fetchAuth(`${API_LOGIN}/buscar/${id}`,
+    {
+      headers: {
+         "shift-api-key": API_CLIENT_KEY,
+      }
+    }
+  );
+  let dados_user_id = await selectId.json();
+  console.log(dados_user_id);
+  document.getElementById('nome-user').textContent = dados_user_id[0].nome;
+  document.getElementById('email-user').textContent = dados_user_id[0].email;
+
+ }catch(err){
+  console.error(err.message);
+ } 
+}
+
+function abrirModal(){
+  modal.style.display = 'block';
+}
 
 
 carregarUsuarios(email);
