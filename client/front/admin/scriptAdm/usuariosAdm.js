@@ -7,34 +7,34 @@ const email = document.getElementById('email');
 const modal = document.getElementById('conteiner-update');
 const fecherModal = document.getElementById('fechar-jenela');
 
-fecherModal.addEventListener('click', () =>{
+fecherModal.addEventListener('click', () => {
   modal.style.display = 'none';
-})
-btnLimpar.addEventListener('click', () =>{
+});
+btnLimpar.addEventListener('click', () => {
   email.value = ' ';
-})
+});
 
 btnPesquisar.addEventListener('click', () => {
   document.getElementById('lista-cards').innerHTML = '';
   carregarUsuarios(email);
-})
+});
 
 
 async function carregarUsuarios(email) {
   try {
-    if(!email){
+    if (!email) {
       email = " ";
     }
-    const resUser = await fetchAuth(`${API_LOGIN}/?email=${email.value}`,{
+    const resUser = await fetchAuth(`${API_LOGIN}/?email=${email.value}`, {
       headers: {
         "Content-Type": "application/json",
         "shift-api-key": API_CLIENT_KEY,
       }
     })
-    
+
     const dados_user = await resUser.json();
-    if(!resUser.ok){
-        alert(dados_user.msg)
+    if (!resUser.ok) {
+      alert(dados_user.msg)
     }
     dados_user.forEach((user) => criarCardUser(user));
 
@@ -42,14 +42,14 @@ async function carregarUsuarios(email) {
   } catch (err) {
     console.error(err.message);
   }
-}
+};
 
 function criarCardUser(user) {
   const card = document.createElement("div");
   card.classList.add("card");
   card.innerHTML = `
     <div class="user-avatar">
-      <span>${user.nome[0]}</span>
+      <span>${user.nome[0].toUpperCase()}</span>
     </div>
 
     <div class="user-info">
@@ -67,72 +67,77 @@ function criarCardUser(user) {
   card.querySelector('.edit').addEventListener('click', async () => {
     abrirModal();
     buscarUserPorId(user.id);
-       
-  })
+    const nomeInput = document.getElementById('nome-input');
+    const emailInput = document.getElementById('email-input');
+    const btnSalvar = document.getElementById('btn-mandar-modal');
+    btnSalvar.addEventListener('click', atualizaUsuario(user.id, nomeInput, emailInput));
+  });
 
   card.querySelector(".delete").addEventListener("click", async () => {
-    
+    const confirmar = confirm(`Deseja mesmo apagar esse usuario: ${user.nome}`);
+    if(!confirmar) return
     deletarUsuario(user.id);
     card.remove();
-  })
+  });
   document.getElementById('lista-cards').appendChild(card);
 
-}
+};
 
 async function deletarUsuario(id) {
-  try{
-    await fetchAuth(`${API_LOGIN}/${id}`,{
+  try {
+    await fetchAuth(`${API_LOGIN}/${id}`, {
       method: "DELETE",
-      headers:{
+      headers: {
         "shift-api-key": API_CLIENT_KEY,
       }
     });
     card.innerHTML = ' '
     carregarUsuarios(email);
-  }catch(err){
-    console.error(err.message)
+  } catch (err) {
+    console.error(err.message);
   }
-}
+};
 
 async function atualizaUsuario(id, nome, email) {
   try {
-
-    const updateUser = {nome, email};
-    await fetchAuth(`${API_LOGIN}/update${id}`, {
+    const updateUser = { nome, email };
+    await fetchAuth(`${API_LOGIN}/update/${id}`, {
       method: "PATCH",
       headers: {
+        "Content-Type": "application/json",
         "shift-api-key": API_CLIENT_KEY,
       },
       body: JSON.stringify(updateUser),
     });
-    
+    console.log(updateUser.json());
+
   } catch (err) {
-    
+    console.error(err.message);
   }
-}
+};
 
 async function buscarUserPorId(id) {
- try{
-  const selectId = await fetchAuth(`${API_LOGIN}/buscar/${id}`,
-    {
-      headers: {
-         "shift-api-key": API_CLIENT_KEY,
+  try {
+    const selectId = await fetchAuth(`${API_LOGIN}/buscar/${id}`,
+      {
+        headers: {
+          "shift-api-key": API_CLIENT_KEY,
+        }
       }
-    }
-  );
-  let dados_user_id = await selectId.json();
-  console.log(dados_user_id);
-  document.getElementById('nome-user').textContent = dados_user_id[0].nome;
-  document.getElementById('email-user').textContent = dados_user_id[0].email;
+    );
+    let dados_user_id = await selectId.json();
+    console.log(dados_user_id);
+    document.getElementById('nome-user').textContent = dados_user_id[0].nome;
+    document.getElementById('email-user').textContent = dados_user_id[0].email;
+    
+  } catch (err) {
+    console.error(err.message);
+  }
+};
 
- }catch(err){
-  console.error(err.message);
- } 
-}
-
-function abrirModal(){
+function abrirModal() {
   modal.style.display = 'block';
-}
+};
 
 
 carregarUsuarios(email);

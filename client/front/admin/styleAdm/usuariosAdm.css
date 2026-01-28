@@ -132,7 +132,8 @@ label {
 }
 
 .user-actions .edit {
-  background: #e0e0e0;
+  background: #000b6d;
+  color: white;
 }
 
 .user-actions .edit:hover {
@@ -140,7 +141,7 @@ label {
 }
 
 .user-actions .delete {
-  background: #111;
+  background: #7c0000;
   color: #fff;
 }
 
