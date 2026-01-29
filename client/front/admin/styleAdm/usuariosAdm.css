@@ -1,0 +1,300 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background-color: #b4b4b4;
+  color: #333;
+}
+
+header {
+  text-align: center;
+  background-color: #111;
+  color: #fff;
+  padding: 15px 30px;
+  display: flex;
+  align-items: center;
+}
+header h1 {
+  font-size: 20px;
+}
+
+
+.voltar {
+  margin-left: 40px; /* empurra um pouco pra direita */
+}
+
+#btn-voltar-dashboard {
+  background-color: #b11226;
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+#btn-voltar-dashboard:hover {
+  background-color: #8e0f1f;
+}
+
+
+input {
+  padding: 5px;
+  font-size: 0.9rem;
+}
+input:focus {
+  outline: none;
+  border: 2px solid #111;
+}
+label {
+  font-size: 1rem;
+  margin-bottom: 15px;
+  color: #222;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 350px;
+}
+.pesquisar {
+  padding-top: 2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2%;
+}
+
+.pesquisar button {
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.85rem;
+  background-color: #111;
+  color: #fff;
+  transition: background 0.2s;
+}
+
+.pesquisar button:hover {
+  background-color: #333;
+}
+/* CARD */
+
+#lista-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(40%, 1fr));
+  gap: 32px;
+  padding: 30px;
+}
+
+.card {
+  background: #ffffff;
+  padding: 22px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* AVATAR */
+.user-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #8a0117; /* azul moderno */
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* INFO */
+.user-info h3 {
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+}
+
+.user-info p {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.user-info small {
+  font-size: 0.75rem;
+  color: #999;
+}
+
+/* AÇÕES */
+.user-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+}
+
+.user-actions button {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: background 0.2s;
+}
+
+.user-actions .edit {
+  background: #000b6d;
+  color: white;
+}
+
+.user-actions .edit:hover {
+  background: #d0d0d0;
+}
+
+.user-actions .delete {
+  background: #7c0000;
+  color: #fff;
+}
+
+.user-actions .delete:hover {
+  background: #333;
+}
+
+/* overlay */
+.conteiner-update {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: none; /* abre via JS */
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* caixa do modal */
+.modal-update {
+  position: relative;
+  width: 420px;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 1.8rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  animation: modalIn 0.25s ease;
+}
+
+/* botão fechar */
+#fechar-jenela {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #555;
+}
+
+#fechar-jenela:hover {
+  color: #e63946;
+}
+
+/* infos do usuário */
+#infos-user {
+  margin-bottom: 1rem;
+}
+
+#nome-user {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+#email-user {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+/* formulário */
+.modal-form label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.8rem;
+  font-size: 0.85rem;
+}
+
+.modal-form input {
+  margin-top: 0.3rem;
+  padding: 0.65rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+}
+
+.modal-form input:focus {
+  outline: none;
+  border-color: #4361ee;
+}
+
+/* botões */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+#btn-mandar-modal {
+  background: #4361ee;
+  color: #fff;
+  border: none;
+  padding: 0.55rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#btn-limpar-modal {
+  background: #e63946;
+  color: #fff;
+  border: none;
+  padding: 0.55rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+#btn-mandar-modal:hover {
+  background: #364fc7;
+}
+
+#btn-limpar-modal:hover {
+  background: #c92a2a;
+}
+
+/* animação */
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* responsivo */
+@media (max-width: 480px) {
+  .modal-update {
+    width: 90%;
+  }
+}

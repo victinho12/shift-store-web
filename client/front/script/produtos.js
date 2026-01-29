@@ -1,6 +1,5 @@
 // ========== dados da api ==========
-const API = "http://localhost:3000/roupas/genero";
-const API_CLIENT_KEY = "VICTOR_EDUARDO_MARTINS_123";
+import { API_ROUPAS, API_CLIENT_KEY } from "./services/config.js";
 let limit = 20;
 let offset = 0;
 let couter = 0;
@@ -16,12 +15,7 @@ const btnMasc = document.getElementById("btn-genero-masc");
 const btnFeme = document.getElementById("btn-genero-feme");
 // ========== pegando valores do localstorage ==========
 const nome_value = localStorage.getItem("nome");
-const token = localStorage.getItem("token");
 
-if (!token) {
-  // bloqueia acesso a pagina se não existir token
-  window.location.href = "./index.html";
-}
 if (nome_value) {
   nome.textContent = nome_value;
   nome.style.display = "block";
@@ -66,7 +60,7 @@ async function carregarProdutos(genero) {
     }
      mostrarSkeleton(limit);
     const res = await fetchAuth(
-      `${API}/?limit=${limit}&offset=${offset}&categoria_nome=${genero}`,
+      `${API_ROUPAS}genero?limit=${limit}&offset=${offset}&categoria_nome=${genero}`,
       {
         headers: {
           "shift-api-key": API_CLIENT_KEY,

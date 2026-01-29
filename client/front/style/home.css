@@ -192,6 +192,7 @@ body {
 /* ================= CARROCEL ================= */
 .conteiner-carrocel {
   width: 100%;
+  height: 700px;
   display: flex;
   justify-content: center;
   margin-top: 20px;
@@ -237,6 +238,7 @@ body {
 /* ================= CARD ================= */
 .card-link{
   text-decoration: none;
+  list-style: none;
 }
 .card {
   width: 260px;
@@ -245,6 +247,9 @@ body {
   overflow: hidden;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover{
+  transform: scale(1.2);
 }
 
 
@@ -264,6 +269,7 @@ body {
 .card-title {
   font-size: 1.1rem;
   margin-bottom: 6px;
+  color: white;
 }
 
 .card-color {

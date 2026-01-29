@@ -1,13 +1,11 @@
-// TERMINAR até receber o monitor
-const API = "http://localhost:3000/user";
-
-const API_CLIENT_KEY = "VICTOR_EDUARDO_MARTINS_123";
-
-const btnInsertUser = document.getElementById("btn-cadastro");
-
-const btn_limpar_campos_input = document.getElementById("limpar_input");
-
+// ========== dados da api ==========
+import { API_LOGIN, API_CLIENT_KEY } from "./services/config.js";
+// ========== Pagando id do html ==========
 const nome = document.getElementById("nome_cliente");
+const btnInsertUser = document.getElementById("btn-cadastro");
+const btn_limpar_campos_input = document.getElementById("limpar_input");
+const btnLogout = document.getElementById("logout-btn");
+// ========== pegando valores do localstorage ==========
 const nome_value = localStorage.getItem("nome");
 if(nome_value){
   nome.textContent = nome_value;
@@ -16,10 +14,16 @@ if(nome_value){
   nome.textContent = "user";
   nome.style.display = "block";
 }
-
-const btnLogout = document.getElementById("logout-btn");
+// ========== Elementos de click ==========
 btnLogout.addEventListener("click", logoutUser);
-
+btn_limpar_campos_input.addEventListener("click", () => {
+  const nome = document.getElementById("nome");
+  const email = document.getElementById("email");
+  const senha = document.getElementById("senha");
+  nome.value = "";
+  email.value = "";
+  senha.value = "";
+});
 btnInsertUser.addEventListener("click", async () => {
   try {
     const nome = document.getElementById("nome");
@@ -34,27 +38,12 @@ btnInsertUser.addEventListener("click", async () => {
     if (!validarCamposObrigatorios(campos)) return;
 
     if (!validarEmail(email)) return;
-
-    const fetchSelect = await fetch(`${API}/?email=${email.value}`, {
-      headers: {
-        "shift-api-key": API_CLIENT_KEY,
-      },
-    });
-    if (!fetchSelect.ok) {
-      throw new Error("Erro ao verificar usuário");
-    }
-    let select = await fetchSelect.json();
-    console.log(select.length);
-    if (select.length == 1 || select.length > 1) {
-      alert("usuario ja cadastrado");
-      return;
-    } else {
       const novoUser = {
         nome: nome.value,
         email: email.value,
         senha: senha.value,
       };
-      const fetchInsert = await fetch(API, {
+      const fetchInsert = await fetch(API_LOGIN, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -62,23 +51,25 @@ btnInsertUser.addEventListener("click", async () => {
         },
         body: JSON.stringify(novoUser),
       });
+      const dados = await fetchInsert.json()
       if (!fetchInsert.ok) {
-        throw new Error("Error ou inserir");
+        alert(dados.msg);
+        return
       }
 
       alert("deu bom");
       console.log("deu bom");
       window.location.href = "./index.html";
-    }
+    
   } catch (err) {
-    console.error(err.message);
     alert(err.message);
+    console.error(err.message);
+    
   }
 });
-
+// Validação de dados que são passados nos inputs
 function validarCamposObrigatorios(campos) {
   let validar = true;
-
   campos.forEach(({ input, msg }) => {
     if (!input.value) {
       input.value = "";
@@ -91,7 +82,7 @@ function validarCamposObrigatorios(campos) {
   });
   return validar;
 }
-
+// Validar email do user com regex
 function validarEmail(email) {
   let validar = true;
 
@@ -105,7 +96,7 @@ function validarEmail(email) {
   email.classList.remove("erro");
   return validar;
 }
-
+//Validar a senha do usuario
 function validarSenha(senha) {
   let validar = true;
   if (senha.value.length < 9) {
@@ -117,11 +108,4 @@ function validarSenha(senha) {
   return validar;
 }
 
-btn_limpar_campos_input.addEventListener("click", () => {
-  const nome = document.getElementById("nome");
-  const email = document.getElementById("email");
-  const senha = document.getElementById("senha");
-  nome.value = "";
-  email.value = "";
-  senha.value = "";
-});
+

@@ -1,5 +1,4 @@
-const API = "http://localhost:3000/user";
-const API_LOGIN = "http://localhost:3000/user/login";
+import { API_LOGIN, API_CLIENT_KEY } from "./services/config.js";
 
 const email = document.getElementById("email");
 
@@ -7,10 +6,7 @@ const senha = document.getElementById("senha");
 
 const btnEntrar = document.getElementById("btn-entrar");
 
-const API_CLIENT_KEY = "VICTOR_EDUARDO_MARTINS_123";
-
 const nome = document.getElementById("nome_cliente");
-
 
 const hamburger = document.getElementById("hamburger");
 const menu = document.querySelector(".header-infos");
@@ -19,56 +15,76 @@ hamburger.addEventListener("click", () => {
   menu.classList.toggle("active");
 });
 
-
 const btnLogout = document.getElementById("logout-btn");
 btnLogout.addEventListener("click", logoutUser);
 
 const nome_value = localStorage.getItem("nome");
-if(nome_value){
+if (nome_value) {
   nome.textContent = nome_value;
   nome.style.display = "block";
-}else{
+} else {
   nome.textContent = "user";
   nome.style.display = "block";
 }
 
 btnEntrar.addEventListener("click", async () => {
-  try{
-  const email = document.getElementById("email");
-  const senha = document.getElementById("senha");
+  try {
+    const email = document.getElementById("email");
+    const senha = document.getElementById("senha");
 
-  if (!validarEmail(email)) return;
-  const buscarUser = await fetch(API_LOGIN, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "shift-api-key": API_CLIENT_KEY,
-    },
-    body: JSON.stringify({
-      email: email.value,
-      senha: senha.value,
-    }),
-  });
-  const dadosUser = await buscarUser.json();
-  localStorage.clear()
-  localStorage.setItem("token", dadosUser.token);
-  localStorage.setItem("refreshToken", dadosUser.refreshToken)
-  localStorage.setItem("nome", dadosUser.nome);
-  console.log(dadosUser.getUserByTokenJson);
+    if (!validarEmail(email)) return;
+    const buscarUser = await fetch(`${API_LOGIN}/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "shift-api-key": API_CLIENT_KEY,
+      },
+      body: JSON.stringify({
+        email: email.value,
+        senha: senha.value,
+      }),
+    });
+    const dadosUser = await buscarUser.json();
 
-  if (!buscarUser.ok) {
-    alert(dadosUser.msg);
-    localStorage.clear()
-  } else {
-    alert(`seja bem vindo(a) de volta, ${dadosUser.nome}`);
-    limparCampos(email, senha);
-    window.location.href = "./home.html";
-  }
-  }catch(err){
+    if (!buscarUser.ok) {
+      alert(dadosUser.msg);
+      localStorage.clear();
+      return;
+    }
+    localStorage.clear();
+    localStorage.setItem("token", dadosUser.token);
+    localStorage.setItem("refreshToken", dadosUser.refreshToken);
+    localStorage.setItem("nome", dadosUser.nome);
+
+    const token_tipo_user = dadosUser.token;
+
+    // valida o formato
+    const partes = token_tipo_user.split(".");
+    if (partes.length !== 3) {
+      throw new Error("Token inválido");
+    }
+
+    const base64 = partes[1].replace(/-/g, "+").replace(/_/g, "/");
+    const payload = JSON.parse(atob(base64));
+
+    if (payload.tipo_user === "admin") {
+      window.location.href = "../admin/dashboard.html";
+      return;
+    }
+
+    if (!buscarUser.ok) {
+      alert(dadosUser.msg);
+      localStorage.clear();
+    } else {
+      alert(`seja bem vindo(a) de volta, ${dadosUser.nome}`);
+      limparCampos(email, senha);
+      window.location.href = "./home.html";
+    }
+  } catch (err) {
     console.error(err.message);
+    alert(err.message);
   }
 });
-
 
 //função de validar email com regex
 function validarEmail(email) {
@@ -85,10 +101,7 @@ function validarEmail(email) {
   return validar;
 }
 //função pra limpar os campos do input quando o ususario realizar o login
-function limparCampos(email, senha){
+function limparCampos(email, senha) {
   email.value = "";
   senha.value = "";
 }
-
-
-

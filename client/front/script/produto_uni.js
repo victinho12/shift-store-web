@@ -1,9 +1,7 @@
-const API = "http://localhost:3000/roupas/";
-const API_CLIENT_KEY = "VICTOR_EDUARDO_MARTINS_123";
+import { API_ROUPAS, API_CLIENT_KEY } from "./services/config.js";
 
 // ========== pegando valores do localstorage ==========
 const nome_value = localStorage.getItem("nome");
-const token = localStorage.getItem("token");
 let couter = 0;
 // ========== Pagando id do html ==========
 const cartNun = document.getElementById('carrinho');
@@ -14,10 +12,6 @@ const cartOverlay = document.getElementById("cart-overlay");
 const btnCloseCart = document.getElementById("btn-close-cart");
 const btnCartIcon = document.querySelector(".carrinhoStyle");
 
-if (!token) {
-  // bloqueia acesso a pagina se não existir token
-  window.location.href = "./index.html";
-}
 if (nome_value) {
   nome.textContent = nome_value;
   nome.style.display = "block";
@@ -61,7 +55,7 @@ const produtoId = params.get("id");
 async function carregarProdutoUni(produtoId) {
   try {
     mostrarSkeleton(1);
-    const res = await fetchAuth(`${API}${produtoId}`, {
+    const res = await fetchAuth(`${API_ROUPAS}${produtoId}`, {
       headers: {
         "shift-api-key": API_CLIENT_KEY,
       },
@@ -84,7 +78,9 @@ async function carregarProdutoUni(produtoId) {
       <img 
         src="http://localhost:3000/uploads/${roupa.img}" 
         alt="${roupa.nome_roupa}" 
+        
       />
+      <div class="bar-img">d</div>
     </div>
 
     <div class="card-info">
@@ -137,59 +133,6 @@ function mostrarSkeleton(qtd = 20) {
 
     lista_produtos_shift.appendChild(skeleton);
   }
-}
-function renderCart() {
-  const cartItems = document.getElementById("cart-items");
-  const cartTotal = document.getElementById("cart-total");
-
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  cartItems.innerHTML = "";
-  let total = 0;
-
-  cart.forEach((item) => {
-    total += item.preco * item.qtd;
-
-    cartItems.innerHTML += `
-      <div class="cart-item">
-        <img src="http://localhost:3000/uploads/${item.img}">
-        <div class="cart-item-info">
-          <h4>${item.nome}</h4>
-          <span>Qtd: ${item.qtd}</span>
-        </div>
-        <div class="cart-item-price">
-          R$ ${(item.preco * item.qtd).toFixed(2)}
-        </div>
-      </div>
-    `;
-  });
-
-  cartTotal.textContent = `R$ ${total.toFixed(2)}`;
-}
-function addToCart(produto) {
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  const itemExistente = cart.find((item) => item.id === produto.id);
-
-  if (itemExistente) {
-    itemExistente.qtd += 1;
-  } else {
-    cart.push({
-      id: produto.id,
-      nome: produto.nome,
-      preco: produto.preco,
-      img: produto.img,
-      qtd: 1,
-    });
-  }
-  
-
-
-  localStorage.setItem("cart", JSON.stringify(cart));
-}
-function atualizaCart() {
-  couter = parseInt(localStorage.getItem("couterCar")) || 0;
-  cartNun.textContent = couter;
 }
 
 carregarProdutoUni(produtoId);
