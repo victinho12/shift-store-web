@@ -2,6 +2,7 @@
 import { API_LOGIN, API_CLIENT_KEY } from "../../script/services/config.js";
 
 let userIdSelecionado = null
+const form = document.getElementById('form-pesquisa');
 const listCards = document.getElementById("lista-cards");
 const btnLimpar = document.getElementById('btn-limpar');
 const btnPesquisar = document.getElementById('btn-pesquisar');
@@ -12,6 +13,18 @@ const nomeInput = document.getElementById('nome-input');
 const emailInput = document.getElementById('email-input');
 const btnSalvarInput = document.getElementById('btn-mandar-modal');
 const btnVoltarDash = document.getElementById("btn-voltar-dashboard");
+
+form.addEventListener('submit', (e) => {
+  e.preventDefault();
+
+  if (!email.value.trim() || email.textContent === ' ') {
+    alert("O campo e-mail é obrigatório");
+    email.focus();
+    return;
+  }
+  alert("Pesquisando usuario");
+  carregarUsuarios(email);
+});
 
 btnVoltarDash.addEventListener('click', () => {
   window.location.href = 'dashboard.html';
@@ -29,12 +42,6 @@ btnSalvarInput.addEventListener('click', () => {
   const confirmar = confirm("Deseja realmete alterar esse usuario?");
   if (!confirmar) return
   atualizaUsuario(userIdSelecionado, nomeInput.value, emailInput.value);
-  carregarUsuarios(email);
-});
-
-btnPesquisar.addEventListener('click', () => {
-  document.getElementById('lista-cards').innerHTML = '';
-  carregarUsuarios(email);
 });
 
 

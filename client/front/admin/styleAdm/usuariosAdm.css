@@ -44,46 +44,98 @@ header h1 {
 }
 
 
-input {
-  padding: 5px;
-  font-size: 0.9rem;
+.pesquisar {
+  margin-top: 1px;
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
+  background-color: #111;
+  padding: 18px 22px;
+  margin-bottom: 20px;
 }
-input:focus {
-  outline: none;
-  border: 2px solid #111;
+
+.pesquisar form {
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
 }
-label {
-  font-size: 1rem;
-  margin-bottom: 15px;
-  color: #222;
-  font-weight: 500;
+
+.pesquisar label {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  max-width: 350px;
-}
-.pesquisar {
-  padding-top: 2%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 2%;
+  color: #ccc;
+  font-size: 13px;
+  font-weight: 500;
 }
 
-.pesquisar button {
-  padding: 8px 14px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  font-size: 0.85rem;
-  background-color: #111;
+.pesquisar input {
+  margin-top: 6px;
+  padding: 8px 10px;
+  width: 500px;
+  border-radius: 6px;
+  border: 1px solid #2a2a2a;
+  background-color: #0f0f0f;
   color: #fff;
-  transition: background 0.2s;
+  font-size: 14px;
+  outline: none;
 }
 
-.pesquisar button:hover {
-  background-color: #333;
+.pesquisar input:focus {
+  border-color: #b11226;
+  box-shadow: 0 0 0 1px #b11226;
 }
+
+.pesquisar #btn-pesquisar {
+  background-color: #b11226;
+  color: #fff;
+  border: none;
+  padding: 9px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.25s ease;
+}
+
+.pesquisar #btn-pesquisar:hover {
+  background-color: #8e0f1f;
+}
+
+.pesquisar #btn-limpar {
+  background-color: transparent;
+  color: #ccc;
+  border: 1px solid #333;
+  padding: 9px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.pesquisar #btn-limpar:hover {
+  background-color: #1a1a1a;
+  color: #fff;
+}
+
+#btn-inserir {
+  margin-left: 50%;
+  margin-top: 10px;
+  background-color: transparent;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+#btn-inserir:hover {
+  background-color: #26007e;
+  color: #fff;
+}
+
 /* CARD */
 
 #lista-cards {
