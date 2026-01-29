@@ -148,18 +148,18 @@ async function mudarUser(req, res) {
   try{
     let id = parseInt(req.params.id);
     let {nome, email} = req.body;
-    update = `update public.usuarios set nome = COALESCE($1, nome), email = COALESCE($2, email) where id = $3 RETURNING id`;
+    update = `update public.usuarios set nome = COALESCE($1, nome), email = COALESCE($2, email) where id = $3 RETURNING *`;
 
     const resUpdate = await pool.query(update,[nome, email, id]);
     if(resUpdate.rows.length !== 1){
       console.table(resUpdate.rows);
       return res.status(500).json({msg: "Usuario não encontrado"});
     }
-      res.status(204).end();
+    res.json(resUpdate.rows[0]);
   }catch(err){
     res.status(401).json({msg: err.message});
   }
-}
+};
 
 async function buscarUserPorId(req, res) {
   try{

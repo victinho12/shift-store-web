@@ -2,7 +2,6 @@ import { API_ROUPAS, API_CLIENT_KEY } from "./services/config.js";
 
 // ========== pegando valores do localstorage ==========
 const nome_value = localStorage.getItem("nome");
-const token = localStorage.getItem("token");
 let couter = 0;
 // ========== Pagando id do html ==========
 const cartNun = document.getElementById('carrinho');
@@ -13,10 +12,6 @@ const cartOverlay = document.getElementById("cart-overlay");
 const btnCloseCart = document.getElementById("btn-close-cart");
 const btnCartIcon = document.querySelector(".carrinhoStyle");
 
-if (!token) {
-  // bloqueia acesso a pagina se não existir token
-  window.location.href = "./index.html";
-}
 if (nome_value) {
   nome.textContent = nome_value;
   nome.style.display = "block";

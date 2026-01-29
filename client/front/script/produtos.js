@@ -15,12 +15,7 @@ const btnMasc = document.getElementById("btn-genero-masc");
 const btnFeme = document.getElementById("btn-genero-feme");
 // ========== pegando valores do localstorage ==========
 const nome_value = localStorage.getItem("nome");
-const token = localStorage.getItem("token");
 
-if (!token) {
-  // bloqueia acesso a pagina se não existir token
-  window.location.href = "./index.html";
-}
 if (nome_value) {
   nome.textContent = nome_value;
   nome.style.display = "block";

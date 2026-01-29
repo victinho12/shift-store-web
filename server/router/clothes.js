@@ -8,13 +8,13 @@ const admin = require("../middleware/admin");
 const authToken = require("../middleware/authToken");
 const controller = require("../controllers/clothes.controller");
 
-router.get("/", authToken ,controller.buscarRoupa);
+router.get("/genero", controller.buscarRoupaPorGenero);
 
-router.get("/genero", authToken, controller.buscarRoupaPorGenero);
+router.get("/",controller.buscarRoupa);
 
 router.get('/count', authToken, validarKeyApi, admin, controller.contarRoupas )
 
-router.get("/:id", authToken ,controller.buscarRoupaPorId);
+router.get("/:id", controller.buscarRoupaPorId);
 
 router.post("/", authToken ,validarKeyApi, admin, uploads.single("img"), controller.inserirRoupa);
 

@@ -1,17 +1,35 @@
 
 import { API_LOGIN, API_CLIENT_KEY } from "../../script/services/config.js";
 
+let userIdSelecionado = null
+const listCards = document.getElementById("lista-cards");
 const btnLimpar = document.getElementById('btn-limpar');
 const btnPesquisar = document.getElementById('btn-pesquisar');
 const email = document.getElementById('email');
 const modal = document.getElementById('conteiner-update');
 const fecherModal = document.getElementById('fechar-jenela');
+const nomeInput = document.getElementById('nome-input');
+const emailInput = document.getElementById('email-input');
+const btnSalvarInput = document.getElementById('btn-mandar-modal');
+const btnVoltarDash = document.getElementById("btn-voltar-dashboard");
+
+btnVoltarDash.addEventListener('click', () => {
+  window.location.href = 'dashboard.html';
+});
 
 fecherModal.addEventListener('click', () => {
   modal.style.display = 'none';
+  carregarUsuarios(email);
 });
 btnLimpar.addEventListener('click', () => {
   email.value = ' ';
+});
+
+btnSalvarInput.addEventListener('click', () => {
+  const confirmar = confirm("Deseja realmete alterar esse usuario?");
+  if (!confirmar) return
+  atualizaUsuario(userIdSelecionado, nomeInput.value, emailInput.value);
+  carregarUsuarios(email);
 });
 
 btnPesquisar.addEventListener('click', () => {
@@ -22,10 +40,9 @@ btnPesquisar.addEventListener('click', () => {
 
 async function carregarUsuarios(email) {
   try {
-    if (!email) {
-      email = " ";
-    }
-    const resUser = await fetchAuth(`${API_LOGIN}/?email=${email.value}`, {
+    listCards.innerHTML = '';
+    const emailValor = email.value?.trim() || "";
+    const resUser = await fetchAuth(`${API_LOGIN}/?email=${emailValor}`, {
       headers: {
         "Content-Type": "application/json",
         "shift-api-key": API_CLIENT_KEY,
@@ -49,7 +66,7 @@ function criarCardUser(user) {
   card.classList.add("card");
   card.innerHTML = `
     <div class="user-avatar">
-      <span>${user.nome[0].toUpperCase()}</span>
+      <span>${user.nome[0]?.toUpperCase()}</span>
     </div>
 
     <div class="user-info">
@@ -64,24 +81,26 @@ function criarCardUser(user) {
     </div>
   `;
 
+
+
   card.querySelector('.edit').addEventListener('click', async () => {
+    userIdSelecionado = user.id
     abrirModal();
     buscarUserPorId(user.id);
-    const nomeInput = document.getElementById('nome-input');
-    const emailInput = document.getElementById('email-input');
-    const btnSalvar = document.getElementById('btn-mandar-modal');
-    btnSalvar.addEventListener('click', atualizaUsuario(user.id, nomeInput, emailInput));
   });
+
 
   card.querySelector(".delete").addEventListener("click", async () => {
     const confirmar = confirm(`Deseja mesmo apagar esse usuario: ${user.nome}`);
-    if(!confirmar) return
+    if (!confirmar) return
     deletarUsuario(user.id);
     card.remove();
   });
   document.getElementById('lista-cards').appendChild(card);
 
 };
+
+
 
 async function deletarUsuario(id) {
   try {
@@ -91,7 +110,6 @@ async function deletarUsuario(id) {
         "shift-api-key": API_CLIENT_KEY,
       }
     });
-    card.innerHTML = ' '
     carregarUsuarios(email);
   } catch (err) {
     console.error(err.message);
@@ -100,8 +118,11 @@ async function deletarUsuario(id) {
 
 async function atualizaUsuario(id, nome, email) {
   try {
-    const updateUser = { nome, email };
-    await fetchAuth(`${API_LOGIN}/update/${id}`, {
+    const updateUser = {};
+    if (nome) updateUser.nome = nome;
+    if (email) updateUser.email = email;
+
+    const res = await fetchAuth(`${API_LOGIN}/update/${id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -109,8 +130,6 @@ async function atualizaUsuario(id, nome, email) {
       },
       body: JSON.stringify(updateUser),
     });
-    console.log(updateUser.json());
-
   } catch (err) {
     console.error(err.message);
   }
@@ -126,10 +145,9 @@ async function buscarUserPorId(id) {
       }
     );
     let dados_user_id = await selectId.json();
-    console.log(dados_user_id);
     document.getElementById('nome-user').textContent = dados_user_id[0].nome;
     document.getElementById('email-user').textContent = dados_user_id[0].email;
-    
+
   } catch (err) {
     console.error(err.message);
   }

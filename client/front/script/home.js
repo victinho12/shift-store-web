@@ -1,24 +1,21 @@
 import { API_ROUPAS, API_CLIENT_KEY } from "./services/config.js";
 
-const token = localStorage.getItem("token");
 
-if (!token || token === undefined) {
-  // bloqueia acesso a pagina se não existir token
-  window.location.href = "./index.html";
-}
-
-let limit = 4;
+let limit = 5;
 let offset = 0;
 let couter = 0;
 
-
+const imgs = document.getElementById("img");
+const img = document.querySelectorAll("#img img");
 const cartNun = document.getElementById("carrinho")
 const lista_produtos_shift = document.getElementById("lista-produtos");
-
-const btnLogout = document.getElementById("logout-btn");
-btnLogout.addEventListener("click", logoutUser);
 const nome = document.getElementById("nome_cliente");
 const nome_value = localStorage.getItem("nome");
+const btnLogout = document.getElementById("logout-btn");
+
+
+btnLogout.addEventListener("click", logoutUser);
+
 if(nome_value){
   nome.textContent = nome_value;
   nome.style.display = "block";
@@ -28,8 +25,6 @@ if(nome_value){
 }
 
 
-const imgs = document.getElementById("img");
-const img = document.querySelectorAll("#img img");
 
 let idx = 0;
 function carrocel() {
@@ -46,11 +41,10 @@ setInterval(carrocel, 3000);
 
 async function carregarProdutos() {
   try {
-    mostrarSkeleton(4)
+    mostrarSkeleton(5);
     const res = await fetchAuth(`${API_ROUPAS}/?limit=${limit}&offset=${offset}`, {
       headers: {
         "shift-api-key": API_CLIENT_KEY,
-       
       },
     });
 

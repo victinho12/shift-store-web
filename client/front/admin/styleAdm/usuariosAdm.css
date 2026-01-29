@@ -11,6 +11,7 @@ body {
 }
 
 header {
+  text-align: center;
   background-color: #111;
   color: #fff;
   padding: 15px 30px;
@@ -20,6 +21,28 @@ header {
 header h1 {
   font-size: 20px;
 }
+
+
+.voltar {
+  margin-left: 40px; /* empurra um pouco pra direita */
+}
+
+#btn-voltar-dashboard {
+  background-color: #b11226;
+  color: #fff;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+#btn-voltar-dashboard:hover {
+  background-color: #8e0f1f;
+}
+
 
 input {
   padding: 5px;
