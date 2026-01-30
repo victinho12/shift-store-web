@@ -1,4 +1,4 @@
-import { API_ROUPAS, API_CLIENT_KEY } from "./services/config.js";
+import { API_ROUPAS, API_CLIENT_KEY, fetchAuth, logoutUser } from "./services/config.js";
 
 
 let limit = 5;
@@ -23,8 +23,6 @@ if(nome_value){
   nome.textContent = "user";
   nome.style.display = "block";
 }
-
-
 
 let idx = 0;
 function carrocel() {

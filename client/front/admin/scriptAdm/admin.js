@@ -1,15 +1,15 @@
-import { API_ROUPAS, API_CLIENT_KEY, API_LOGIN } from "../../script/services/config.js";
+import { API_ROUPAS, API_CLIENT_KEY, API_LOGIN, validarTokenFront, fetchAuth } from "../../script/services/config.js";
+
+validarTokenFront();
 
 const cards = document.getElementById("cards");
 const cardsOriginaisHTML = cards.innerHTML;
+const btnVoltarSite = document.getElementById('btn-voltar-site');
 
-const token = localStorage.getItem("token");
-if (!token) window.location.href = "/login.html";
+btnVoltarSite.addEventListener('click', () =>{
+  window.location.href = '../view/home.html';
+})
 
-const user = JSON.parse(atob(token.split(".")[1]));
-if (user.tipo_user !== "admin") {
-  window.location.href = "/login.html";
-}
 
 async function carregarProdutosAdm() {
   try {
