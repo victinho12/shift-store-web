@@ -35,7 +35,7 @@ header .voltar button {
 }
 
 header .voltar button:hover {
-  background: #000;
+  background: #740000;
 }
 
 /* ================= CONTAINER ================= */
@@ -91,6 +91,11 @@ header .voltar button:hover {
 
 #btn-limpar:hover {
   background: #555;
+}
+
+#btn-abrir-modal-adm{
+  margin-left: 5%;
+  background-color: #8a0117;
 }
 
 /* ================= LISTA DE CARDS ================= */

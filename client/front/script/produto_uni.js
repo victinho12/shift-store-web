@@ -1,4 +1,4 @@
-import { API_ROUPAS, API_CLIENT_KEY } from "./services/config.js";
+import { API_ROUPAS, API_CLIENT_KEY, fetchAuth, logoutUser } from "./services/config.js";
 
 // ========== pegando valores do localstorage ==========
 const nome_value = localStorage.getItem("nome");

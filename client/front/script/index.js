@@ -1,4 +1,4 @@
-import { API_LOGIN, API_CLIENT_KEY } from "./services/config.js";
+import { API_LOGIN, API_CLIENT_KEY, logoutUser } from "./services/config.js";
 
 const email = document.getElementById("email");
 

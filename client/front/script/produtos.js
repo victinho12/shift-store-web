@@ -1,5 +1,5 @@
 // ========== dados da api ==========
-import { API_ROUPAS, API_CLIENT_KEY } from "./services/config.js";
+import { API_ROUPAS, API_CLIENT_KEY, fetchAuth, logoutUser } from "./services/config.js";
 let limit = 20;
 let offset = 0;
 let couter = 0;

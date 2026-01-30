@@ -1,7 +1,11 @@
 
-import { API_LOGIN, API_CLIENT_KEY } from "../../script/services/config.js";
+import { API_LOGIN, API_CLIENT_KEY, validarTokenFront, fetchAuth } from "../../script/services/config.js";
 
-let userIdSelecionado = null
+
+validarTokenFront();
+
+let userIdSelecionado = null;
+const btnCarregarUsuarios = document.getElementById('carregar-user');
 const form = document.getElementById('form-pesquisa');
 const listCards = document.getElementById("lista-cards");
 const btnLimpar = document.getElementById('btn-limpar');
@@ -22,10 +26,11 @@ const btnAddUser = document.getElementById('btn-modal-add-user');
 const nomeModalAdd = document.getElementById('nome-input-add');
 const emailModalAdd = document.getElementById('email-input-add');
 const senhaModalAdd = document.getElementById('senha-input-add');
-
+const tipo_user = document.getElementById('tipo-input-add')
 
 btnAddUser.addEventListener('click', () => {
-  console.log(nomeModalAdd.textContent);
+  inserirAdm(nomeModalAdd.value, emailModalAdd.value, senhaModalAdd.value, tipo_user.value);
+  
 })
 fecherModalUser.addEventListener('click', () => {
   modalAddUser.style.display = 'none';
@@ -33,6 +38,11 @@ fecherModalUser.addEventListener('click', () => {
 
 btnAbrirModalUser.addEventListener('click', () => {
   modalAddUser.style.display = 'block';
+})
+
+btnCarregarUsuarios.addEventListener('click', () => {
+  alert('Carregando');
+  carregarUsuarios(email);
 })
 
 form.addEventListener('submit', (e) => {
@@ -140,7 +150,6 @@ async function deletarUsuario(id) {
         "shift-api-key": API_CLIENT_KEY,
       }
     });
-    carregarUsuarios(email);
   } catch (err) {
     console.error(err.message);
   }
@@ -196,10 +205,16 @@ async function inserirAdm(nome, email, senha, tipo_user) {
       },
       body: JSON.stringify(addUser)
     });
+    
     const dados = await res.json();
-    console.log(dados);
+    if(!addUser.ok){
+      alert(dados.msg);
+    }
+    //console.log(dados);
+    carregarUsuarios(email);
   } catch (err) {
-
+    
+    console.error(err.message);
   }
 }
 

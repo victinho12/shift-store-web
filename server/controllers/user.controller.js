@@ -25,7 +25,8 @@ async function buscarUser(req, res) {
 
 async function cadastrarUser(req, res) {
   try {
-    const { nome, email, senha } = req.body;
+    const { nome, email, senha, tipo_user } = req.body;
+    
     const selectVerificarExist = await pool.query(
       `SELECT * FROM PUBLIC.usuarios WHERE email ilike $1`,
       [email]
@@ -43,7 +44,7 @@ async function cadastrarUser(req, res) {
     const postingUser = await pool.query(
       `insert into public.usuarios (nome, email, senha, tipo_user) VALUES
         ($1, $2, $3, $4) RETURNING *`,
-      [nome, email, senhaHash, "user"]
+      [nome, email, senhaHash, tipo_user]
     );
     res.status(201).json(postingUser.rows[0]);
   } catch (err) {
