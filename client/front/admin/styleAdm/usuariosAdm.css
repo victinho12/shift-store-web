@@ -93,6 +93,11 @@ header .voltar button:hover {
   background: #555;
 }
 
+#btn-abrir-modal-adm{
+  margin-left: 5%;
+  background-color: #8a0117;
+}
+
 /* ================= LISTA DE CARDS ================= */
 #lista-cards {
   display: grid;

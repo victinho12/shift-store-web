@@ -1,7 +1,8 @@
 
 import { API_LOGIN, API_CLIENT_KEY } from "../../script/services/config.js";
 
-let userIdSelecionado = null
+let userIdSelecionado = null;
+const btnCarregarUsuarios = document.getElementById('carregar-user');
 const form = document.getElementById('form-pesquisa');
 const listCards = document.getElementById("lista-cards");
 const btnLimpar = document.getElementById('btn-limpar');
@@ -22,10 +23,10 @@ const btnAddUser = document.getElementById('btn-modal-add-user');
 const nomeModalAdd = document.getElementById('nome-input-add');
 const emailModalAdd = document.getElementById('email-input-add');
 const senhaModalAdd = document.getElementById('senha-input-add');
-
+const tipo_user = document.getElementById('tipo-input-add')
 
 btnAddUser.addEventListener('click', () => {
-  console.log(nomeModalAdd.textContent);
+  inserirAdm(nomeModalAdd, emailModalAdd, senhaModalAdd, tipo_user);
 })
 fecherModalUser.addEventListener('click', () => {
   modalAddUser.style.display = 'none';
@@ -33,6 +34,11 @@ fecherModalUser.addEventListener('click', () => {
 
 btnAbrirModalUser.addEventListener('click', () => {
   modalAddUser.style.display = 'block';
+})
+
+btnCarregarUsuarios.addEventListener('click', () => {
+  alert('Carregando');
+  carregarUsuarios(email);
 })
 
 form.addEventListener('submit', (e) => {
@@ -196,10 +202,13 @@ async function inserirAdm(nome, email, senha, tipo_user) {
       },
       body: JSON.stringify(addUser)
     });
+    if(!addUser.ok){
+      console.error(addUser.msg)
+    }
     const dados = await res.json();
     console.log(dados);
   } catch (err) {
-
+    console.error(err.message);
   }
 }
 
