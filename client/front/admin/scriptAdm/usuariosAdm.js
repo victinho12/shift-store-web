@@ -5,7 +5,6 @@ let userIdSelecionado = null
 const form = document.getElementById('form-pesquisa');
 const listCards = document.getElementById("lista-cards");
 const btnLimpar = document.getElementById('btn-limpar');
-const btnPesquisar = document.getElementById('btn-pesquisar');
 const email = document.getElementById('email');
 const modal = document.getElementById('conteiner-update');
 const fecherModal = document.getElementById('fechar-jenela');
@@ -13,6 +12,28 @@ const nomeInput = document.getElementById('nome-input');
 const emailInput = document.getElementById('email-input');
 const btnSalvarInput = document.getElementById('btn-mandar-modal');
 const btnVoltarDash = document.getElementById("btn-voltar-dashboard");
+
+
+//parte do sistema do adm que vai inserir novos user no sistema
+const btnAbrirModalUser = document.getElementById('btn-abrir-modal-adm');
+const modalAddUser = document.getElementById('add-produtos');
+const fecherModalUser = document.getElementById('fechar-jenela-user');
+const btnAddUser = document.getElementById('btn-modal-add-user');
+const nomeModalAdd = document.getElementById('nome-input-add');
+const emailModalAdd = document.getElementById('email-input-add');
+const senhaModalAdd = document.getElementById('senha-input-add');
+
+
+btnAddUser.addEventListener('click', () => {
+  console.log(nomeModalAdd.textContent);
+})
+fecherModalUser.addEventListener('click', () => {
+  modalAddUser.style.display = 'none';
+})
+
+btnAbrirModalUser.addEventListener('click', () => {
+  modalAddUser.style.display = 'block';
+})
 
 form.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -42,6 +63,8 @@ btnSalvarInput.addEventListener('click', () => {
   const confirmar = confirm("Deseja realmete alterar esse usuario?");
   if (!confirmar) return
   atualizaUsuario(userIdSelecionado, nomeInput.value, emailInput.value);
+  modal.style.display = 'none';
+  carregarUsuarios(email);
 });
 
 
@@ -78,7 +101,7 @@ function criarCardUser(user) {
 
     <div class="user-info">
       <h3>${user.nome}</h3>
-      <p>${user.tipo_user}</p>
+      <p>Tipo: ${user.tipo_user}</p>
       <small>${user.email}</small>
     </div>
 
@@ -159,6 +182,27 @@ async function buscarUserPorId(id) {
     console.error(err.message);
   }
 };
+
+
+async function inserirAdm(nome, email, senha, tipo_user) {
+  try {
+    const addUser = { nome, email, senha, tipo_user };
+
+    const res = await fetchAuth(`${API_LOGIN}`, {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+        "shift-api-key": API_CLIENT_KEY,
+      },
+      body: JSON.stringify(addUser)
+    });
+    const dados = await res.json();
+    console.log(dados);
+  } catch (err) {
+
+  }
+}
+
 
 function abrirModal() {
   modal.style.display = 'block';

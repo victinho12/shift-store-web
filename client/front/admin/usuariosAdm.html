@@ -28,7 +28,7 @@
         <button id="btn-pesquisar">Pesquisar</button>
       </form>
       <button id="btn-limpar">limpar E-mail</button>
-      <button id="btn-inserir">Inserir Adm</button>
+      <button id="btn-abrir-modal-adm">Inserir Adm</button>
     </div>
     <div id="lista-cards">
 
@@ -53,12 +53,44 @@
             <input type="text" id="email-input">
           </label>
 
+
           <div class="modal-actions">
             <button id="btn-mandar-modal">Salvar</button>
             <button id="btn-limpar-modal">Apagar</button>
           </div>
         </div>
       </div>
+    </div>
+    <div id="add-produtos">
+      <form id="form-produto">
+
+        <button id="fechar-jenela-user" type="button">✕</button>
+
+        <p>Adicionar Usuário</p>
+
+        <label>
+          Nome
+          <input type="text" id="nome-input-add">
+        </label>
+
+        <label>
+          Email
+          <input type="email" id="email-input-add">
+        </label>
+
+        <label>
+          Senha
+          <input type="password" id="senha-input-add">
+        </label>
+
+
+        <label>
+          Tipo do usuario
+          <input type="text" id="tipo-input-add">
+        </label>
+
+        <button type="button" id="btn-modal-add-user">Adicionar Usuário</button>
+      </form>
     </div>
   </section>
 </body>

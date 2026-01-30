@@ -1,3 +1,4 @@
+/* ================= RESET ================= */
 * {
   margin: 0;
   padding: 0;
@@ -6,347 +7,280 @@
 }
 
 body {
-  background-color: #b4b4b4;
-  color: #333;
+  background: #f5f5f5;
+  color: #222;
 }
 
+/* ================= HEADER ================= */
 header {
-  text-align: center;
-  background-color: #111;
+  background: #000000;
   color: #fff;
-  padding: 15px 30px;
+  padding: 16px 24px;
   display: flex;
+  justify-content: space-between;
   align-items: center;
 }
+
 header h1 {
   font-size: 20px;
 }
 
-
-.voltar {
-  margin-left: 40px; /* empurra um pouco pra direita */
-}
-
-#btn-voltar-dashboard {
-  background-color: #b11226;
-  color: #fff;
+header .voltar button {
+  background: #444;
   border: none;
-  padding: 8px 18px;
+  color: #fff;
+  padding: 8px 14px;
   border-radius: 6px;
-  font-size: 14px;
-  font-weight: 600;
   cursor: pointer;
-  transition: all 0.25s ease;
 }
 
-#btn-voltar-dashboard:hover {
-  background-color: #8e0f1f;
+header .voltar button:hover {
+  background: #000;
 }
 
+/* ================= CONTAINER ================= */
+.conteiner-body {
+  padding: 24px;
+}
 
+/* ================= PESQUISA ================= */
 .pesquisar {
-  margin-top: 1px;
   display: flex;
+  gap: 12px;
   align-items: flex-end;
-  gap: 14px;
-  background-color: #111;
-  padding: 18px 22px;
+  flex-wrap: wrap;
   margin-bottom: 20px;
 }
 
 .pesquisar form {
   display: flex;
+  gap: 10px;
   align-items: flex-end;
-  gap: 14px;
 }
 
 .pesquisar label {
   display: flex;
   flex-direction: column;
-  color: #ccc;
-  font-size: 13px;
-  font-weight: 500;
+  font-size: 14px;
 }
 
 .pesquisar input {
-  margin-top: 6px;
-  padding: 8px 10px;
-  width: 500px;
+  padding: 8px;
+  width: 320px;
+  padding: 10px;
   border-radius: 6px;
-  border: 1px solid #2a2a2a;
-  background-color: #0f0f0f;
-  color: #fff;
-  font-size: 14px;
-  outline: none;
+  border: 1px solid #ccc;
 }
 
-.pesquisar input:focus {
-  border-color: #b11226;
-  box-shadow: 0 0 0 1px #b11226;
-}
-
-.pesquisar #btn-pesquisar {
-  background-color: #b11226;
-  color: #fff;
+.pesquisar button {
+  padding: 8px 14px;
+  border-radius: 6px;
   border: none;
-  padding: 9px 16px;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 600;
   cursor: pointer;
-  transition: background 0.25s ease;
-}
-
-.pesquisar #btn-pesquisar:hover {
-  background-color: #8e0f1f;
-}
-
-.pesquisar #btn-limpar {
-  background-color: transparent;
-  color: #ccc;
-  border: 1px solid #333;
-  padding: 9px 14px;
-  border-radius: 6px;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-
-.pesquisar #btn-limpar:hover {
-  background-color: #1a1a1a;
+  background: #222;
   color: #fff;
 }
 
-#btn-inserir {
-  margin-left: 50%;
-  margin-top: 10px;
-  background-color: transparent;
-  color: #ffffff;
-  border: 1px solid #ffffff;
-  padding: 10px 16px;
-  border-radius: 6px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.25s ease;
+.pesquisar button:hover {
+  background: #000;
 }
 
-#btn-inserir:hover {
-  background-color: #26007e;
-  color: #fff;
+#btn-limpar {
+  background: #777;
+}
+
+#btn-limpar:hover {
+  background: #555;
+}
+
+/* ================= LISTA DE CARDS ================= */
+#lista-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(48%, 1fr));
+  gap: 16px;
 }
 
 /* CARD */
-
-#lista-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(40%, 1fr));
-  gap: 32px;
-  padding: 30px;
-}
-
 .card {
   background: #ffffff;
-  padding: 22px;
+  padding: 28px;              /* mais espaço interno */
+  min-height: 120px;          /* deixa o card mais “alto” */
+
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 22px;                  /* mais espaço entre avatar e infos */
+
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+.card p {  
+  margin-bottom: 10px;
+  font-size: 14px;
 }
 
-/* AVATAR */
+.card button {
+  margin-top: 8px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  background: #222;
+  color: #fff;
+}
+
+.card button:hover {
+  background: #000;
+}
+
+/* ================= OVERLAY (MODAIS) ================= */
+.conteiner-update,
+#add-produtos {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* ================= MODAL UPDATE ================= */
+.modal-update {
+  background: #fff;
+  width: 420px;
+  max-width: 90%;
+  padding: 24px;
+  border-radius: 12px;
+  position: relative;
+  animation: fadeIn 0.25s ease;
+}
+
+/* ================= MODAL ADD USER ================= */
+#form-produto {
+  background: #fff;
+  width: 420px;
+  max-width: 90%;
+  padding: 24px;
+  border-radius: 12px;
+  position: relative;
+  animation: fadeIn 0.25s ease;
+}
+
+/* ================= BOTÃO FECHAR ================= */
+#fechar-jenela,
+#fechar-jenela-user {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  color: #444;
+}
+
+#fechar-jenela:hover,
+#fechar-jenela-user:hover {
+  color: #e63946;
+}
+
+/* ================= INFO USER ================= */
+#infos-user {
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+#infos-user p {
+  font-size: 14px;
+}
 .user-avatar {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: #8a0117; /* azul moderno */
+
+  background: #8a0117;
   color: #fff;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
+
   font-size: 1rem;
-}
-
-/* INFO */
-.user-info h3 {
-  font-size: 0.95rem;
-  margin-bottom: 4px;
-}
-
-.user-info p {
-  font-size: 0.8rem;
-  color: #666;
-}
-
-.user-info small {
-  font-size: 0.75rem;
-  color: #999;
-}
-
-/* AÇÕES */
-.user-actions {
-  margin-left: auto;
-  display: flex;
-  gap: 8px;
-}
-
-.user-actions button {
-  padding: 6px 10px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  font-size: 0.75rem;
-  transition: background 0.2s;
-}
-
-.user-actions .edit {
-  background: #000b6d;
-  color: white;
-}
-
-.user-actions .edit:hover {
-  background: #d0d0d0;
-}
-
-.user-actions .delete {
-  background: #7c0000;
-  color: #fff;
-}
-
-.user-actions .delete:hover {
-  background: #333;
-}
-
-/* overlay */
-.conteiner-update {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.65);
-  display: none; /* abre via JS */
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
-
-/* caixa do modal */
-.modal-update {
-  position: relative;
-  width: 420px;
-  background: #ffffff;
-  border-radius: 14px;
-  padding: 1.8rem;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-  animation: modalIn 0.25s ease;
-}
-
-/* botão fechar */
-#fechar-jenela {
-  position: absolute;
-  top: 14px;
-  right: 14px;
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  color: #555;
-}
-
-#fechar-jenela:hover {
-  color: #e63946;
-}
-
-/* infos do usuário */
-#infos-user {
-  margin-bottom: 1rem;
-}
-
-#nome-user {
   font-weight: 600;
-  font-size: 1.1rem;
 }
 
-#email-user {
-  font-size: 0.85rem;
-  color: #666;
-}
-
-/* formulário */
-.modal-form label {
+/* ================= FORM MODAL ================= */
+.modal-form,
+#form-produto {
   display: flex;
   flex-direction: column;
-  margin-bottom: 0.8rem;
-  font-size: 0.85rem;
+  gap: 12px;
 }
 
-.modal-form input {
-  margin-top: 0.3rem;
-  padding: 0.65rem;
-  border-radius: 8px;
+.modal-form label,
+#form-produto label {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+
+.modal-form input,
+#form-produto input {
+  padding: 8px;
+  border-radius: 6px;
   border: 1px solid #ccc;
-  font-size: 0.9rem;
 }
 
-.modal-form input:focus {
-  outline: none;
-  border-color: #4361ee;
-}
-
-/* botões */
+/* ================= AÇÕES MODAL ================= */
 .modal-actions {
   display: flex;
-  justify-content: flex-end;
-  gap: 0.6rem;
-  margin-top: 1rem;
+  gap: 10px;
+  margin-top: 10px;
 }
 
-#btn-mandar-modal {
-  background: #4361ee;
-  color: #fff;
+.modal-actions button,
+#btn-modal-add-user {
+  padding: 10px;
+  border-radius: 6px;
   border: none;
-  padding: 0.55rem 1rem;
-  border-radius: 8px;
   cursor: pointer;
+  background: #222;
+  color: #fff;
+}
+
+
+
+.modal-actions button:hover,
+#btn-modal-add-user:hover {
+  background: #000;
 }
 
 #btn-limpar-modal {
-  background: #e63946;
-  color: #fff;
-  border: none;
-  padding: 0.55rem 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-#btn-mandar-modal:hover {
-  background: #364fc7;
+  background: #888;
 }
 
 #btn-limpar-modal:hover {
-  background: #c92a2a;
+  background: #666;
 }
 
-/* animação */
-@keyframes modalIn {
+/* ================= TÍTULOS ================= */
+.modal-update h2,
+#form-produto p {
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+/* ================= ANIMAÇÃO ================= */
+@keyframes fadeIn {
   from {
     opacity: 0;
-    transform: scale(0.92);
+    transform: scale(0.95);
   }
   to {
     opacity: 1;
     transform: scale(1);
-  }
-}
-
-/* responsivo */
-@media (max-width: 480px) {
-  .modal-update {
-    width: 90%;
   }
 }
