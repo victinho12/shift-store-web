@@ -4,6 +4,7 @@ export const API_CLIENT_KEY = "VICTOR_EDUARDO_MARTINS_123";
 
 export function validarTokenFront() {
   const token = localStorage.getItem("token");
+  if (!token) return (window.location.href = "../view/home.html");
   const user = JSON.parse(atob(token.split(".")[1]));
   if (!token || user.tipo_user !== "admin")
     return (window.location.href = "../view/home.html");
@@ -48,7 +49,8 @@ export async function fetchAuth(url, options = {}) {
   }
   console.log("fetch Funcionando config");
   return res;
-}
+};
+
 
 export function logoutUser() {
   console.log("deslogando config");
@@ -56,4 +58,5 @@ export function logoutUser() {
   localStorage.removeItem("nome");
   localStorage.removeItem("refreshToken");
   window.location.href = "./index.html";
-}
+};
+

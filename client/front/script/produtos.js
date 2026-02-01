@@ -88,13 +88,13 @@ async function carregarProdutos(genero) {
   <div class="card-img">
     <img
       src="http://localhost:3000/uploads/${roupa.img}"
-      alt="${roupa.nome_roupa}"
+      alt="${roupa.nome}"
     />
   </div>
 
   <div class="card-info">
-    <h2 class="card-title">${roupa.nome_roupa}</h2>
-    <span class="card-category">${roupa.cate_nome}</span>
+    <h2 class="card-title">${roupa.nome}</h2>
+    <span class="card-category">${roupa.categoria}</span>
 
     <p class="card-color">Cor: ${roupa.cor}</p>
 

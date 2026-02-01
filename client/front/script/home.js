@@ -40,7 +40,7 @@ setInterval(carrocel, 3000);
 async function carregarProdutos() {
   try {
     mostrarSkeleton(5);
-    const res = await fetchAuth(`${API_ROUPAS}/?limit=${limit}&offset=${offset}`, {
+    const res = await fetchAuth(`${API_ROUPAS}genero/?limit=${limit}&offset=${offset}`, {
       headers: {
         "shift-api-key": API_CLIENT_KEY,
       },

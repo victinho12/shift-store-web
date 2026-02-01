@@ -1,10 +1,15 @@
-import { API_ROUPAS, API_CLIENT_KEY, fetchAuth, logoutUser } from "./services/config.js";
+import {
+  API_ROUPAS,
+  API_CLIENT_KEY,
+  fetchAuth,
+  logoutUser,
+} from "./services/config.js";
 
 // ========== pegando valores do localstorage ==========
 const nome_value = localStorage.getItem("nome");
 let couter = 0;
 // ========== Pagando id do html ==========
-const cartNun = document.getElementById('carrinho');
+const cartNun = document.getElementById("carrinho");
 const nome = document.getElementById("nome_cliente");
 const btnLogout = document.getElementById("logout-btn");
 const lista_produtos_shift = document.getElementById("lista-produtos");
@@ -25,22 +30,21 @@ btnCartIcon.addEventListener("click", () => {
   cartOverlay.classList.remove("hidden");
   renderCart();
 });
-document.addEventListener("click", function(e) {
+document.addEventListener("click", function (e) {
   if (e.target.classList.contains("btn-add")) {
     const btn = e.target;
     const produto = {
       id: btn.dataset.id,
       nome: btn.dataset.nome,
       preco: parseFloat(btn.dataset.preco),
-      img: btn.dataset.img
+      img: btn.dataset.img,
     };
 
     addToCart(produto);
-    couter = couter + 1
-    localStorage.setItem("couterCar", couter)
-    cartNun.textContent = localStorage.getItem("couterCar")
+    couter = couter + 1;
+    localStorage.setItem("couterCar", couter);
+    cartNun.textContent = localStorage.getItem("couterCar");
     renderCart(); // Atualiza o carrinho automaticamente
-    
   }
 });
 
@@ -77,20 +81,20 @@ async function carregarProdutoUni(produtoId) {
   <div class="card-img">
       <img 
         src="http://localhost:3000/uploads/${roupa.img}" 
-        alt="${roupa.nome_roupa}" 
+        alt="${roupa.nome}" 
         
       />
       <div class="bar-img">d</div>
     </div>
 
     <div class="card-info">
-      <h2 class="card-title">${roupa.nome_roupa}</h2>
-      <span class="card-category">${roupa.cate_nome}</span>
+      <h2 class="card-title">${roupa.nome}</h2>
+      <span class="card-category">${roupa.categoria}</span>
 
       <div class="card-details">
         <p><strong>Cor:</strong> ${roupa.cor}</p>
         <p><strong>Tamanho:</strong> ${roupa.tamanho}</p>
-        <p><strong>Estoque:</strong> ${roupa.quantidade}</p>
+        <p><strong>Estoque:</strong> ${roupa.estoque_qtd}</p>
       </div>
 
       <div class="card-footer">
@@ -99,7 +103,7 @@ async function carregarProdutoUni(produtoId) {
         </p>
         <button class="btn-add"
   data-id="${roupa.id}"
-  data-nome="${roupa.nome_roupa}"
+  data-nome="${roupa.nome}"
   data-preco="${roupa.preco}"
   data-img="${roupa.img}">
   Adicionar
@@ -136,4 +140,4 @@ function mostrarSkeleton(qtd = 20) {
 }
 
 carregarProdutoUni(produtoId);
-atualizaCart()
+atualizaCart();

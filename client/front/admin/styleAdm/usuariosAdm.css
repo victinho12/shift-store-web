@@ -255,7 +255,45 @@ header .voltar button:hover {
   color: #fff;
 }
 
+/* Campo dentro do modal */
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 14px;
+  color: #3b2f2f; /* marrom suave */
+}
 
+/* Select */
+.field select {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #000000; /* bege vintage */
+  background-color: #ffffff;
+  font-size: 14px;
+  color: #2e2e2e;
+  outline: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+/* Hover */
+.field select:hover {
+  border-color: #000000;
+}
+
+/* Focus */
+.field select:focus {
+  border-color: #000000;
+  box-shadow: 0 0 0 2px rgba(139, 107, 63, 0.2);
+  background-color: #fff;
+}
+
+/* Option (alguns browsers respeitam) */
+.field select option {
+  background-color: #fff;
+  color: #2e2e2e;
+}
 
 .modal-actions button:hover,
 #btn-modal-add-user:hover {

@@ -26,7 +26,6 @@ async function buscarUser(req, res) {
 async function cadastrarUser(req, res) {
   try {
     const { nome, email, senha, tipo_user } = req.body;
-    
     const selectVerificarExist = await pool.query(
       `SELECT * FROM PUBLIC.usuarios WHERE email ilike $1`,
       [email]
@@ -35,10 +34,11 @@ async function cadastrarUser(req, res) {
     if (selectVerificarExist.rows.length !== 0) {
       return res.status(409).json({ msg: "Usuário já cadastrado" });
     }
-    console.log(nome);
+    console.log(nome, " Cadastrado");
     if (!nome || !email || !senha) {
       return res.status(400).json({ msg: "Dados obrigatórios" });
     }
+    
     const saltRounds = 10;
     const senhaHash = await bcrypt.hash(senha, saltRounds);
     const postingUser = await pool.query(

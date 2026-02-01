@@ -29,7 +29,7 @@ const senhaModalAdd = document.getElementById('senha-input-add');
 const tipo_user = document.getElementById('tipo-input-add')
 
 btnAddUser.addEventListener('click', () => {
-  inserirAdm(nomeModalAdd.value, emailModalAdd.value, senhaModalAdd.value, tipo_user.value);
+  inserirAdm(nomeModalAdd.value, emailModalAdd.value, senhaModalAdd.value, tipo_user?.value);
   
 })
 fecherModalUser.addEventListener('click', () => {
@@ -63,7 +63,6 @@ btnVoltarDash.addEventListener('click', () => {
 
 fecherModal.addEventListener('click', () => {
   modal.style.display = 'none';
-  carregarUsuarios(email);
 });
 btnLimpar.addEventListener('click', () => {
   email.value = ' ';
@@ -73,8 +72,11 @@ btnSalvarInput.addEventListener('click', () => {
   const confirmar = confirm("Deseja realmete alterar esse usuario?");
   if (!confirmar) return
   atualizaUsuario(userIdSelecionado, nomeInput.value, emailInput.value);
-  modal.style.display = 'none';
+  listCards.innerHTML = ' ';
   carregarUsuarios(email);
+  modal.style.display = 'none';
+  
+  
 });
 
 
@@ -197,6 +199,8 @@ async function inserirAdm(nome, email, senha, tipo_user) {
   try {
     const addUser = { nome, email, senha, tipo_user };
 
+    if(tipo_user === ' ') tipo_user = 'user';
+
     const res = await fetchAuth(`${API_LOGIN}`, {
       method: 'POST',
       headers: {
@@ -207,7 +211,8 @@ async function inserirAdm(nome, email, senha, tipo_user) {
     });
     
     const dados = await res.json();
-    if(!addUser.ok){
+    if(!res.ok){
+      console.log('Deu errado');
       alert(dados.msg);
     }
     //console.log(dados);
@@ -216,7 +221,7 @@ async function inserirAdm(nome, email, senha, tipo_user) {
     
     console.error(err.message);
   }
-}
+};
 
 
 function abrirModal() {
