@@ -4,6 +4,7 @@ const pool = require("../db");
 
 async function validarKeyApi(req, res, next) {
   try {
+    if (req.method === "OPTIONS") return next();
     const API_KEY_FRONT = req.header("shift-api-key");
     if (!API_KEY_FRONT) {
       return res.status(401).json({ erro: "chave da api não informada" });

@@ -1,5 +1,10 @@
 // ========== dados da api ==========
-import { API_ROUPAS, API_CLIENT_KEY, fetchAuth, logoutUser } from "./services/config.js";
+import {
+  API_ROUPAS,
+  API_CLIENT_KEY,
+  fetchAuth,
+  logoutUser,
+} from "./services/config.js";
 let limit = 20;
 let offset = 0;
 let couter = 0;
@@ -7,7 +12,7 @@ let timeout;
 let carregando = false;
 // ========== Pagando id do html ==========
 const nome = document.getElementById("nome_cliente");
-const cartNun = document.getElementById("carrinho")
+const cartNun = document.getElementById("carrinho");
 const lista_produtos_shift = document.getElementById("lista-produtos");
 const btnLogout = document.getElementById("logout-btn");
 const btnFiltro = document.getElementById("btn-filtrar");
@@ -27,8 +32,7 @@ if (nome_value) {
 btnLogout.addEventListener("click", logoutUser);
 
 btnFiltro.addEventListener("click", () => {
-  document.querySelector(".filtro-genero")
-    .classList.toggle("ativo");
+  document.querySelector(".filtro-genero").classList.toggle("ativo");
 });
 btnFiltro.addEventListener("click", () => {
   const isHidden = getComputedStyle(btnMasc).display === "none";
@@ -54,11 +58,11 @@ btnFeme.addEventListener("click", () => {
 
 async function carregarProdutos(genero) {
   try {
-    if(carregando) return
+    if (carregando) return;
     if (!genero) {
       genero = "";
     }
-     mostrarSkeleton(limit);
+    mostrarSkeleton(limit);
     const res = await fetchAuth(
       `${API_ROUPAS}genero?limit=${limit}&offset=${offset}&categoria_nome=${genero}`,
       {
@@ -67,24 +71,23 @@ async function carregarProdutos(genero) {
         },
       },
     );
-
-    if (!res.ok) {
-      const erroText = await res.text();
-      throw new Error(erroText);
-    }
-
     const resJson = await res.json();
-    if (!Array.isArray(resJson)) {
-      console.error("Resposta inesperada", resJson);
-      return;
+    if (!res.ok) {
+      throw new Error(resJson.message || "Erro ao carregar produtos");
     }
-     lista_produtos_shift.innerHTML = ""; // remove skeleton
+    if (resJson.ok === false) {
+      throw new Error(resJson.message || "Erro ao carregar produtos");
+    }
 
-    resJson.forEach((roupa) => {
+    lista_produtos_shift.innerHTML = ""; // remove skeleton
+
+    resJson.data.forEach((roupa) => {
       const card = document.createElement("div");
       card.classList.add("card");
       card.innerHTML = `
-  <a href="produto_uni.html?id=${roupa.id}" class="card-link"> <div class="card">
+  <a href="produto_uni.html?id=${
+    roupa.id
+  }" class="card-link"> <div class="card">
   <div class="card-img">
     <img
       src="http://localhost:3000/uploads/${roupa.img}"
@@ -113,7 +116,7 @@ async function carregarProdutos(genero) {
     console.error(err.message, "kk");
     alert(err.message);
   } finally {
-    carregando = false
+    carregando = false;
   }
 }
 function couterCarrinhoFunc() {
@@ -148,4 +151,4 @@ function atualizaCart() {
 }
 
 carregarProdutos();
-atualizaCart()
+atualizaCart();

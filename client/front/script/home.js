@@ -1,5 +1,9 @@
-import { API_ROUPAS, API_CLIENT_KEY, fetchAuth, logoutUser } from "./services/config.js";
-
+import {
+  API_ROUPAS,
+  API_CLIENT_KEY,
+  fetchAuth,
+  logoutUser,
+} from "./services/config.js";
 
 let limit = 5;
 let offset = 0;
@@ -7,19 +11,18 @@ let couter = 0;
 
 const imgs = document.getElementById("img");
 const img = document.querySelectorAll("#img img");
-const cartNun = document.getElementById("carrinho")
+const cartNun = document.getElementById("carrinho");
 const lista_produtos_shift = document.getElementById("lista-produtos");
 const nome = document.getElementById("nome_cliente");
 const nome_value = localStorage.getItem("nome");
 const btnLogout = document.getElementById("logout-btn");
 
-
 btnLogout.addEventListener("click", logoutUser);
 
-if(nome_value){
+if (nome_value) {
   nome.textContent = nome_value;
   nome.style.display = "block";
-}else{
+} else {
   nome.textContent = "user";
   nome.style.display = "block";
 }
@@ -34,34 +37,28 @@ function carrocel() {
 }
 setInterval(carrocel, 3000);
 
-
-
-
 async function carregarProdutos() {
   try {
     mostrarSkeleton(5);
-    const res = await fetchAuth(`${API_ROUPAS}genero/?limit=${limit}&offset=${offset}`, {
-      headers: {
-        "shift-api-key": API_CLIENT_KEY,
+    const res = await fetchAuth(
+      `${API_ROUPAS}genero/?limit=${limit}&offset=${offset}`,
+      {
+        headers: {
+          "shift-api-key": API_CLIENT_KEY,
+        },
       },
-    });
-
-    if(!res.ok){
-      const erroText = await res.text()
-      throw new Error(erroText);
-    }
-
+    );
     const resJson = await res.json();
-    if(!resJson.ok){
-      console.error(resJson);
-    }
-    if(!Array.isArray(resJson)){
-      console.error("Resposta inesperada", resJson)
-      return;
-    }
-    lista_produtos_shift.innerHTML = ''
 
-    resJson.forEach((roupa) => {
+    if (!res.ok) {
+      throw new Error(resJson.message || "Erro ao carregar produtos");
+    }
+    if (resJson.ok === false) {
+      throw new Error(resJson.message || "Erro ao carregar produtos");
+    }
+    lista_produtos_shift.innerHTML = "";
+
+    resJson.data.forEach((roupa) => {
       const card = document.createElement("div");
       card.classList.add("card");
       card.innerHTML = `
@@ -77,12 +74,12 @@ async function carregarProdutos() {
   </a>
 `;
       lista_produtos_shift.appendChild(card);
-              });
+    });
   } catch (err) {
     console.error(err.message);
+    alert(err.message);
   }
 }
-
 
 function mostrarSkeleton(qtd = 4) {
   lista_produtos_shift.innerHTML = "";
@@ -110,4 +107,4 @@ function atualizaCart() {
 }
 
 carregarProdutos();
-atualizaCart()
+atualizaCart();

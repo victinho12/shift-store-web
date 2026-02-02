@@ -36,8 +36,8 @@ async function carregarProdutosAdm() {
     const qtdProdutos = document.getElementById("qtd-produtos");
     const qtdUsers = document.getElementById('qtd-usuarios');
     qtdUsers.textContent = dados_user.total_user;
-    qtdProdutos.textContent = dados.total;
-    
+    qtdProdutos.textContent = dados.res;
+    console.log(dados.res);
   } catch (err) {
     console.error(err.message);
   }

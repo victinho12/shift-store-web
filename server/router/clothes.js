@@ -10,7 +10,6 @@ const controller = require("../controllers/clothes.controller");
 
 router.get("/genero", controller.buscarRoupaPorGenero);
 
-router.get("/",controller.buscarRoupa);
 
 router.get('/count', authToken, validarKeyApi, admin, controller.contarRoupas )
 

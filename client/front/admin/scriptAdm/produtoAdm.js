@@ -16,13 +16,9 @@ const form = document.getElementById("form-produto");
 const pesquisarProduto = document.getElementById("pesquisar-produto");
 const btnPesquisarProduto = document.getElementById("btn-pesquisar");
 
-btnPesquisarProduto.addEventListener;
 btnInserirRoupa.addEventListener("click", async () => {
   const formData = new FormData(form);
-  const succeso = await inserirRoupa(formData);
-  if (succeso) {
-    console.log("alkdjlf");
-  }
+  inserirRoupa(formData);
 });
 btnMoldalAddProduto.addEventListener("click", () => {
   ModalInserirRoupas.style.display = "block";
@@ -42,7 +38,7 @@ async function carregarProdutos() {
     });
     const dados = await res.json();
     listaProdutos.innerHTML = " ";
-    dados.forEach((roupa) => {
+    dados.data.forEach((roupa) => {
       const card = document.createElement("div");
       card.classList.add("card");
       card.innerHTML = `
@@ -59,7 +55,7 @@ async function carregarProdutos() {
     <p class="card-color">Familia: ${roupa.id_familia}</p>
     <p class="card-color">Id: ${roupa.id}</p>
     <span class="card-category">${roupa.categoria}</span>
-
+      <p class="card-color">Qtd estoque: ${roupa.estoque_qtd}</p>
     <p class="card-color">Cor: ${roupa.cor}</p>
 
     <p class="card-price">
@@ -90,7 +86,8 @@ async function carregarProdutos() {
       listaProdutos.appendChild(card);
     });
   } catch (err) {
-    console.log("erro do servidor", err.message);
+    console.log(err.message);
+    alert(err.message);
   }
 }
 
@@ -103,7 +100,6 @@ async function excluirRoupa(id) {
         "shift-api-key": API_CLIENT_KEY,
       },
     });
-
   } catch (err) {
     console.error(err.message);
   }
@@ -112,7 +108,7 @@ async function excluirRoupa(id) {
 async function inserirRoupa(formData) {
   try {
     const res = await fetchAuth(`${API_ROUPAS}`, {
-      method: "POST",
+      method: 'POST',
       headers: {
         "shift-api-key": API_CLIENT_KEY,
       },
@@ -120,15 +116,15 @@ async function inserirRoupa(formData) {
     });
     const dados = await res.json();
     if (!res.ok) {
-      console.error(dados);
-      return false;
+      alert(dados.message);
+      throw new Error(dados.message);
     }
 
     console.log(dados);
-    return true;
   } catch (err) {
+    alert(err.message);
     console.error(err.message);
-    return false;
+    
   }
 }
 carregarProdutos();

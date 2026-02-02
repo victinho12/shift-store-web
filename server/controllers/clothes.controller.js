@@ -1,23 +1,6 @@
 const pool = require("../db");
+const AppError = require("../middleware/AppError");
 
-let couter = 1;
-async function buscarRoupa(req, res) {
-  try {
-    let { offset, limit, ordem, nome } = req.query;
-
-    nome = nome ? "%" + nome + "%" : "%";
-    ordem = ordem && ordem.toLocaleLowerCase() === "asc" ? "ASC" : "DESC";
-    offset = parseInt(offset) || 0;
-    limit = parseInt(limit) || 50;
-
-    const query = `SELECT * FROM PUBLIC.roupas where nome ilike $1 ORDER BY id ${ordem} LIMIT $2 OFFSET $3`;
-    const resultSelect = await pool.query(query, [nome, limit, offset]);
-
-    res.json(resultSelect.rows);
-  } catch (err) {
-    res.status(500).json({ msg: err.message });
-  }
-}
 async function buscarRoupaPorId(req, res) {
   try {
     const id = parseInt(req.params.id);
@@ -51,40 +34,46 @@ async function buscarRoupaPorId(req, res) {
 async function contarRoupas(req, res) {
   try {
     const resCount = await pool.query(
-      `SELECT count(*) as total FROM PUBLIC.produto_variacao`,
+      `SELECT sum(estoque) as total FROM PUBLIC.produto_variacao`,
     );
-    res.json(resCount.rows[0]);
+    let resultado = resCount.rows[0].total;
+    res.json({ res: resultado });
   } catch (err) {
     res.status(500).json({ msg: err.message });
   }
 }
 
-async function inserirRoupa(req, res) {
+async function inserirRoupa(req, res, next) {
   const client = await pool.connect();
   try {
     if (!req.file) {
-      return res.status(400).json({
-        error: "Imagem não enviada",
-      });
+      throw new AppError("Img não encontrada", 400, "IMG_NAO_ENCONTRADA");
     }
     const { nome, cor, tamanho, preco, estoque, categoria_id } = req.body;
     let produtoId;
     let produtoCorNova;
+
     await client.query("BEGIN");
     const img = req.file.filename;
-    const queryBuscarCategoria = `SELECT id from public.categoria where nome ilike $1`;
+    console.log(req.body, img);
+    const queryBuscarCategoria = `SELECT id FROM public.categoria WHERE id = $1`;
+
     const resultBuscarCategoria = await client.query(queryBuscarCategoria, [
-      categoria_id,
+      Number(categoria_id),
     ]);
     if (resultBuscarCategoria.rows.length === 0)
-      throw new Error("Categoria não encontrada");
+      throw new AppError(
+        "Categoria não encontrada",
+        400,
+        "GENERO_NAO_ENCONTRADO",
+      );
     const categoiraId = resultBuscarCategoria.rows[0].id;
     const queryBuscarNome = `SELECT id FROM PUBLIC.produto where nome = $1`;
     const resultBuscarNome = await client.query(queryBuscarNome, [nome]);
     if (resultBuscarNome.rows.length > 0) {
       produtoId = resultBuscarNome.rows[0].id;
     } else {
-      const queryCriarProduto = `INSERT INTO public.produto (nome, categoria_id) values ($1, $2) RETURNING *`;
+      const queryCriarProduto = `INSERT INTO public.produto (nome, id_categoria) values ($1, $2) RETURNING id`;
       const resultCriarProduto = await client.query(queryCriarProduto, [
         nome,
         categoiraId,
@@ -112,6 +101,13 @@ async function inserirRoupa(req, res) {
     const resultBuscarTamanho = await client.query(queryBuscarTamanho, [
       tamanho,
     ]);
+    if (resultBuscarTamanho.rows.length === 0) {
+      throw new AppError(
+        "Tamanho não encontrado",
+        404,
+        "TAMANHO_NAO_ENCONTRADO",
+      );
+    }
     let produtoTamanho = resultBuscarTamanho.rows[0].id;
     const queryBuscarCor = `select id from public.cor where nome ilike $1`;
     const resultBuscarCor = await client.query(queryBuscarCor, [cor]);
@@ -122,7 +118,16 @@ async function inserirRoupa(req, res) {
     } else {
       produtoCorNova = resultBuscarCor.rows[0].id;
     }
-    const queryInserirVariante = `INSERT INTO PUBLIC.produto_variacao (id_produto, id_cor, id_tamanho, preco, estoque) values ($1,$2,$3,$4,$5) RETURNING *`;
+    const queryInserirVariante = `
+  INSERT INTO public.produto_variacao (id_produto, id_cor, id_tamanho, preco, estoque)
+  VALUES ($1, $2, $3, $4, $5)
+  ON CONFLICT (id_produto, id_cor, id_tamanho)
+  DO UPDATE SET
+    estoque = public.produto_variacao.estoque + EXCLUDED.estoque,
+    preco = EXCLUDED.preco
+  RETURNING *
+`;
+
     const resultInserirVariante = await client.query(queryInserirVariante, [
       produtoId,
       produtoCorNova,
@@ -133,11 +138,10 @@ async function inserirRoupa(req, res) {
 
     await client.query("COMMIT");
 
-    res.status(201).json(resultInserirVariante.rows[0]);
-    console.log("FILE:", req.file);
+    return res.status(201).json({ ok: true, data: resultInserirVariante.rows[0] });
   } catch (err) {
     await client.query("ROLLBACK");
-    res.status(500).json({ error: "Erro ao inserir roupa", msg: err.message });
+    return next(err);
   } finally {
     client.release();
   }
@@ -150,8 +154,8 @@ async function deletarRoupa(req, res) {
       `DELETE FROM PUBLIC.produto_variacao where id = $1 RETURNING *`,
       [id],
     );
-    if (result === "") {
-      res.send("roupa ja excluida");
+    if (result.rows.length === 0) {
+      return res.status(404).json({ msg: "Roupa não encontrada" });
     }
     res.send("roupa excluida com succeso");
   } catch (err) {
@@ -179,7 +183,7 @@ async function alterarRoupa(req, res) {
   }
 }
 
-async function buscarRoupaPorGenero(req, res) {
+async function buscarRoupaPorGenero(req, res, next) {
   try {
     let { offset, limit, ordem, categoria_nome } = req.query;
     const categoria = categoria_nome ? `%${categoria_nome}%` : "%";
@@ -205,17 +209,15 @@ async function buscarRoupaPorGenero(req, res) {
     join public.categoria pc on pc.id = p.id_categoria where pc.nome ilike $1 limit $2 offset $3 `;
 
     const resultSelect = await pool.query(query, [categoria, limit, offset]);
-    if (resultSelect) {
-      couter = couter + 1;
-    }
-    res.json(resultSelect.rows);
+    if (resultSelect.rowCount === 0)
+      throw new AppError("Erro de servidor", 500, "INTERNER_SERVER_ERRO");
+    return res.json({ ok: true, data: resultSelect.rows });
   } catch (err) {
-    res.status(500).json({ msg: err.message });
+    return next(err);
   }
 }
 
 module.exports = {
-  buscarRoupa,
   buscarRoupaPorId,
   inserirRoupa,
   deletarRoupa,
