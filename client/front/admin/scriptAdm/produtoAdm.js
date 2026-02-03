@@ -75,8 +75,10 @@ async function carregarProdutos() {
       card
         .querySelector(".btn-excluir-roupa")
         .addEventListener("click", async () => {
+          const confirmar = confirm(`Deseja excluir Produto: ${roupa.nome}`);
+          if(!confirmar) return
+          listaProdutos.innerHTML = ' ';
           excluirRoupa(roupa.id);
-          carregarProdutos();
         });
       card
         .querySelector(".btn-editar-roupa")
@@ -100,6 +102,7 @@ async function excluirRoupa(id) {
         "shift-api-key": API_CLIENT_KEY,
       },
     });
+    carregarProdutos();
   } catch (err) {
     console.error(err.message);
   }
@@ -122,9 +125,8 @@ async function inserirRoupa(formData) {
 
     console.log(dados);
   } catch (err) {
-    alert(err.message);
     console.error(err.message);
-    
+
   }
 }
 carregarProdutos();

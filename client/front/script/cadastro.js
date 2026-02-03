@@ -1,5 +1,5 @@
 // ========== dados da api ==========
-import { API_LOGIN, API_CLIENT_KEY } from "./services/config.js";
+import { API_LOGIN, API_CLIENT_KEY, logoutUser } from "./services/config.js";
 // ========== Pagando id do html ==========
 const nome = document.getElementById("nome_cliente");
 const btnInsertUser = document.getElementById("btn-cadastro");

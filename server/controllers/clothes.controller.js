@@ -1,6 +1,6 @@
 const pool = require("../db");
 const AppError = require("../middleware/AppError");
-const { connect } = require("../router/clothes");
+
 
 async function buscarRoupaPorId(req, res) {
   try {
@@ -32,15 +32,15 @@ async function buscarRoupaPorId(req, res) {
     });
   }
 }
-async function contarRoupas(req, res) {
+async function contarRoupas(req, res, next) {
   try {
     const resCount = await pool.query(
       `SELECT sum(estoque) as total FROM PUBLIC.produto_variacao`,
     );
     let resultado = resCount.rows[0].total;
-    res.json({ res: resultado });
+    return res.json({ ok: true, data: resultado });
   } catch (err) {
-    res.status(500).json({ msg: err.message });
+    return next(err);
   }
 }
 
@@ -180,26 +180,41 @@ async function alterarRoupa(req, res, next) {
     const id = parseInt(req.params.id);
     const isNum = Number(id);
     if (!Number.isInteger(isNum) || isNum <= 0) throw new AppError("Id invalido", 400, "ID_INVALIDO");
-    const { nome, cor, tamanho, preco, quantidade } = req.body;
+    const { nome, cor, tamanho, preco, quantidade, categoria } = req.body;
     let nomeProduct;
+    let corProduct;
+    let tamanhoProduct;
+    let categoriaProduct;
     await client.query("BEGIN");
 
-    const buscarIdProduto = await client.query(
-      `SELECT * FROM PUBLIC.produto_variacao where id = $1`,
-      [id],
-    );
-    if(buscarIdProduto.rowCount === 0 ) throw new AppError('Produto não encontrado', 404, "PRODUTO_NAO_ENCONTRADO");
-    const buscarNome = await client.query(`SELECT * FROM PUBLIC.produto where nome = $1`,[nome]);
-    if(buscarNome.rowCount === 0 ) throw new AppError('Nome não encontrado', 404, "NOME_NAO_ENCONTRADO");
+    const buscarIdProduto = await client.query(`SELECT * FROM PUBLIC.produto_variacao where id = $1`, [id]);
+    if (buscarIdProduto.rowCount === 0) throw new AppError('Produto não encontrado', 404, "PRODUTO_NAO_ENCONTRADO");
+    const buscarNome = await client.query(`SELECT id FROM PUBLIC.produto where nome = $1`, [nome]);
+    if (buscarNome.rowCount === 0) throw new AppError('Nome não encontrado', 404, "NOME_NAO_ENCONTRADO");
     nomeProduct = buscarNome.rows[0].id;
-    const alterarRoupa = await client.query('')
+    const buscarCorProduto = await client.query(`SELECT id FROM PUBLIC.cor where nome = $1`, [cor]);
+    if (buscarCorProduto.rowCount === 0) {
+      const novaCor = await client.query(`INSERT INTO PUBLIC.cor ()`)
+    }
+    corProduct = buscarCorProduto.rows[0].id;
+    const buscarTamanhoProduto = await client.query(`SELECT id FROM PUBLIC.tamanho where nome = $1`, [tamanho]);
+    if (buscarTamanhoProduto.rowCount === 0) throw new AppError('Tamanho não encontrado', 404, 'TAMANHO_NAO_ENCONTRADO');
+    tamanhoProduct = buscarTamanhoProduto.rows[0].id;
+    const buscarCategoriaProduto = await client.query(`SELECT id from public.categoria where nome = $1`, categoria);
+    if (buscarCategoriaProduto.rowCount === 0) throw new AppError('Categoria não encontrada', 404, "CATEGORIA_NAO_ENCONTRADA");
+    categoriaProduct = buscarCategoriaProduto.rows[0].id
+
+
+
+    const alterarRoupa = await client.query('UPDATE PUBLIC.produto_variacao set id_produto =  COALESCE($1, id_produto), id_cor = COALESCE($2, id_cor), id_tamanho = COALESCE($3, id_tamanho), preco = COALESCE($4, preco), estoque = COALESCE($5, estoque) WHERE id = $6 RETURNING *', [nomeProduct ?? null, corProduct ?? null, tamanhoProduct ?? null, preco ?? null, quantidade ?? null, id]);
+    if (alterarRoupa.rowCount === 0) throw new AppError('Não foi possivel alterrar roupa', 400, "ROUPAS_NAO_ALTERADA");
     await client.query("COMMIT");
-    
+    return res.json({ok: true, data: alterarRoupa.rows[0].id});
   } catch (err) {
     await client.query("ROLLBACK");
     return next(err);
   }
-}
+};
 
 async function buscarRoupaPorGenero(req, res, next) {
   try {

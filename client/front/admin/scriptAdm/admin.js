@@ -6,7 +6,7 @@ const cards = document.getElementById("cards");
 const cardsOriginaisHTML = cards.innerHTML;
 const btnVoltarSite = document.getElementById('btn-voltar-site');
 
-btnVoltarSite.addEventListener('click', () =>{
+btnVoltarSite.addEventListener('click', () => {
   window.location.href = '../view/home.html';
 })
 
@@ -20,28 +20,30 @@ async function carregarProdutosAdm() {
         "shift-api-key": API_CLIENT_KEY,
       },
     });
-    const resUser = await fetchAuth(`${API_LOGIN}/count`,{
+    const resUser = await fetchAuth(`${API_LOGIN}/count`, {
       headers: {
         "Content-Type": "application/json",
         "shift-api-key": API_CLIENT_KEY,
       }
     })
-    if (!res.ok) throw new Error("Erro ao buscar produtos" + res.msg);
-    if (!resUser.ok) throw new Error("Erro ao buscar usuários" + res.msg);
-
     const dados_user = await resUser.json();
     const dados = await res.json();
+
+    if (!res.ok) throw new Error(dados.message);
+    if (!resUser.ok) throw new Error(dados_user.message);
+
     document.querySelectorAll(".skeleton").forEach((card) => card.remove());
     cards.innerHTML = cardsOriginaisHTML;
     const qtdProdutos = document.getElementById("qtd-produtos");
     const qtdUsers = document.getElementById('qtd-usuarios');
     qtdUsers.textContent = dados_user.total_user;
-    qtdProdutos.textContent = dados.res;
-    console.log(dados.res);
+    qtdProdutos.textContent = dados.data;
+    console.log(dados.data);
   } catch (err) {
+    alert(err.message);
     console.error(err.message);
   }
-}
+};
 
 function mostrarSkeleton(qtd) {
   cards.innerHTML = "";
@@ -61,7 +63,5 @@ function mostrarSkeleton(qtd) {
     cards.appendChild(skeleton);
   }
 }
-
-
 
 carregarProdutosAdm();

@@ -33,7 +33,7 @@ export async function fetchAuth(url, options = {}) {
     });
     if (!refreshRes.ok) {
       localStorage.clear();
-      window.location.href = "./index.html";
+      window.location.href = "../view/home.html";
       return;
     }
     const data = await refreshRes.json();
