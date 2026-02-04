@@ -237,7 +237,7 @@ async function buscarRoupaPorGenero(req, res, next) {
     from public.produto_variacao pv
     join public.cor c on c.id = pv.id_cor
     join public.produto p on p.id = pv.id_produto
-    join public.produto_imagem pi on pi.id_produto = p.id AND pi.principal = true
+    join public.produto_imagem pi on pi.id_produto = p.id AND pi.principal = true 
     join public.tamanho pt on pt.id = pv.id_tamanho 
     join public.categoria pc on pc.id = p.id_categoria where pc.nome ilike $1 limit $2 offset $3 `;
 
