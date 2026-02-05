@@ -81,23 +81,6 @@ async function inserirRoupa(req, res, next) {
       ]);
       produtoId = resultCriarProduto.rows[0].id;
     }
-    const queryBuscarImg = `SELECT * FROM PUBLIC.produto_imagem where id_produto = $1`;
-    const resultBuscarImg = await client.query(queryBuscarImg, [produtoId]);
-    if (resultBuscarImg.rows.length === 0) {
-      const queryInseirImg = `INSERT INTO PUBLIC.produto_imagem (id_produto, img, principal) values ($1, $2, $3) RETURNING *`;
-      const resultInserirImg = await client.query(queryInseirImg, [
-        produtoId,
-        img,
-        true,
-      ]);
-    } else {
-      const queryInseirImg = `INSERT INTO PUBLIC.produto_imagem (id_produto, img, principal) values ($1, $2, $3) RETURNING *`;
-      const resultInserirImg = await client.query(queryInseirImg, [
-        produtoId,
-        img,
-        false,
-      ]);
-    }
     const queryBuscarTamanho = `select id from public.tamanho where nome ilike $1`;
     const resultBuscarTamanho = await client.query(queryBuscarTamanho, [
       tamanho,
@@ -119,6 +102,33 @@ async function inserirRoupa(req, res, next) {
     } else {
       produtoCorNova = resultBuscarCor.rows[0].id;
     }
+
+
+    const queryBuscarImg = `SELECT * FROM PUBLIC.produto_imagem where id_produto = $1`;
+    const resultBuscarImg = await client.query(queryBuscarImg, [produtoId]);
+    if (resultBuscarImg.rows.length === 0) {
+      const queryInseirImg = `INSERT INTO PUBLIC.produto_imagem (id_produto, img, principal, id_cor, id_tamanho) values ($1, $2, $3, $4, $5) RETURNING *`;
+      const resultInserirImg = await client.query(queryInseirImg, [
+        produtoId,
+        img,
+        true,
+        produtoCorNova,
+        produtoTamanho
+      ]);
+    } else {
+      const queryInseirImg = `INSERT INTO PUBLIC.produto_imagem (id_produto, img, principal, id_cor, id_tamanho) values ($1, $2, $3, $4, $5) RETURNING *`;
+      const resultInserirImg = await client.query(queryInseirImg, [
+        produtoId,
+        img,
+        false,
+        produtoCorNova,
+        produtoTamanho
+      ]);
+    };
+
+
+
+
     const queryInserirVariante = `
   INSERT INTO public.produto_variacao (id_produto, id_cor, id_tamanho, preco, estoque)
   VALUES ($1, $2, $3, $4, $5)
@@ -148,19 +158,30 @@ async function inserirRoupa(req, res, next) {
   } finally {
     client.release();
   }
-}
+};
 
 async function deletarRoupa(req, res, next) {
+  const client = await pool.connect();
+
   try {
     const id = parseInt(req.params.id);
     const isNum = Number(id);
     if (!Number.isInteger(isNum) || isNum <= 0)
       throw new AppError("Id invalido", 400, "ID_INVALIDO");
+    await client.query('BEGIN');
 
-    const result = await pool.query(
-      `DELETE FROM PUBLIC.produto_variacao where id = $1 RETURNING *`,
+    const result = await client.query(
+      `DELETE FROM PUBLIC.produto_variacao where id = $1 RETURNING id_produto, id_cor, id_tamanho`,
       [id],
     );
+    if (result.rowCount === 0) {
+      throw new AppError('Produto não encontrado', 404, 'PRODUTO_NAO_ENCONTRADO');
+    }
+    let produto_cor = result.rows[0].id_cor;
+    let produto_tamanho = result.rows[0].id_tamanho;
+    let produto_id = result.rows[0].id_produto;
+    console.log(produto_id);
+    const delete_img = await client.query(`DELETE FROM PUBLIC.produto_imagem where id_produto = $1 and id_cor = $2 and id_tamanho = $3 RETURNING *`, [produto_id, produto_cor, produto_tamanho]);
     if (result.rows.length === 0) {
       throw new AppError(
         "Produto não encontrado",
@@ -168,11 +189,15 @@ async function deletarRoupa(req, res, next) {
         "PRODUTO_NAO_ENCONTRADO",
       );
     }
-    return res.json({ ok: true, data: "Produto Excluido com succeso" });
+    await client.query('COMMIT');
+    return res.json({ ok: true, data: `Produto Excluido com succeso ${delete_img.rows[0].id}` });
   } catch (err) {
+    await client.query('ROLLBACK');
     return next(err);
+  } finally {
+    client.release();
   }
-}
+};
 
 async function alterarRoupa(req, res, next) {
   const client = await pool.connect();
@@ -209,7 +234,7 @@ async function alterarRoupa(req, res, next) {
     const alterarRoupa = await client.query('UPDATE PUBLIC.produto_variacao set id_produto =  COALESCE($1, id_produto), id_cor = COALESCE($2, id_cor), id_tamanho = COALESCE($3, id_tamanho), preco = COALESCE($4, preco), estoque = COALESCE($5, estoque) WHERE id = $6 RETURNING *', [nomeProduct ?? null, corProduct ?? null, tamanhoProduct ?? null, preco ?? null, quantidade ?? null, id]);
     if (alterarRoupa.rowCount === 0) throw new AppError('Não foi possivel alterrar roupa', 400, "ROUPAS_NAO_ALTERADA");
     await client.query("COMMIT");
-    return res.json({ok: true, data: alterarRoupa.rows[0].id});
+    return res.json({ ok: true, data: alterarRoupa.rows[0].id });
   } catch (err) {
     await client.query("ROLLBACK");
     return next(err);
@@ -224,22 +249,35 @@ async function buscarRoupaPorGenero(req, res, next) {
     offset = Number.isInteger(parseInt(offset)) ? parseInt(offset) : 0;
     limit = Number.isInteger(parseInt(limit)) ? parseInt(limit) : 50;
 
-    const query = `select
-    p.id as id_familia,
-    pv.id as id,
-    p.nome as nome,
-    c.nome as cor,
-    pv.preco as preco,
-    pv.estoque as estoque_qtd,
-    pi.img as img,
-    pt.nome as tamanho,
-    pc.nome as categoria
-    from public.produto_variacao pv
-    join public.cor c on c.id = pv.id_cor
-    join public.produto p on p.id = pv.id_produto
-    join public.produto_imagem pi on pi.id_produto = p.id AND pi.principal = true 
-    join public.tamanho pt on pt.id = pv.id_tamanho 
-    join public.categoria pc on pc.id = p.id_categoria where pc.nome ilike $1 limit $2 offset $3 `;
+    const query = `
+select
+  p.id as id_familia,
+  pv.id as id,
+  p.nome as nome,
+  c.nome as cor,
+  pv.preco as preco,
+  pv.estoque as estoque_qtd,
+  pi.img as img,
+  pt.nome as tamanho,
+  pc.nome as categoria
+from public.produto_variacao pv
+join public.cor c on c.id = pv.id_cor
+join public.produto p on p.id = pv.id_produto
+
+left join lateral (
+  select pi2.img
+  from public.produto_imagem pi2
+  where pi2.id_produto = p.id
+    and pi2.id_cor = pv.id_cor
+  order by pi2.principal desc, pi2.id asc
+  limit 1
+) pi on true
+
+join public.tamanho pt on pt.id = pv.id_tamanho
+join public.categoria pc on pc.id = p.id_categoria
+where pc.nome ilike $1
+limit $2 offset $3;
+`;
 
     const resultSelect = await pool.query(query, [categoria, limit, offset]);
     if (resultSelect.rowCount === 0)
