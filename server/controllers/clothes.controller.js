@@ -1,10 +1,11 @@
 const pool = require("../db");
 const AppError = require("../middleware/AppError");
 
-
-async function buscarRoupaPorId(req, res) {
+async function buscarRoupaPorId(req, res, next) {
   try {
     const id = parseInt(req.params.id);
+    const isNum = Number(id);
+    if (!Number.isInteger(isNum) || isNum <= 0) throw new AppError('Id invalido', 400, 'ID_INVALIDO');
     const resultSelectId = await pool.query(
       `select 
       pv.id as id,
@@ -24,12 +25,9 @@ async function buscarRoupaPorId(req, res) {
       where pv.id = $1`,
       [id],
     );
-    res.json(resultSelectId.rows);
+    return res.json({ ok: true, data: resultSelectId.rows[0] });
   } catch (err) {
-    res.status(500).json({
-      error: "Erro ao listar roupas",
-      detalhes: err.message,
-    });
+    return next(err);
   }
 }
 async function contarRoupas(req, res, next) {
@@ -243,7 +241,8 @@ async function alterarRoupa(req, res, next) {
 
 async function buscarRoupaPorGenero(req, res, next) {
   try {
-    let { offset, limit, ordem, categoria_nome } = req.query;
+    let { offset, limit, ordem, categoria_nome, nome } = req.query;
+    const nomeProd = nome ? `%${nome}%` : "%";
     const categoria = categoria_nome ? `%${categoria_nome}%` : "%";
     ordem = ordem && ordem.toLocaleLowerCase() === "asc" ? "ASC" : "DESC";
     offset = Number.isInteger(parseInt(offset)) ? parseInt(offset) : 0;
@@ -275,11 +274,11 @@ left join lateral (
 
 join public.tamanho pt on pt.id = pv.id_tamanho
 join public.categoria pc on pc.id = p.id_categoria
-where pc.nome ilike $1
+where pc.nome ilike $1 and p.nome ilike $4
 limit $2 offset $3;
 `;
 
-    const resultSelect = await pool.query(query, [categoria, limit, offset]);
+    const resultSelect = await pool.query(query, [categoria, limit, offset, nomeProd]);
     if (resultSelect.rowCount === 0)
       throw new AppError("Roupa não encontrada", 404, "ROUPA_NAO_ENCOTRADA");
     return res.json({ ok: true, data: resultSelect.rows });
