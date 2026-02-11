@@ -1,88 +1,110 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Produtos | Admin Shift</title>
 
-    <link rel="stylesheet" href="styleAdm/produtosAdm.css" />
-    <script type="module" src="scriptAdm/produtoAdm.js" defer></script>
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Produtos | Admin Shift</title>
 
-  <body>
-    <header>
-      <h1>Dashboard Administrativo — Shift Store</h1>
-    </header>
+  <link rel="stylesheet" href="styleAdm/produtosAdm.css" />
+  <script type="module" src="scriptAdm/produtoAdm.js" defer></script>
+</head>
 
-    <div id="btns">
-      <button id="btn-card" type="button">Adicionar Produto</button>
-
-      <input type="text" id="pesquisar-produto" />
-      <button id="btn-pesquisar">Pesquisar</button>
+<body>
+  <header>
+    <h1>Dashboard Administrativo — Shift Store</h1>
+    <div class="voltar">
+      <button id="btn-voltar-dashboard">Dashboard</button>
     </div>
-    <!-- FORMULÁRIO DE CADASTRO -->
-    <section id="add-produtos">
-      <h2>Adicionar Produto</h2>
+  </header>
 
-      <form id="form-produto" enctype="multipart/form-data">
-        <button id="btn-fechar-add-produto">X</button>
-        <label>
-          Nome
-          <input type="text" id="nome" name="nome" required />
-        </label>
+  <div id="btns">
+    <button id="btn-card" type="button">Adicionar Produto</button>
 
-        <label>
-          Cor
-          <input type="text" id="cor" name="cor" required />
-        </label>
+    <input type="text" id="pesquisar-produto" placeholder="Pesquisar produto..." />
+    <button id="btn-pesquisar">Pesquisar</button>
+    <button id="carregar-produtos">Carregar produtos</button>
+  </div>
 
-        <label>
-          Tamanho
-          <select type="text" id="tamanho" name="tamanho" placeholder="PP ou P ou M ou G ou GG" required>
-            <option value="PP">PP</option>
-            <option value="P">P</option>
-            <option value="M">M</option>
-            <option value="G">G</option>
-            <option value="GG">GG</option>
-            <option value="UNICO">Unico</option>  
-          </select>
-        </label>
-
-        <label>
-          Preço
-          <input type="number" id="preco" name="preco" step="0.01" required />
-        </label>
-
-        <label>
-          Quantidade
-          <input type="number" id="estoque" name="estoque" required />
-        </label>
-
-        <label>
-          Imagem do Produto
-          <input type="file" id="img" name="img" accept="image/*" required />
-        </label>
-
-        <label class="field">
-          Categoria
-          <select id="categoria" name="categoria_id">
-            <option value="1">Masculino</option>
-            <option value="2">Feminino</option>
-            <option value="3">Unisex</option>
-          </select>
-        </label>
-
-        <button type="button" id="btn-inserir-roupa">Adicionar Produto</button>
-      </form>
-    </section>
-
-    <!-- LISTAGEM -->
-    <section class="conteiner-body">
-      <h2>Produtos na Loja</h2>
-
-      <div id="lista-produtos">
-        <!-- produtos renderizados via JS -->
+  <!-- FORMULÁRIO DE CADASTRO -->
+  <section id="add-produtos">
+    <form id="form-produto" enctype="multipart/form-data">
+      <div class="modal-top">
+        <h2>Adicionar Produto</h2>
+        <button type="button" id="btn-fechar-add-produto">✕</button>
       </div>
-    </section>
-  </body>
+
+      <label>
+        Nome
+        <input type="text" id="nome" name="nome" required />
+      </label>
+
+      <label>
+        Cor
+        <input type="text" id="cor" name="cor" required />
+      </label>
+
+      <label>
+        Tamanho
+        <select id="tamanho" name="tamanho" required>
+          <option value="PP">PP</option>
+          <option value="P">P</option>
+          <option value="M">M</option>
+          <option value="G">G</option>
+          <option value="GG">GG</option>
+          <option value="UNICO">Unico</option>
+        </select>
+      </label>
+
+      <label>
+        Preço
+        <input type="number" id="preco" name="preco" step="0.01" required />
+      </label>
+
+      <label>
+        Quantidade
+        <input type="number" id="estoque" name="estoque" required />
+      </label>
+
+      <label>
+        Imagem do Produto
+        <input type="file" id="img" name="img" accept="image/*" required />
+      </label>
+
+      <label class="field">
+        Categoria
+        <select id="categoria" name="categoria_id">
+          <option value="1">Masculino</option>
+          <option value="2">Feminino</option>
+          <option value="3">Unisex</option>
+        </select>
+      </label>
+
+      <button type="button" id="btn-inserir-roupa">Adicionar Produto</button>
+    </form>
+  </section>
+
+  <!-- LISTAGEM -->
+  <section class="conteiner-body">
+    <h2>Produtos na Loja</h2>
+
+    <!-- ✅ TABELA (layout em grid igual referência) -->
+    <div class="produtos-table">
+      <div class="produtos-header">
+        <div>Imagem</div>
+        <div>Nome</div>
+        <div>Categoria</div>
+        <div class="col-estoque">Estoque</div>
+        <div class="col-cor">Cor</div>
+        <div class="col-preco">Preço</div>
+        <div style="text-align: right">Ações</div>
+      </div>
+
+      <div id="lista-produtos" class="produtos-body">
+        <!-- produtos renderizados via JS (cada item precisa ter class="produtos-row") -->
+      </div>
+    </div>
+  </section>
+</body>
+
 </html>

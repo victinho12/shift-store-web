@@ -1,3 +1,4 @@
+/* ================= RESET ================= */
 * {
   margin: 0;
   padding: 0;
@@ -6,136 +7,277 @@
 }
 
 body {
-  background: #f5f5f5;
-  color: #333;
+  background: #0b0c0f;
+  color: #eaeaea;
 }
 
+/* ================= HEADER ================= */
 header {
   background-color: #111;
   color: #fff;
   padding: 15px 30px;
+  display: flex ;
+  align-items: center;
+  border-bottom: 2px solid #b11226; /* linha vermelha */
+  justify-content: space-between;
+  
 }
+
 header h1 {
   font-size: 20px;
 }
+
+
+header .voltar button {
+  background: #444;
+  border: none;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+header .voltar button:hover {
+  background: #740000;
+}
+
+/* ================= TITULO LISTAGEM ================= */
 .conteiner-body h2 {
   margin-top: 20px;
-  align-items: center;
   text-align: center;
-  color: rgb(255, 255, 255);
+  color: rgba(255, 255, 255, 0.92);
 }
-/* ================= FORM ADICIONAR PRODUTOS ================= */
 
-/* Fundo escuro atrás do modal */
-#add-produtos {
+/* ================= BARRA DE AÇÕES (Adicionar + Pesquisa) ================= */
+#btns {
+  max-width: 1300px;
+  width: 100%;
+  margin: 18px auto 0;
+  padding: 12px 16px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  background: #0f0f10;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+}
+
+/* Botões */
+#btn-card,
+#btn-pesquisar,
+#carregar-produtos {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.92);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+#btn-card:hover,
+#btn-pesquisar:hover,
+#carregar-produtos:hover {
+  background: rgba(255, 255, 255, 0.10);
+}
+
+#btn-card:active,
+#btn-pesquisar:active {
+  transform: scale(0.98);
+}
+
+/* Input pesquisa */
+#pesquisar-produto {
+  flex: 1;
+  height: 42px;
+  padding: 0 12px;
+
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.92);
+
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#pesquisar-produto::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+#pesquisar-produto:focus {
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.10);
+}
+
+/* Responsivo barra */
+@media (max-width: 700px) {
+  #btns {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #btn-card,
+  #btn-pesquisar,
+  #pesquisar-produto {
+    width: 100%;
+  }
+}
+
+/* ================= MODAL ADICIONAR PRODUTOS (PADRÃO DARK) ================= */
+#add-produtos{
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.65);
+  background: rgba(0,0,0,.70);
   display: none;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  padding: 18px;
 }
-#btn-fechar-add-produto {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  background: transparent;
-  border: none;
-  padding: 0;
-  font-size: 18px;
+
+#form-produto{
+  width: 560px;
+  max-width: 100%;
+  background: #0f0f10; /* igual tabela */
+  border: 1px solid rgba(255,255,255,.08); /* igual tabela */
+  border-radius: 12px; /* igual tabela */
+  overflow: hidden; /* pra header ficar certinho */
+  box-shadow: 0 12px 35px rgba(0,0,0,.35);
+}
+
+/* Header do modal (igual header da tabela) */
+.modal-top{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: rgba(255,255,255,.04); /* igual .produtos-header */
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.modal-top h2{
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(255,255,255,.92);
+}
+
+/* Botão fechar no mesmo estilo dos botões dark */
+#btn-fechar-add-produto{
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.06);
+  color: rgba(255,255,255,.9);
   cursor: pointer;
-  color: #000000;
+  transition: background .2s ease, transform .1s ease;
 }
 
-#btn-fechar-add-produto:hover {
-  color: #ff0000;
+#btn-fechar-add-produto:hover{
+  background: rgba(255,255,255,.10);
 }
 
-/* Título */
-#add-produtos h2 {
-  margin-bottom: 10px;
-  color: #3b2f2f;
+#btn-fechar-add-produto:active{
+  transform: scale(.98);
 }
-.field {
+
+/* Corpo do formulário */
+#form-produto label,
+#form-produto .field{
   display: flex;
   flex-direction: column;
   gap: 6px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #333;
-  width: 100%;
+  padding: 0 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255,255,255,.80);
 }
 
-.field select {
+/* espaçamento entre campos */
+#form-produto label:first-of-type{
+  margin-top: 14px;
+}
+#form-produto label{
+  margin-bottom: 12px;
+}
+
+#form-produto input,
+#form-produto select{
+  height: 44px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.05);
+  color: rgba(255,255,255,.92);
+  outline: none;
+  transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+#form-produto input:focus,
+#form-produto select:focus{
+  border-color: rgba(255,255,255,.25);
+  box-shadow: 0 0 0 3px rgba(255,255,255,.10);
+}
+
+#form-produto input[type="file"]{
+  height: auto;
   padding: 10px 12px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-  background-color: #fff;
-  cursor: pointer;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-.field select:focus {
-  outline: none;
-  border-color: #6b4eff; /* roxo/azul moderno */
-  box-shadow: 0 0 0 2px rgba(107, 78, 255, 0.2);
+/* select tamanho com seta */
+#tamanho{
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 44px;
+  background-image:
+    linear-gradient(45deg, transparent 50%, rgba(255,255,255,.85) 50%),
+    linear-gradient(135deg, rgba(255,255,255,.85) 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) 50%,
+    calc(100% - 12px) 50%;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
 }
 
-#add-produtos form {
-  position: relative; /* 🔑 referência pro botão */
-  background: #f5f1eb;
-  padding: 20px 28px;
-  border-radius: 14px;
-  width: 500px;
-  max-width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-#form-produto label {
-  display: flex;
-  flex-direction: column;
-  font-size: 14px;
-  color: #444;
-}
-
-/* INPUTS */
-#form-produto input {
-  margin-top: 5px;
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  font-size: 14px;
-  transition: border 0.2s ease;
-}
-
-#form-produto input:focus {
-  outline: none;
-  border-color: #111;
-}
-
-/* BOTÃO */
-#form-produto button[type="button"] {
-  margin-top: 10px;
-  padding: 12px;
-  background-color: #000000;
+/* Botão inserir (mesma vibe do tema) */
+#btn-inserir-roupa{
+  margin: 4px 16px 16px;
+  height: 46px;
+  width: calc(100% - 32px);
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: #b11226;
   color: #fff;
-  border: none;
-  border-radius: 6px;
+  font-weight: 800;
   cursor: pointer;
-  font-size: 15px;
+  transition: filter .2s ease, transform .1s ease;
 }
 
-#form-produto button[type="button"]:hover {
-  background-color: #333;
+#btn-inserir-roupa:hover{
+  filter: brightness(1.05);
+}
+
+#btn-inserir-roupa:active{
+  transform: scale(.99);
+}
+
+/* Responsivo modal */
+@media (max-width: 560px) {
+  #add-produtos form,
+  #add-produtos h2 {
+    width: 100%;
+  }
 }
 
 /* ================= LISTAGEM ================= */
-
 .conteiner-body {
-  max-width: 900px;
+  max-width: 1400px;
   margin: 30px auto;
   padding: 20px;
 }
@@ -143,127 +285,151 @@ header h1 {
 .conteiner-body h2 {
   margin: 20px 0;
   font-size: 18px;
-  color: #222;
+  color: rgba(255, 255, 255, 0.92);
 }
 
-/* BOTÃO CARREGAR */
-#btn-carregar-produtos {
-  padding: 10px 16px;
-  background-color: #fff;
-  border: 1px solid #111;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: all 0.2s ease;
-}
-
-#btn-carregar-produtos:hover {
-  background-color: #111;
-  color: #fff;
-}
-
-/* ================= LISTA DE PRODUTOS ================= */
-#lista-produtos {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 👈 4 cards */
-  gap: 16px;
-}
-
-/* ================= CARD ================= */
-/* ================= CARD ================= */
-.card {
-  background-color: #fdfbf7; /* bege claro */
-  border-radius: 12px;
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-}
-
-/* ================= IMAGEM ================= */
-.card-img {
+/* ================= TABELA (GRID) ================= */
+.produtos-table {
   width: 100%;
-  height: 160px;
+  background: #0f0f10;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
 }
 
-.card-img img {
+.produtos-header,
+.produtos-row {
+  display: grid;
+  grid-template-columns: 90px 2fr 1fr 0.9fr 1fr 0.9fr 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 18px;
+}
+
+.produtos-header {
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 600;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.produtos-row {
+  color: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.produtos-row:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.produtos-row:last-child {
+  border-bottom: none;
+}
+
+/* Imagem */
+.produtos-img {
+  width: 52px;
+  height: 52px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.06);
+  display: grid;
+  place-items: center;
+}
+
+.produtos-img img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* ================= INFO ================= */
-.card-info {
+/* Nome + infos */
+.produtos-nome {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  min-width: 0;
 }
 
-.card-title {
-  font-size: 16px;
-  font-weight: 600;
-  color: #3b2f2f; /* marrom escuro */
+.produtos-nome strong {
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.card-category {
-  font-size: 13px;
-  color: #8b6f5a;
+.produtos-nome small {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 12px;
 }
 
-.card-color {
-  font-size: 13px;
-  color: #555;
+/* Badge categoria */
+.badge {
+  display: inline-flex;
+  width: fit-content;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.card-price {
-  margin-top: 6px;
-  font-size: 15px;
-  color: #2d2d2d;
+/* Preço */
+.produtos-preco {
+  font-weight: 700;
 }
 
-/* ================= AÇÕES ================= */
-
-.card-actions {
-  display: flex; /* 🔥 ESSENCIAL */
+/* Ações */
+.produtos-acoes {
+  display: flex;
   gap: 8px;
-  margin-top: 10px;
+  justify-content: flex-end;
 }
-/* ================= BOTÕES ================= */
-.btn-editar-roupa,
-.btn-excluir-roupa {
-  flex: 1;
-  padding: 8px 0;
-  border-radius: 8px;
-  border: none;
-  font-size: 13px;
-  font-weight: 600;
+
+.btn-acao {
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.92);
   cursor: pointer;
   transition: background 0.2s ease, transform 0.1s ease;
 }
 
-/* Editar */
-.btn-editar-roupa {
-  background: #111; /* ações principais */
-  color: #fff;
+.btn-acao:hover {
+  background: rgba(255, 255, 255, 0.10);
 }
 
-.btn-editar-roupa:hover {
-  background-color: #2b2b2b;
+.btn-acao:active {
+  transform: scale(0.98);
 }
 
-/* Excluir */
-.btn-excluir-roupa {
-  background: #8a0117; /* excluir */
-  color: #fff;
+/* Reaproveita suas classes antigas nos botões */
+.produtos-row .btn-editar-roupa,
+.produtos-row .btn-excluir-roupa {
+  flex: initial;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 12px;
 }
 
-.btn-excluir-roupa:hover {
-  background-color: #630700;
+/* Responsivo tabela */
+@media (max-width: 900px) {
+  .produtos-header,
+  .produtos-row {
+    grid-template-columns: 70px 1.6fr 0.9fr 1fr;
+  }
+
+  .col-estoque,
+  .col-cor,
+  .col-preco {
+    display: none;
+  }
+}
+
+/* ✅ lista agora é bloco (linhas), não grid de cards */
+#lista-produtos {
+  display: block;
 }

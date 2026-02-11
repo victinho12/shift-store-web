@@ -1,99 +1,119 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Usuários | Admin Shift</title>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Usuarios-adm-shift</title>
-  <link rel="stylesheet" href="styleAdm/usuariosAdm.css" />
-  <script type="module" src="scriptAdm/usuariosAdm.js" defer></script>
-</head>
+    <link rel="stylesheet" href="styleAdm/usuariosAdm.css" />
+    <script type="module" src="scriptAdm/usuariosAdm.js" defer></script>
+  </head>
 
-<body>
-  <header>
-    <h1>Dashboard Administrativo — Shift Store</h1>
-    <div class="voltar">
-      <button id="btn-voltar-dashboard">Dashboard</button>
-    </div>
-  </header>
-  <section class="conteiner-body">
-    <div class="pesquisar">
-      <form id="form-pesquisa">
-        <label>
-          Pesquisar E-mail
-          <input id="email" type="text" required />
-        </label>
-        <button id="btn-pesquisar">Pesquisar</button>
-      </form>
-      <button id="btn-limpar">limpar E-mail</button>
-      <button id="carregar-user">Carregar usuarios</button>
-      <button id="btn-abrir-modal-adm">Inserir Adm</button>
-    </div>
-    <div id="lista-cards">
+  <body>
+    <header>
+      <h1>Dashboard Administrativo — Shift Store</h1>
+      <div class="voltar">
+        <button id="btn-voltar-dashboard">Dashboard</button>
+      </div>
+    </header>
 
-    </div>
-    <div class="conteiner-update" id="conteiner-update">
-      <div class="modal-update">
-        <button id="fechar-jenela">✕</button>
+    <section class="conteiner-body">
+      <h2>Usuários do Sistema</h2>
 
-        <div id="infos-user">
-          <p id="nome-user">user</p>
-          <p id="email-user">user@gmail</p>
+      <!-- ✅ BARRA DE AÇÕES (igual produtos) -->
+      <div id="btns">
+        <!-- form só pra manter seu JS/validação, mas não vai “submitar” a página -->
+        <form id="form-pesquisa" class="form-inline">
+          <input id="email" type="text" placeholder="Pesquisar por e-mail..." />
+          <button id="btn-pesquisar" type="submit">Pesquisar</button>
+        </form>
+
+        <button id="btn-limpar" type="button">Limpar</button>
+        <button id="carregar-user" type="button">Carregar usuários</button>
+        <button id="btn-abrir-modal-adm" type="button">Inserir Adm</button>
+      </div>
+
+      <!-- ✅ TABELA (GRID) NO LUGAR DOS CARDS -->
+      <div class="usuarios-table">
+        <div class="usuarios-header">
+          <div>Usuário</div>
+          <div>E-mail</div>
+          <div class="col-tipo">Tipo</div>
+          <div class="col-id">ID</div>
+          <div style="text-align: right">Ações</div>
         </div>
 
-        <div class="modal-form">
-          <label>
-            Nome
-            <input type="text" id="nome-input">
-          </label>
+        <!-- mantém o mesmo ID que você usava pros cards -->
+        <div id="lista-cards" class="usuarios-body">
+          <!-- linhas inseridas via JS com class="usuarios-row" -->
+        </div>
+      </div>
 
-          <label>
-            E-mail
-            <input type="text" id="email-input">
-          </label>
+      <!-- ===== MODAL UPDATE (mantido) ===== -->
+      <div class="conteiner-update" id="conteiner-update">
+        <div class="modal-update">
+          <button id="fechar-jenela" type="button">✕</button>
 
+          <div id="infos-user">
+            <p id="nome-user">user</p>
+            <p id="email-user">user@gmail</p>
+          </div>
 
-          <div class="modal-actions">
-            <button id="btn-mandar-modal">Salvar</button>
-            <button id="btn-limpar-modal">Apagar</button>
+          <div class="modal-form">
+            <label>
+              Nome
+              <input type="text" id="nome-input" />
+            </label>
+
+            <label>
+              E-mail
+              <input type="text" id="email-input" />
+            </label>
+
+            <div class="modal-actions">
+              <button id="btn-mandar-modal" type="button">Salvar</button>
+              <button id="btn-limpar-modal" type="button">Apagar</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div id="add-produtos">
-      <form id="form-produto">
 
-        <button id="fechar-jenela-user" type="button">✕</button>
+      <!-- ===== MODAL ADD USER (mantido, só organizado) ===== -->
+      <div id="add-produtos">
+        <form id="form-produto">
+          <div class="modal-top">
+            <h2>Adicionar Usuário</h2>
+            <button id="fechar-jenela-user" type="button">✕</button>
+          </div>
 
-        <p>Adicionar Usuário</p>
+          <label>
+            Nome
+            <input type="text" id="nome-input-add" />
+          </label>
 
-        <label>
-          Nome
-          <input type="text" id="nome-input-add">
-        </label>
+          <label>
+            Email
+            <input type="email" id="email-input-add" />
+          </label>
 
-        <label>
-          Email
-          <input type="email" id="email-input-add">
-        </label>
+          <label>
+            Senha
+            <input type="password" id="senha-input-add" />
+          </label>
 
-        <label>
-          Senha
-          <input type="password" id="senha-input-add">
-        </label>
+          <label class="field">
+            Tipo do usuário
+            <select id="tipo-input-add">
+              <option value="user">user</option>
+              <option value="admin">admin</option>
+            </select>
+          </label>
 
-        <label class="field">
-          Tipo do usuario
-          <select id="tipo-input-add">
-            <option value="user">user</option>
-            <option value="admin">admin</option>
-          </select>
-        </label>
-
-        <button type="button" id="btn-modal-add-user">Adicionar Usuário</button>
-      </form>
-    </div>
-  </section>
-</body>
-
+          <button type="button" id="btn-modal-add-user">
+            Adicionar Usuário
+          </button>
+        </form>
+      </div>
+    </section>
+  </body>
 </html>

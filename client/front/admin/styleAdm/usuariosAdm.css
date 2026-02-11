@@ -7,18 +7,19 @@
 }
 
 body {
-  background: #f5f5f5;
-  color: #222;
+  background: #0b0c0f;
+  color: #eaeaea;
 }
 
 /* ================= HEADER ================= */
 header {
-  background: #000000;
+  background-color: #111;
   color: #fff;
-  padding: 16px 24px;
+  padding: 15px 30px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  border-bottom: 2px solid #b11226;
+  justify-content: space-between;
 }
 
 header h1 {
@@ -40,183 +41,376 @@ header .voltar button:hover {
 
 /* ================= CONTAINER ================= */
 .conteiner-body {
-  padding: 24px;
+  max-width: 1400px;
+  margin: 30px auto;
+  padding: 20px;
 }
 
-/* ================= PESQUISA ================= */
-.pesquisar {
-  display: flex;
-  gap: 12px;
-  align-items: flex-end;
-  flex-wrap: wrap;
-  margin-bottom: 20px;
+.conteiner-body h2 {
+  margin: 20px 0;
+  font-size: 18px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.92);
 }
 
-.pesquisar form {
-  display: flex;
-  gap: 10px;
-  align-items: flex-end;
-}
-
-.pesquisar label {
-  display: flex;
-  flex-direction: column;
-  font-size: 14px;
-}
-
-.pesquisar input {
-  padding: 8px;
-  width: 320px;
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-.pesquisar button {
-  padding: 8px 14px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  background: #222;
-  color: #fff;
-}
-
-.pesquisar button:hover {
-  background: #000;
-}
-
-#btn-limpar {
-  background: #777;
-}
-
-#btn-limpar:hover {
-  background: #555;
-}
-
-#btn-abrir-modal-adm{
-  margin-left: 5%;
-  background-color: #8a0117;
-}
-
-/* ================= LISTA DE CARDS ================= */
-#lista-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(48%, 1fr));
-  gap: 16px;
-}
-
-/* CARD */
-.card {
-  background: #ffffff;
-  padding: 28px;              /* mais espaço interno */
-  min-height: 120px;          /* deixa o card mais “alto” */
+/* ================= BARRA DE AÇÕES (igual produtos) ================= */
+#btns {
+  max-width: 1300px;
+  width: 100%;
+  margin: 18px auto 0;
+  padding: 12px 16px;
 
   display: flex;
   align-items: center;
-  gap: 22px;                  /* mais espaço entre avatar e infos */
+  gap: 12px;
 
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background: #0f0f10;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
 }
 
-.card p {  
-  margin-bottom: 10px;
-  font-size: 14px;
+/* Caso ainda exista .pesquisar no HTML antigo, deixa compatível */
+.pesquisar {
+  max-width: 1300px;
+  width: 100%;
+  margin: 18px auto 0;
+  padding: 12px 16px;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  background: #0f0f10;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
 }
 
-.card button {
-  margin-top: 8px;
-  padding: 6px 10px;
-  border-radius: 6px;
-  border: none;
+/* form inline */
+.form-inline {
+  display: flex;
+  gap: 12px;
+  flex: 1;
+  align-items: center;
+}
+
+#form-pesquisa {
+  display: flex;
+  gap: 12px;
+  flex: 1;
+  align-items: center;
+}
+
+/* Input pesquisa (id email) */
+#email {
+  flex: 1;
+  height: 42px;
+  padding: 0 12px;
+
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.92);
+
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#email::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+#email:focus {
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.10);
+}
+
+/* Botões barra */
+#btn-pesquisar,
+#btn-limpar,
+#carregar-user,
+#btn-abrir-modal-adm {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.92);
+  font-weight: 600;
   cursor: pointer;
-  background: #222;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+#btn-pesquisar:hover,
+#btn-limpar:hover,
+#carregar-user:hover,
+#btn-abrir-modal-adm:hover {
+  background: rgba(255, 255, 255, 0.10);
+}
+
+#btn-pesquisar:active,
+#btn-limpar:active {
+  transform: scale(0.98);
+}
+
+/* botão inserir adm (vermelho) */
+#btn-abrir-modal-adm {
+  background: #b11226;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+#btn-abrir-modal-adm:hover {
+  filter: brightness(1.05);
+}
+
+@media (max-width: 700px) {
+  #btns,
+  .pesquisar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  #form-pesquisa {
+    width: 100%;
+  }
+
+  #email,
+  #btn-pesquisar,
+  #btn-limpar,
+  #carregar-user,
+  #btn-abrir-modal-adm {
+    width: 100%;
+  }
+}
+
+/* ================= TABELA (GRID) ================= */
+.usuarios-table {
+  width: 100%;
+  margin-top: 18px;
+  background: #0f0f10;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.usuarios-header,
+.usuarios-row {
+  display: grid;
+  grid-template-columns: 2fr 2fr 0.9fr 0.6fr 1fr;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 18px;
+}
+
+.usuarios-header {
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 600;
+  font-size: 13px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.usuarios-row {
+  color: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.usuarios-row:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.usuarios-row:last-child {
+  border-bottom: none;
+}
+
+/* body da tabela: mantém id antigo */
+#lista-cards {
+  display: block;
+}
+
+/* Usuario (avatar + textos) */
+.usuario-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.user-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
   color: #fff;
+
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.10);
 }
 
-.card button:hover {
-  background: #000;
+.usuario-textos {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
 }
 
-/* ================= OVERLAY (MODAIS) ================= */
+.usuario-textos strong {
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.usuario-textos small {
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 12px;
+}
+
+/* email (coluna) */
+.usuario-email {
+  color: rgba(255, 255, 255, 0.85);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Badge tipo */
+.badge {
+  display: inline-flex;
+  width: fit-content;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Ações */
+.usuarios-acoes {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.btn-acao {
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.92);
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.btn-acao:hover {
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.btn-acao:active {
+  transform: scale(0.98);
+}
+
+/* Responsivo: some Tipo e ID */
+@media (max-width: 900px) {
+  .usuarios-header,
+  .usuarios-row {
+    grid-template-columns: 1.6fr 1.6fr 1fr;
+  }
+
+  .col-tipo,
+  .col-id {
+    display: none;
+  }
+}
+
+/* ================= MODAIS (DARK igual produtos) ================= */
 .conteiner-update,
 #add-produtos {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.70);
   display: none;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   z-index: 1000;
+  padding: 18px;
 }
 
-/* ================= MODAL UPDATE ================= */
+/* modal update */
 .modal-update {
-  background: #fff;
-  width: 420px;
-  max-width: 90%;
-  padding: 24px;
+  width: 560px;
+  max-width: 100%;
+  background: #0f0f10;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
-  position: relative;
-  animation: fadeIn 0.25s ease;
+  overflow: hidden;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
 }
 
-/* ================= MODAL ADD USER ================= */
+/* modal add user (reaproveita id do form) */
 #form-produto {
-  background: #fff;
-  width: 420px;
-  max-width: 90%;
-  padding: 24px;
+  width: 560px;
+  max-width: 100%;
+  background: #0f0f10;
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
-  position: relative;
-  animation: fadeIn 0.25s ease;
+  overflow: hidden;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
 }
 
-/* ================= BOTÃO FECHAR ================= */
+/* topo padrão */
+.modal-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.modal-top h2 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* botão fechar (update e add) */
 #fechar-jenela,
 #fechar-jenela-user {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: transparent;
-  border: none;
-  font-size: 18px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.9);
   cursor: pointer;
-  color: #444;
+  transition: background 0.2s ease, transform 0.1s ease;
 }
 
 #fechar-jenela:hover,
 #fechar-jenela-user:hover {
-  color: #e63946;
+  background: rgba(255, 255, 255, 0.10);
 }
 
-/* ================= INFO USER ================= */
+#fechar-jenela:active,
+#fechar-jenela-user:active {
+  transform: scale(0.98);
+}
+
+/* info user no update */
 #infos-user {
-  margin-bottom: 16px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #ddd;
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 #infos-user p {
-  font-size: 14px;
-}
-.user-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-
-  background: #8a0117;
-  color: #fff;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 1rem;
-  font-weight: 600;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 13px;
 }
 
-/* ================= FORM MODAL ================= */
+/* corpo de forms */
 .modal-form,
 #form-produto {
   display: flex;
@@ -225,105 +419,120 @@ header .voltar button:hover {
 }
 
 .modal-form label,
-#form-produto label {
-  display: flex;
-  flex-direction: column;
-  font-size: 14px;
-}
-
-.modal-form input,
-#form-produto input {
-  padding: 8px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-/* ================= AÇÕES MODAL ================= */
-.modal-actions {
-  display: flex;
-  gap: 10px;
-  margin-top: 10px;
-}
-
-.modal-actions button,
-#btn-modal-add-user {
-  padding: 10px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  background: #222;
-  color: #fff;
-}
-
-/* Campo dentro do modal */
-.field {
+#form-produto label,
+#form-produto .field {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  font-size: 14px;
-  color: #3b2f2f; /* marrom suave */
+  padding: 0 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.80);
 }
 
-/* Select */
-.field select {
-  padding: 10px 12px;
-  border-radius: 8px;
-  border: 1px solid #000000; /* bege vintage */
-  background-color: #ffffff;
-  font-size: 14px;
-  color: #2e2e2e;
+.modal-form label:first-of-type {
+  margin-top: 14px;
+}
+
+#form-produto label:first-of-type {
+  margin-top: 14px;
+}
+
+.modal-form input,
+#form-produto input,
+#form-produto select {
+  height: 44px;
+  padding: 0 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.92);
   outline: none;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.modal-form input:focus,
+#form-produto input:focus,
+#form-produto select:focus {
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.10);
+}
+
+/* select tipo com seta */
+#tipo-input-add {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 44px;
+  background-image:
+    linear-gradient(45deg, transparent 50%, rgba(255,255,255,.85) 50%),
+    linear-gradient(135deg, rgba(255,255,255,.85) 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) 50%,
+    calc(100% - 12px) 50%;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+
+/* ações update */
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  padding: 0 16px 16px;
+  margin-top: 6px;
+}
+
+.modal-actions button {
+  flex: 1;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  font-weight: 800;
   cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
 }
 
-/* Hover */
-.field select:hover {
-  border-color: #000000;
+.modal-actions button:hover {
+  background: rgba(255, 255, 255, 0.10);
 }
 
-/* Focus */
-.field select:focus {
-  border-color: #000000;
-  box-shadow: 0 0 0 2px rgba(139, 107, 63, 0.2);
-  background-color: #fff;
+.modal-actions button:active {
+  transform: scale(0.99);
 }
 
-/* Option (alguns browsers respeitam) */
-.field select option {
-  background-color: #fff;
-  color: #2e2e2e;
+/* botões do update (cores) */
+#btn-mandar-modal {
+  background: #b11226;
 }
 
-.modal-actions button:hover,
-#btn-modal-add-user:hover {
-  background: #000;
+#btn-mandar-modal:hover {
+  filter: brightness(1.05);
 }
 
 #btn-limpar-modal {
-  background: #888;
+  background: rgba(255, 255, 255, 0.06);
 }
 
-#btn-limpar-modal:hover {
-  background: #666;
+/* botão add user */
+#btn-modal-add-user {
+  margin: 4px 16px 16px;
+  height: 46px;
+  width: calc(100% - 32px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #b11226;
+  color: #fff;
+  font-weight: 800;
+  cursor: pointer;
+  transition: filter 0.2s ease, transform 0.1s ease;
 }
 
-/* ================= TÍTULOS ================= */
-.modal-update h2,
-#form-produto p {
-  font-size: 18px;
-  margin-bottom: 10px;
-  font-weight: bold;
+#btn-modal-add-user:hover {
+  filter: brightness(1.05);
 }
 
-/* ================= ANIMAÇÃO ================= */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+#btn-modal-add-user:active {
+  transform: scale(0.99);
 }
