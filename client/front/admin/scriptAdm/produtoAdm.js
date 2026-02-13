@@ -1,4 +1,3 @@
-
 import {
   validarTokenFront,
   fetchAuth,
@@ -9,17 +8,21 @@ validarTokenFront();
 const btnFecharModalAddProdutos = document.getElementById(
   "btn-fechar-add-produto",
 );
+let idRoupaUpdate = null;
 const btnVoltarDash = document.getElementById('btn-voltar-dashboard');
 const ModalInserirRoupas = document.getElementById("add-produtos");
+const modalUpdate = document.getElementById('modal-update');
 const btnMoldalAddProduto = document.getElementById("btn-card");
 const listaProdutos = document.getElementById("lista-produtos");
 const btnInserirRoupa = document.getElementById("btn-inserir-roupa");
 const form = document.getElementById("form-produto");
+const formUpdate = document.getElementById('form-produto-update');
 const btnPesquisarProduto = document.getElementById("btn-pesquisar");
-const btnCarregarProduto = document.getElementById('carregar-produtos')
-btnCarregarProduto.addEventListener('click', () => { 
+const btnCarregarProduto = document.getElementById('carregar-produtos');
+const btnSalvarUpdate = document.getElementById('btn-salvar-update');
+btnCarregarProduto.addEventListener('click', () => {
   const confirmar = confirm('Deseja carregar todos os produtos?');
-  if(!confirmar) return;
+  if (!confirmar) return;
   carregarProdutos();
 });
 btnVoltarDash.addEventListener('click', () => { window.location.href = 'dashboard.html' });
@@ -31,6 +34,7 @@ btnPesquisarProduto.addEventListener('click', () => {
   carregarProdutos(nome);
 });
 
+btnSalvarUpdate.addEventListener('click', async (e))// linha que vai ser add para atualizer os produtos //
 
 
 form.addEventListener("submit", (e) => {
@@ -41,10 +45,13 @@ btnInserirRoupa.addEventListener("click", async (e) => {
   e.preventDefault();
   const formData = new FormData(form);
   await inserirRoupa(formData);
-  carregarProdutos();
+  window.addEventListener("beforeunload", (e) => {
+    console.log("beforeunload disparou (vai sair/recarregar)");
+  });
+  alert("Roupa adicionada com succeso");
 });
 btnMoldalAddProduto.addEventListener("click", () => {
-  ModalInserirRoupas.style.display = "block";
+  ModalInserirRoupas.style.display = "flex";
 });
 
 btnFecharModalAddProdutos.addEventListener("click", () => {
@@ -87,6 +94,7 @@ async function carregarProdutos(nome) {
     <button class="btn-acao btn-excluir-roupa" data-id="${roupa.id}">Excluir</button>
   </div>
 `;
+
       card
         .querySelector(".btn-excluir-roupa")
         .addEventListener("click", async () => {
@@ -98,7 +106,15 @@ async function carregarProdutos(nome) {
       card
         .querySelector(".btn-editar-roupa")
         .addEventListener("click", async () => {
-          console.log("editando");
+          modalUpdate.style.display = 'flex'; 
+          idRoupaUpdate = roupa.id;
+          formUpdate.nome.value = roupa.nome;
+          formUpdate.cor.value = roupa.cor;
+          formUpdate.tamanho.value = roupa.tamanho;
+          formUpdate.preco.value = roupa.preco;
+          formUpdate.quantidade.value = roupa.estoque_qtd;
+          formUpdate.categoria.velue = roupa.categoria; 
+          
         });
       listaProdutos.appendChild(card);
     });
@@ -134,7 +150,6 @@ async function inserirRoupa(formData) {
     });
     const dados = await res.json();
     if (!res.ok) {
-      alert(dados.message);
       throw new Error(dados.message);
     }
 
@@ -144,6 +159,27 @@ async function inserirRoupa(formData) {
 
   }
 };
+
+async function atualizarRoupa(id, formDataUpdate) {
+  try {
+    const res = await fetchAuth(`${API_ROUPAS}update/${id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "shift-api-key": API_CLIENT_KEY,
+      },
+      body: formDataUpdate
+      });
+    const dados = await res.json();
+    if (!res.ok) {
+      throw new Error(dados.message);
+    };
+    console.log(dados.data);
+  } catch (err) {
+    console.error(err.message);
+  }
+}
+
 
 
 carregarProdutos();

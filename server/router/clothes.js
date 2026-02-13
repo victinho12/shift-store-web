@@ -24,6 +24,6 @@ router.post("/", authToken, validarKeyApi, admin, uploads.single("img"), control
 
 router.delete("/:id", authToken, validarKeyApi, admin, controller.deletarRoupa);
 
-router.put("/:id", authToken, validarKeyApi, admin, controller.alterarRoupa);
+router.put("/update/:id", authToken, validarKeyApi, admin, controller.alterarRoupa);
 
 module.exports = router;
