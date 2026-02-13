@@ -105,6 +105,68 @@
       </div>
     </div>
   </section>
+  <!-- MODAL ATUALIZAR PRODUTO -->
+<section id="modal-update" class="modal-overlay" aria-hidden="true">
+  <form id="form-produto-update" class="modal-card" autocomplete="off">
+    <div class="modal-top">
+      <h2>Editar Produto</h2>
+      <button type="button" id="btn-fechar-update" class="btn-icon">✕</button>
+    </div>
+
+    <div class="modal-grid">
+      <label class="field">
+        Nome
+        <input type="text" name="nome" id="up-nome" required />
+      </label>
+
+      <label class="field">
+        Cor
+        <input type="text" name="cor" id="up-cor" required />
+      </label>
+
+      <label class="field">
+        Tamanho
+        <select name="tamanho" id="up-tamanho" required>
+          <option value="PP">PP</option>
+          <option value="P">P</option>
+          <option value="M">M</option>
+          <option value="G">G</option>
+          <option value="GG">GG</option>
+          <option value="UNICO">Unico</option>
+        </select>
+      </label>
+
+      <label class="field">
+        Preço
+        <input type="number" name="preco" id="up-preco" step="0.01" required />
+      </label>
+
+      <label class="field">
+        Estoque
+        <input type="number" name="estoque" id="up-estoque" required />
+      </label>
+
+      <label class="field">
+        Categoria
+        <select name="categoria" id="up-categoria" required>
+          <option value="1">Masculino</option>
+          <option value="2">Feminino</option>
+          <option value="3">Unisex</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="modal-actions">
+      <button type="button" id="btn-cancelar-update" class="btn-secondary">
+        Cancelar
+      </button>
+      <button type="button" id="btn-salvar-update" class="btn-primary">
+        Salvar alterações
+      </button>
+    </div>
+  </form>
+</section>
+
 </body>
 
 </html>

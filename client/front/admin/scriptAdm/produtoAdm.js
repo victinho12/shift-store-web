@@ -5,9 +5,7 @@ import {
   API_ROUPAS,
 } from "../../script/services/config.js";
 validarTokenFront();
-const btnFecharModalAddProdutos = document.getElementById(
-  "btn-fechar-add-produto",
-);
+
 let idRoupaUpdate = null;
 const btnVoltarDash = document.getElementById('btn-voltar-dashboard');
 const ModalInserirRoupas = document.getElementById("add-produtos");
@@ -20,6 +18,9 @@ const formUpdate = document.getElementById('form-produto-update');
 const btnPesquisarProduto = document.getElementById("btn-pesquisar");
 const btnCarregarProduto = document.getElementById('carregar-produtos');
 const btnSalvarUpdate = document.getElementById('btn-salvar-update');
+const btnFecharModalAddProdutos = document.getElementById("btn-fechar-add-produto");
+
+
 btnCarregarProduto.addEventListener('click', () => {
   const confirmar = confirm('Deseja carregar todos os produtos?');
   if (!confirmar) return;
@@ -30,11 +31,30 @@ btnVoltarDash.addEventListener('click', () => { window.location.href = 'dashboar
 btnPesquisarProduto.addEventListener('click', () => {
   let nome = document.getElementById("pesquisar-produto").value;
   alert('Pesquisando Produto')
-  console.log(nome);
   carregarProdutos(nome);
 });
 
-btnSalvarUpdate.addEventListener('click', async (e))// linha que vai ser add para atualizer os produtos //
+btnSalvarUpdate.addEventListener('click', async (e) => {
+  e.preventDefault();
+  if(!idRoupaUpdate) return alert('seleciono um produto para editar');
+  
+  const formDataUpdate = {
+      nome: formUpdate.nome.value,
+      cor: formUpdate.cor.value,
+      tamanho: formUpdate.tamanho.value,
+      preco: Number(formUpdate.preco.value),
+      estoque: Number(formUpdate.estoque.value),
+      categoria_id: Number(formUpdate.categoria.value),
+  }
+  await atualizarRoupa(idRoupaUpdate, formDataUpdate);
+  modalUpdate.style.display = "none";
+  alert('Produto alterado com successo');  
+  formUpdate.reset();
+  idRoupaUpdate = null;
+  carregarProdutos();
+
+
+})// linha que vai ser add para atualizer os produtos //
 
 
 form.addEventListener("submit", (e) => {
@@ -45,9 +65,7 @@ btnInserirRoupa.addEventListener("click", async (e) => {
   e.preventDefault();
   const formData = new FormData(form);
   await inserirRoupa(formData);
-  window.addEventListener("beforeunload", (e) => {
-    console.log("beforeunload disparou (vai sair/recarregar)");
-  });
+  
   alert("Roupa adicionada com succeso");
 });
 btnMoldalAddProduto.addEventListener("click", () => {
@@ -100,7 +118,7 @@ async function carregarProdutos(nome) {
         .addEventListener("click", async () => {
           const confirmar = confirm(`Deseja excluir Produto: ${roupa.nome}`);
           if (!confirmar) return
-          listaProdutos.innerHTML = ' ';
+          listaProdutos.innerHTML = '';
           excluirRoupa(roupa.id);
         });
       card
@@ -112,8 +130,9 @@ async function carregarProdutos(nome) {
           formUpdate.cor.value = roupa.cor;
           formUpdate.tamanho.value = roupa.tamanho;
           formUpdate.preco.value = roupa.preco;
-          formUpdate.quantidade.value = roupa.estoque_qtd;
-          formUpdate.categoria.velue = roupa.categoria; 
+          formUpdate.estoque.value = roupa.estoque_qtd;
+            if (roupa.categoria_id) {
+    formUpdate.categoria_id.value = String(roupa.categoria_id);} 
           
         });
       listaProdutos.appendChild(card);
@@ -143,7 +162,7 @@ async function inserirRoupa(formData) {
   try {
     const res = await fetchAuth(`${API_ROUPAS}`, {
       method: 'POST',
-      headers: {
+      headers: {// Não precisa do content-type, pois estamos mandando um formulario
         "shift-api-key": API_CLIENT_KEY,
       },
       body: formData,
@@ -160,7 +179,7 @@ async function inserirRoupa(formData) {
   }
 };
 
-async function atualizarRoupa(id, formDataUpdate) {
+async function atualizarRoupa(id, dataUpdate) {
   try {
     const res = await fetchAuth(`${API_ROUPAS}update/${id}`, {
       method: "PUT",
@@ -168,7 +187,7 @@ async function atualizarRoupa(id, formDataUpdate) {
         "Content-Type": "application/json",
         "shift-api-key": API_CLIENT_KEY,
       },
-      body: formDataUpdate
+      body: JSON.stringify(dataUpdate)
       });
     const dados = await res.json();
     if (!res.ok) {
