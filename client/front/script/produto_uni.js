@@ -9,7 +9,7 @@ import {
 const nome_value = localStorage.getItem("nome");
 let couter = 0;
 // ========== Pagando id do html ==========
-const cartNun = document.getElementById("carrinho");
+// const cartNun = document.getElementById("carrinho");
 const nome = document.getElementById("nome_cliente");
 const btnLogout = document.getElementById("logout-btn");
 const lista_produtos_shift = document.getElementById("lista-produtos");
@@ -43,7 +43,7 @@ document.addEventListener("click", function (e) {
     addToCart(produto);
     couter = couter + 1;
     localStorage.setItem("couterCar", couter);
-    cartNun.textContent = localStorage.getItem("couterCar");
+    // cartNun.textContent = localStorage.getItem("couterCar");
     renderCart(); // Atualiza o carrinho automaticamente
   }
 });
@@ -65,13 +65,11 @@ async function carregarProdutoUni(produtoId) {
       },
     });
 
-    if (!res.ok) {
-      const erroText = await res.text();
-      throw new Error(erroText);
-    }
-
     const resJson = await res.json();
 
+    if (!res.ok) {
+      return alert(resJson.message);
+    }
     lista_produtos_shift.innerHTML = ""; // remove skeleton
 
     resJson.forEach((roupa) => {
@@ -140,4 +138,4 @@ function mostrarSkeleton(qtd = 20) {
 }
 
 carregarProdutoUni(produtoId);
-atualizaCart();
+// atualizaCart();

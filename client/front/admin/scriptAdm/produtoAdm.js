@@ -36,24 +36,22 @@ btnPesquisarProduto.addEventListener('click', () => {
 
 btnSalvarUpdate.addEventListener('click', async (e) => {
   e.preventDefault();
-  if(!idRoupaUpdate) return alert('seleciono um produto para editar');
-  
-  const formDataUpdate = {
-      nome: formUpdate.nome.value,
-      cor: formUpdate.cor.value,
-      tamanho: formUpdate.tamanho.value,
-      preco: Number(formUpdate.preco.value),
-      estoque: Number(formUpdate.estoque.value),
-      categoria_id: Number(formUpdate.categoria.value),
-  }
-  await atualizarRoupa(idRoupaUpdate, formDataUpdate);
+  if (!idRoupaUpdate) return alert('seleciono um produto para editar');
+
+  const dataUpdate = {
+    nome: document.getElementById("up-nome").value,
+    cor: document.getElementById("up-cor").value,
+    tamanho: document.getElementById("up-tamanho").value,
+    preco: Number(document.getElementById("up-preco").value),
+    estoque: Number(document.getElementById("up-estoque").value),
+    categoria: Number(document.getElementById("up-categoria").value), // <-- como você quer (categoria)
+  };
+  await atualizarRoupa(idRoupaUpdate, dataUpdate);
   modalUpdate.style.display = "none";
-  alert('Produto alterado com successo');  
+  alert('Produto alterado com successo');
   formUpdate.reset();
   idRoupaUpdate = null;
   carregarProdutos();
-
-
 })// linha que vai ser add para atualizer os produtos //
 
 
@@ -65,7 +63,7 @@ btnInserirRoupa.addEventListener("click", async (e) => {
   e.preventDefault();
   const formData = new FormData(form);
   await inserirRoupa(formData);
-  
+
   alert("Roupa adicionada com succeso");
 });
 btnMoldalAddProduto.addEventListener("click", () => {
@@ -121,20 +119,23 @@ async function carregarProdutos(nome) {
           listaProdutos.innerHTML = '';
           excluirRoupa(roupa.id);
         });
-      card
-        .querySelector(".btn-editar-roupa")
-        .addEventListener("click", async () => {
-          modalUpdate.style.display = 'flex'; 
-          idRoupaUpdate = roupa.id;
-          formUpdate.nome.value = roupa.nome;
-          formUpdate.cor.value = roupa.cor;
-          formUpdate.tamanho.value = roupa.tamanho;
-          formUpdate.preco.value = roupa.preco;
-          formUpdate.estoque.value = roupa.estoque_qtd;
-            if (roupa.categoria_id) {
-    formUpdate.categoria_id.value = String(roupa.categoria_id);} 
-          
-        });
+      card.querySelector(".btn-editar-roupa").addEventListener("click", () => {
+        modalUpdate.style.display = "flex";
+        idRoupaUpdate = roupa.id;
+
+        document.getElementById("up-nome").value = roupa.nome ?? "";
+        document.getElementById("up-cor").value = roupa.cor ?? "";
+        document.getElementById("up-tamanho").value = roupa.tamanho ?? "M";
+        document.getElementById("up-preco").value = roupa.preco ?? "";
+        document.getElementById("up-estoque").value = roupa.estoque_qtd ?? "";
+
+        // se vier categoria_id, usa ele; se vier texto, mapeia:
+        if (roupa.categoria_id != null) {
+          document.getElementById("up-categoria").value = String(roupa.categoria_id);
+        } else {
+          document.getElementById("up-categoria").value = categoriaNomeParaId(roupa.categoria);
+        }
+      });
       listaProdutos.appendChild(card);
     });
   } catch (err) {
@@ -188,7 +189,7 @@ async function atualizarRoupa(id, dataUpdate) {
         "shift-api-key": API_CLIENT_KEY,
       },
       body: JSON.stringify(dataUpdate)
-      });
+    });
     const dados = await res.json();
     if (!res.ok) {
       throw new Error(dados.message);
@@ -198,7 +199,12 @@ async function atualizarRoupa(id, dataUpdate) {
     console.error(err.message);
   }
 }
-
+function categoriaNomeParaId(nome) {
+  const n = (nome || "").toLowerCase();
+  if (n.includes("masc")) return "1";
+  if (n.includes("fem")) return "2";
+  return "3";
+}
 
 
 carregarProdutos();
