@@ -6,7 +6,7 @@ const cors = require("cors");
 const path = require("path");
 const usuarioRouter = require("./router/user");
 const clothesRouter = require("./router/clothes");
-
+const cartRouter = require('./router/carrinho');
 const app = express();
 
 const corsOptions = {
@@ -35,7 +35,7 @@ app.use(validar_chave_api_shfit);
 // Rotas
 app.use("/roupas", clothesRouter);
 app.use("/user", usuarioRouter);
-
+app.use('/cart', cartRouter);
 // Rota raiz
 app.get("/", (req, res) => {
   res.send("api rodando");
