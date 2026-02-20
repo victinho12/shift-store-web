@@ -68,28 +68,34 @@ async function deltarCart(req, res, next) {
     }
 }
 
-// async function addCart(req, res, next) {
-//     const client = await pool.connect();
-//     try {
-//         const { id_usuario, id_produto_variacao, quantidade } = req.body;
-//         let id_carrinho = null;
-//         await client.query(`BEGIN`);
-//         const cartExist = await client.query(`select id from public.carrinho where id_usuario = $1 and status = 'ativo' LIMIT 1`, [id_usuario]);
-//         if (cartExist.rowCount === 0) {
-//             const cartNovo = await client.query(`INSERT INTO PUBLIC.carrinho (id_usuario) values ($1) RETURNING id`, [id_usuario]);
-//             id_carrinho = cartNovo.rows[0].id;
-//         } else {
-//             id_carrinho = cartExist.rows[0].id;
-//         }
-//         const cartItem = await client.query(`INSERT INTO PUBLIC.carrinho_item (id_carrinho, id_produto_variacao, quantidade) VALUES ($1, $2, $3) on conflict (id_carrinho ,id_produto_variacao) do update set quantidade = public.carrinho_item.quantidade + EXCLUDED.quantidade RETURNING *`, [id_carrinho, id_produto_variacao, quantidade]);
-//         await client.query(`COMMIT`);
-//         return res.json({ ok: true, data: cartItem.rows });
-//     } catch (err) {
-//         await client.query(`ROLLBACK`);
-//         return next(err);
-//     } finally {
-//         client.release();
-//     }
-// } terminar
+async function addCart(req, res, next) {
+    const client = await pool.connect();
+    try {
+        const id_usuario = req.user.id;
+        const {id_produto_variacao, quantidade } = req.body;
+        
+        let id_carrinho = null;
+        let id_produto_variacaoinumber = Number(id_produto_variacao);
+        if(quantidade >= 0) throw new AppError('Quantidade precisa ser um numero inteiro positivo', 404, "QUANTIDADE_INVALIDA");
+        if (!Number.isInteger(id_produto_variacaoinumber) || id_produto_variacaoinumber >= 0) throw new AppError("Id da variaçõa do produto deve ser um numero positivo", 404, 'ID_PRODUTO_VARIAÇÃO_INVALIDO');
+        await client.query(`BEGIN`);
+        const cartExist = await client.query(`select id from public.carrinho where id_usuario = $1 and status = 'ativo' LIMIT 1`, [id_usuario]);
+        if (cartExist.rowCount === 0) {
+            const cartNovo = await client.query(`INSERT INTO PUBLIC.carrinho (id_usuario) values ($1) RETURNING id`, [id_usuario]);
+            id_carrinho = cartNovo.rows[0].id;
+        } else {
+            id_carrinho = cartExist.rows[0].id;
+        }
 
-module.exports = { verCart, verCartID, deltarCart };
+        const cartItem = await client.query(`INSERT INTO PUBLIC.carrinho_item (id_carrinho, id_produto_variacao, quantidade) VALUES ($1, $2, $3) on conflict (id_carrinho ,id_produto_variacao) do update set quantidade = public.carrinho_item.quantidade + EXCLUDED.quantidade RETURNING *`, [id_carrinho, id_produto_variacao, quantidade]);
+        await client.query(`COMMIT`);
+        return res.json({ ok: true, data: cartItem.rows });
+    } catch (err) {
+        await client.query(`ROLLBACK`);
+        return next(err);
+    } finally {
+        client.release();
+    }
+} 
+
+module.exports = { verCart, verCartID, deltarCart, addCart };
