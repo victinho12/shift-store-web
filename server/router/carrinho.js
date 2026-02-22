@@ -13,4 +13,6 @@ router.delete("/:id", validarKeyApi, controller.deltarCart);
 
 router.post("/", validarKeyApi, controller.addCart);
 
+router.put("/:id", validarKeyApi, controller.alterarCart);
+
 module.exports = router;
