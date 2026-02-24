@@ -1,5 +1,6 @@
 export const API_ROUPAS = "http://localhost:3000/roupas/";
 export const API_LOGIN = "http://localhost:3000/user";
+export const API_CART = "http://localhost:3000/cart"
 export const API_CLIENT_KEY = "VICTOR_EDUARDO_MARTINS_123";
 
 export function validarTokenFront() {
@@ -15,7 +16,21 @@ export function validarTokenFront() {
     localStorage.clear();
     window.location.href = "../view/home.html";
   }
-}
+};
+export function getUserFromToken() {
+  const token = localStorage.getItem("token");
+  if (!token) return (window.location.href = "../view/home.html");
+  
+  try{
+    JSON.parse(atob(token.split(".")[1])); // payload do JWT
+    if(user.tipo_user === "") return (window.location.href = "../view/index.html");
+  }catch{
+    localStorage.clear();
+    window.location.href = "../view/index.html";
+  }
+
+  
+};
 
 export async function fetchAuth(url, options = {}) {
   const doFetch = (token) =>
@@ -54,7 +69,7 @@ export async function fetchAuth(url, options = {}) {
   // refaz request
   res = await doFetch(data.accessToken);
   return res;
-}
+};
 
 
 export function logoutUser() {
