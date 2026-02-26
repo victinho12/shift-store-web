@@ -22,7 +22,7 @@ export function getUserFromToken() {
   if (!token) return (window.location.href = "../view/home.html");
   
   try{
-    JSON.parse(atob(token.split(".")[1])); // payload do JWT
+    const user = JSON.parse(atob(token.split(".")[1])); // payload do JWT
     if(user.tipo_user === "") return (window.location.href = "../view/index.html");
   }catch{
     localStorage.clear();

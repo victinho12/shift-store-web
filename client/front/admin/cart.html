@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../style/home.css" />
+    <link rel="stylesheet" href="../style/carrinho.css" />
+    <script type="module" src="../script/carrinho.js" defer></script>
+    <title>Carrinho | Shift Store</title>
+  </head>
+
+  <body>
+    <header class="conteiner-header">
+      <nav class="header">
+        <a href="home.html"><img src="../assets/goku (1).png" alt="Shift Store" /></a>
+      </nav>
+
+      <nav class="header-infos">
+        <a href="./home.html">Home</a>
+        <a href="./produtos.html">Produtos</a>
+        <a href="">Atendimento</a>
+        <a href="">Sobre nós</a>
+      </nav>
+
+      <nav class="entrar-cadastrar">
+        <a href="index.html">Entrar</a>
+        <a href="./cadastro.html">Cadastrar-se</a>
+      </nav>
+
+      <nav class="carrinhoStyle" id="btn-ir-carrinho" title="Carrinho">
+        <p id="carrinho">0</p>
+        <img src="../assets/ChatGPT Image Dec 15, 2025, 04_44_20 AM.png" alt="Carrinho" />
+      </nav>
+    </header>
+
+    <main class="cart-page">
+      <div class="cart-head">
+        <h1>Seu carrinho</h1>
+        <a class="cart-back" href="./home.html">← Voltar</a>
+      </div>
+
+      <section class="cart-box">
+        <div class="cart-table">
+          <div class="cart-header">
+            <div>Produto</div>
+            <div class="col-qtd">Qtd</div>
+            <div class="col-preco">Preço</div>
+            <div style="text-align:right;">Ações</div>
+          </div>
+
+          <div id="cart-lista" class="cart-body">
+            <!-- linhas via JS -->
+          </div>
+        </div>
+
+        <div class="cart-resumo">
+          <h2>Resumo</h2>
+
+          <div class="resumo-linha">
+            <span>Itens</span>
+            <strong id="resumo-itens">0</strong>
+          </div>
+
+          <div class="resumo-linha">
+            <span>Total</span>
+            <strong id="cart-total">R$ 0,00</strong>
+          </div>
+
+          <button id="btn-finalizar" class="btn-primary" type="button">
+            Finalizar compra
+          </button>
+
+          <button id="btn-limpar-cart" class="btn-secondary" type="button">
+            Limpar carrinho
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-bottom">
+        <p>© 2026 Shift Store — Todos os direitos reservados</p>
+      </div>
+    </footer>
+  </body>
+</html>

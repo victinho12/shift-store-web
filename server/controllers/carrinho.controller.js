@@ -48,14 +48,14 @@ async function verCartID(req, res, next) {
         join public.produto p on p.id = pv.id_produto
         join public.tamanho t on t.id = pv.id_tamanho
         join public.cor c on c.id = pv.id_cor
-        where cart.id = $1
+        where u.id = $1
         order by u.nome;`,
       [id],
     );
     if (cart.rowCount === 0)
       return res.send("Nenhum carrinho encontrado com esse id");
 
-    return res.json({ ok: true, data: cart.rows[0] });
+    return res.json({ ok: true, data: cart.rows });
   } catch (err) {
     return next(err);
   }
@@ -82,87 +82,95 @@ async function deltarCart(req, res, next) {
     return next(err);
   }
 }
-
 async function addCart(req, res, next) {
   const client = await pool.connect();
   try {
-    await client.query(`BEGIN`);
+    await client.query("BEGIN");
+
     const { id_usuario, id_produto_variacao, quantidade } = req.body;
 
-    let id_carrinho = null;
+    const idUsuarioNum = Number(id_usuario);
+    const idVarNum = Number(id_produto_variacao);
+    const qtdNum = Number(quantidade);
 
-    let id_produto_variacaoinumber = Number(id_produto_variacao);
-    if (quantidade <= 0)
+    if (!Number.isInteger(idUsuarioNum) || idUsuarioNum <= 0) {
+      throw new AppError("Id do usuário inválido", 400, "ID_USUARIO_INVALIDO");
+    }
+
+    if (!Number.isInteger(idVarNum) || idVarNum <= 0) {
       throw new AppError(
-        "Quantidade precisa ser um numero inteiro positivo",
-        404,
+        "Id da variação do produto deve ser um número positivo",
+        400,
+        "ID_PRODUTO_VARIACAO_INVALIDO",
+      );
+    }
+
+    if (!Number.isInteger(qtdNum) || qtdNum <= 0) {
+      throw new AppError(
+        "Quantidade precisa ser um número inteiro positivo",
+        400,
         "QUANTIDADE_INVALIDA",
       );
-    if (
-      !Number.isInteger(id_produto_variacaoinumber) ||
-      id_produto_variacaoinumber <= 0
-    )
-      throw new AppError(
-        "Id da variaçõa do produto deve ser um numero positivo",
-        404,
-        "ID_PRODUTO_VARIAÇÃO_INVALIDO",
-      );
+    }
 
-    //fazer a validação de qtd
-
-    const cartExist = await client.query(
-      `select c.id from public.carrinho c where c.id_usuario = $1 and c.status = 'ativo' LIMIT 1`,
-      [id_usuario],
-    );
-    const qtd_carrinho = await client.query(
-      `select quantidade from public.carrinho_item where id_carrinho = $1`,
-      [cartExist.rows[0].id],
-    );
+    // produto existe?
     const produtoExist = await client.query(
-      `select estoque, id from public.produto_variacao where id = $1`,
-      [id_produto_variacao],
+      `select estoque from public.produto_variacao where id = $1`,
+      [idVarNum],
     );
-    if (produtoExist.rowCount === 0)
-      throw new AppError(
-        "Produto não encontrado",
-        404,
-        "PRODUTO_NAO_ENCONTRADO",
-      );
+    if (produtoExist.rowCount === 0) {
+      throw new AppError("Produto não encontrado", 404, "PRODUTO_NAO_ENCONTRADO");
+    }
+
+    // pega/gera carrinho
+    const cartExist = await client.query(
+      `select c.id from public.carrinho c where c.id_usuario = $1 and c.status = 'ativo' limit 1`,
+      [idUsuarioNum],
+    );
+
+    let id_carrinho;
     if (cartExist.rowCount === 0) {
       const cartNovo = await client.query(
-        `INSERT INTO PUBLIC.carrinho (id_usuario) values ($1) RETURNING id`,
-        [id_usuario],
+        `insert into public.carrinho (id_usuario) values ($1) returning id`,
+        [idUsuarioNum],
       );
       id_carrinho = cartNovo.rows[0].id;
     } else {
       id_carrinho = cartExist.rows[0].id;
     }
 
+    // upsert item no carrinho
     const cartItem = await client.query(
-      `INSERT INTO PUBLIC.carrinho_item (id_carrinho, id_produto_variacao, quantidade) VALUES ($1, $2, $3) on conflict (id_carrinho ,id_produto_variacao) do update set quantidade = public.carrinho_item.quantidade + EXCLUDED.quantidade RETURNING *`,
-      [id_carrinho, id_produto_variacao, quantidade],
+      `insert into public.carrinho_item (id_carrinho, id_produto_variacao, quantidade)
+       values ($1, $2, $3)
+       on conflict (id_carrinho, id_produto_variacao)
+       do update set quantidade = public.carrinho_item.quantidade + excluded.quantidade
+       returning *`,
+      [id_carrinho, idVarNum, qtdNum],
     );
-    const produtoExist2 = await client.query(`select estoque from public.produto_variacao where id = $1`,[id_produto_variacao])
-    if (produtoExist2.rowCount === 0)
-      throw new AppError(
-        "Produto não encontrado",
-        404,
-        "PRODUTO_NAO_ENCONTRADO",
-      );
 
-    const estoque = produtoExist2.rows[0].estoque;
-    const quantidadeFinal = cartItem.rows[0].quantidade;
-    if(quantidadeFinal > estoque) throw new AppError("Quantidade em estoque insdisponivel", 400, "ESTOQUE_INDISPONIVEL", `Quantidade que vc tentou ${quantidadeFinal}, mas temos apenas ${estoque} em estoque`);
-    await client.query(`COMMIT`);
+    // valida estoque com quantidade final
+    const estoque = Number(produtoExist.rows[0].estoque);
+    const quantidadeFinal = Number(cartItem.rows[0].quantidade);
+
+    if (quantidadeFinal > estoque) {
+      throw new AppError(
+        "Quantidade em estoque indisponível",
+        400,
+        "ESTOQUE_INDISPONIVEL",
+        `Quantidade que você tentou ${quantidadeFinal}, mas temos apenas ${estoque} em estoque`,
+      );
+    }
+
+    await client.query("COMMIT");
     return res.json({ ok: true, data: cartItem.rows });
   } catch (err) {
-    await client.query(`ROLLBACK`);
+    await client.query("ROLLBACK");
     return next(err);
   } finally {
     client.release();
   }
 }
-
 async function alterarCart(req, res ,next) {
   try{
     const id = parseInt(req.params.id);

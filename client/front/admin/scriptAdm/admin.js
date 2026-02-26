@@ -1,6 +1,9 @@
 import { API_ROUPAS, API_CLIENT_KEY, API_LOGIN, validarTokenFront, fetchAuth } from "../../script/services/config.js";
 
 validarTokenFront();
+const token = localStorage.getItem('token');
+const user = JSON.parse(atob(token.split(".")[1]));
+console.log(user.id);
 
 const cards = document.getElementById("cards");
 const cardsOriginaisHTML = cards.innerHTML;
