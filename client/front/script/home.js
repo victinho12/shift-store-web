@@ -4,11 +4,13 @@ import {
   fetchAuth,
   logoutUser,
 } from "./services/config.js";
-
+import {addToCart} from "./services/cart.js"
 let limit = 5;
 let offset = 0;
 let couter = 0;
-
+const token = localStorage.getItem('token')
+const user = JSON.parse(atob(token.split(".")[1]));
+let user_id = user.id;
 const imgs = document.getElementById("img");
 const img = document.querySelectorAll("#img img");
 const cartNun = document.getElementById("carrinho");
@@ -70,8 +72,14 @@ async function carregarProdutos() {
     <p class="card-color">Cor: ${roupa.cor}</p>
     <p class="card-price">R$ ${Number(roupa.preco).toFixed(2)}</p>
   </div>
-  <div class = "btn-add-cart"><button>Adicionar ao carrinho</button></div>
+  <div class = "btn-add-cart"><button class="addToCart">Adicionar ao carrinho</button></div>
 `;
+      console.log(user_id, roupa.id, 1)
+      card
+        .querySelector(".addToCart")
+        .addEventListener("click", async () => {
+          addToCart(user_id,roupa.id, 1);
+        });
       lista_produtos_shift.appendChild(card);
     });
   } catch (err) {

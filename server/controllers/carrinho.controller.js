@@ -89,14 +89,9 @@ async function addCart(req, res, next) {
 
     const { id_usuario, id_produto_variacao, quantidade } = req.body;
 
-    const idUsuarioNum = Number(id_usuario);
     const idVarNum = Number(id_produto_variacao);
     const qtdNum = Number(quantidade);
-
-    if (!Number.isInteger(idUsuarioNum) || idUsuarioNum <= 0) {
-      throw new AppError("Id do usuário inválido", 400, "ID_USUARIO_INVALIDO");
-    }
-
+    
     if (!Number.isInteger(idVarNum) || idVarNum <= 0) {
       throw new AppError(
         "Id da variação do produto deve ser um número positivo",
@@ -125,14 +120,14 @@ async function addCart(req, res, next) {
     // pega/gera carrinho
     const cartExist = await client.query(
       `select c.id from public.carrinho c where c.id_usuario = $1 and c.status = 'ativo' limit 1`,
-      [idUsuarioNum],
+      [id_usuario],
     );
 
     let id_carrinho;
     if (cartExist.rowCount === 0) {
       const cartNovo = await client.query(
         `insert into public.carrinho (id_usuario) values ($1) returning id`,
-        [idUsuarioNum],
+        [id_usuario],
       );
       id_carrinho = cartNovo.rows[0].id;
     } else {
