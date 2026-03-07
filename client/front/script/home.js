@@ -4,16 +4,16 @@ import {
   fetchAuth,
   logoutUser,
 } from "./services/config.js";
-import {addToCart} from "./services/cart.js"
+import {addToCart, verCart} from "./cart.js"
 let limit = 5;
 let offset = 0;
-let couter = 0;
 const token = localStorage.getItem('token')
 const user = JSON.parse(atob(token.split(".")[1]));
-let user_id = user.id;
+let user_id = Number(user.id);
 const imgs = document.getElementById("img");
 const img = document.querySelectorAll("#img img");
 const cartNun = document.getElementById("carrinho");
+
 const lista_produtos_shift = document.getElementById("lista-produtos");
 const nome = document.getElementById("nome_cliente");
 const nome_value = localStorage.getItem("nome");
@@ -74,11 +74,11 @@ async function carregarProdutos() {
   </div>
   <div class = "btn-add-cart"><button class="addToCart">Adicionar ao carrinho</button></div>
 `;
-      console.log(user_id, roupa.id, 1)
       card
         .querySelector(".addToCart")
         .addEventListener("click", async () => {
           addToCart(user_id,roupa.id, 1);
+          atualizaCart();
         });
       lista_produtos_shift.appendChild(card);
     });
@@ -108,10 +108,16 @@ function mostrarSkeleton(qtd = 4) {
     lista_produtos_shift.appendChild(skeleton);
   }
 }
-function atualizaCart() {
-  couter = parseInt(localStorage.getItem("couterCar")) || 0;
-  cartNun.textContent = couter;
+async function atualizaCart() {
+  const qtd = await verCart(user_id);
+  cartNun.textContent = qtd || 0
+  verCart(user_id);
 }
+cartNun.addEventListener("click", () =>{
+  window.location.href = '../view/cart.html'
+})
 
 carregarProdutos();
-atualizaCart();
+
+const qtd = await verCart(user_id);
+  cartNun.textContent = qtd || 0
