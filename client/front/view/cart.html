@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="../assets/goku.svg" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../style/cart.css" />
+    <script type="module" src="../script/cart.js" defer></script>
+    <title>Carrinho | Shift Store</title>
+  </head>
+
+  <body>
+    <!-- HEADER -->
+    <header class="conteiner-header">
+      <nav class="header">
+        <a href="home.html">
+          <img src="../assets/goku (1).png" alt="Logo Shift Store" />
+        </a>
+      </nav>
+
+      <nav class="header-infos">
+        <a href="./home.html">Home</a>
+        <a href="./produtos.html">Produtos</a>
+        <a href="">Atendimento</a>
+        <a href="">Sobre nós</a>
+      </nav>
+
+      <nav class="entrar-cadastrar">
+        <a href="index.html">Entrar</a>
+        <a href="./cadastro.html">Cadastrar-se</a>
+      </nav>
+
+      <nav id="user-icon">
+        <p id="nome_cliente" class="nome">nome</p>
+        <img src="../assets/avatar-do-usuario.png" alt="Avatar do usuário" />
+      </nav>
+
+      <nav class="logoutClass">
+        <button id="logout-btn" type="button">Sair</button>
+      </nav>
+
+      <nav class="carrinhoStyle">
+        <p id="carrinho">0</p>
+        <img
+          src="../assets/ChatGPT Image Dec 15, 2025, 04_44_20 AM.png"
+          alt="Carrinho"
+        />
+      </nav>
+    </header>
+
+    <!-- CONTEÚDO -->
+    <main class="conteiner-body">
+      <section class="cart-wrap">
+
+        <!-- TOPO -->
+        <div class="cart-top">
+          <div>
+            <h1 class="cart-title">Seu carrinho</h1>
+            <p class="cart-subtitle">
+              Revise seus produtos antes de finalizar a compra.
+            </p>
+          </div>
+
+          <a class="cart-btn-ghost" href="./produtos.html">
+            Continuar comprando
+          </a>
+        </div>
+
+        <div class="cart-grid">
+
+          <!-- LISTA DE ITENS -->
+          <section class="cart-card">
+
+            <div class="cart-card-head">
+              <h2>Itens</h2>
+              <span class="cart-badge" id="cart-count">0</span>
+            </div>
+
+            <div class="cart-table-head">
+              <span>Produto</span>
+              <span class="right">Preço</span>
+              <span class="center">Qtd</span>
+              <span class="right">Subtotal</span>
+              <span class="right">Remover</span>
+            </div>
+
+            <!-- JS vai inserir os produtos aqui -->
+            <div id="cart-items"></div>
+
+            <!-- JS vai inserir mensagem de vazio aqui -->
+            <div id="cart-empty"></div>
+
+            <div class="btn-add-cart cart-footer">
+              <button type="button" id="atualizar-cart">Atualizar carrinho</button>
+            </div>
+
+          </section>
+
+          <!-- RESUMO -->
+          <aside class="cart-card cart-summary">
+
+            <div class="cart-card-head">
+              <h2>Resumo</h2>
+            </div>
+
+            <div class="cart-summary-body">
+
+              <div class="cart-row">
+                <span>Subtotal</span>
+                <strong id="cart-subtotal">R$ 0,00</strong>
+              </div>
+
+              <div class="cart-row">
+                <span>Frete</span>
+                <strong class="cart-green">Grátis</strong>
+              </div>
+
+              <div class="cart-line"></div>
+
+              <div class="cart-total">
+                <span>Total</span>
+                <span id="cart-total">R$ 0,00</span>
+              </div>
+
+              <div class="btn-add-cart cart-finalizar">
+                <button type="button">Finalizar compra</button>
+              </div>
+
+            </div>
+          </aside>
+
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
