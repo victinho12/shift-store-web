@@ -2,6 +2,9 @@
 import { API_CLIENT_KEY, API_CART, getUserFromToken, fetchAuth } from "./services/config.js"
 let id_usuario = getUserFromToken();
 console.log(id_usuario)
+
+
+
 export async function addToCart(id_usuario, id_produto_variacao, quantidade) {
 
     try {
@@ -41,6 +44,15 @@ export async function verCart(id_usuario) {
     }
 }
 export async function carregarCart() {
+  const nome = document.getElementById("nome_cliente")
+  const nome_value = localStorage.getItem("nome");
+if (nome_value) {
+  nome.textContent = nome_value;
+  nome.style.display = "block";
+} else {
+  nome.textContent = "user";
+  nome.style.display = "block";
+}
 
   const container = document.getElementById("cart-items");
   const emptyContainer = document.getElementById("cart-empty");
@@ -113,7 +125,8 @@ export async function carregarCart() {
         <div class="center">
           <input class="cart-qty-input" type="number" min="1" value="${quantidade}" />
         </div>
-
+        <div class="quantidade-mais"><button class="mais">+</button></div>
+        <div class="quantidade-menos"><button class="menos">-</button></div>
         <p class="right cart-green">
           ${formatBRL(valorTotalItem)}
         </p>
@@ -126,7 +139,17 @@ export async function carregarCart() {
             console.log("id od cart Front", produto.cart_id_item);
             await removerCart(produto.cart_id_item);
             await carregarCart();
-        })
+        });
+        card.querySelector(".mais").addEventListener("click", async () => {
+          console.log(`id do produto: ${produto.cart_id_item} quantidade: ${quantidade}`);
+            await atualizaCartQuantidade(quantidade + 1, produto.cart_id_item);
+            await carregarCart();
+        });
+        card.querySelector(".menos").addEventListener("click", async () => {
+          console.log(`id do produto: ${produto.cart_id_item} quantidade: ${quantidade}`);
+          await atualizaCartQuantidade(quantidade - 1, produto.cart_id_item);
+          await carregarCart();
+        });
       container.appendChild(card);
     });
 
@@ -156,7 +179,18 @@ async function removerCart(id_carrinho_item) {
 }
 async function atualizaCartQuantidade(quantidade, id_carrinho_item) {
     try{
-      const res = await fetchAuth(``)
+      const payload = {quantidade}
+      const res = await fetchAuth(`${API_CART}/${id_carrinho_item}`, {
+        method: "PUT",
+        headers:{
+          "Content-Type": "application/json",
+          "shift-api-key": API_CLIENT_KEY
+        },
+        body: JSON.stringify(payload)
+      });
+      let data = await res.json();
+      if(!res.ok) throw new Error(`não foi possivel realizar a atualização da quantidade ${data.message}`);
+
     }catch(err){
       console.error(err.message);
     }
