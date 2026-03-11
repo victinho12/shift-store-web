@@ -53,7 +53,7 @@ JOIN public.produto p ON p.id = pv.id_produto
 JOIN public.tamanho t ON t.id = pv.id_tamanho
 JOIN public.cor c ON c.id = pv.id_cor
 WHERE u.id = $1
-ORDER BY u.nome;`,
+ORDER BY cart_item.id;`,
       [id],
     );
     if (cart.rowCount === 0)

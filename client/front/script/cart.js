@@ -172,7 +172,7 @@ async function removerCart(id_carrinho_item) {
             }
         });
         const data = await res.json();
-        console.log(data.data, "item excluido com sucesso")
+        console.log(data.data, "item excluido com sucesso");
     }catch(err){
         console.error(err.message)
     }
