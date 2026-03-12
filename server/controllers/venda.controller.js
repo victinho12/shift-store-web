@@ -29,7 +29,7 @@ async function fazerVenda(req, res, next) {
         //PESQUISAR SE O USUARIO EXISTE
         const pesquisar_usuario = await client.query(`SELECT id FROM PUBLIC.usuarios where id = $1`,[id_usuario]);
         //VALIDAR SE O USUARIO EXISTE, SE NÃO EXISTIR ELE DA UM ERRO ESPERADO
-        if(pesquisar_usuario.rows[0].length !== 1) throw new AppError("Usuario não encontrado, crie uma conta ou loge para continuar", 404, "USUARIO_NAO_ENCONTRADO", pesquisar_usuario.rows);
+        if(pesquisar_usuario.rows.length !== 1) throw new AppError("Usuario não encontrado, crie uma conta ou loge para continuar", 404, "USUARIO_NAO_ENCONTRADO", pesquisar_usuario.rows);
 
         let id_usuario_exist = pesquisar_usuario.rows[0].id;
 
