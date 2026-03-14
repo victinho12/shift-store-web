@@ -51,7 +51,7 @@ async function carregarProdutos() {
       },
     );
     const resJson = await res.json();
-
+    
     if (!res.ok) {
       throw new Error(resJson.message || "Erro ao carregar produtos");
     }
