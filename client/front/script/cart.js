@@ -144,6 +144,7 @@ if (nome_value) {
         card.querySelector('.cart-remove').addEventListener('click', async () => {
             console.log("id od cart Front", produto.cart_id_item);
             await removerCart(produto.cart_id_item);
+            window.location.reload(); 
         });
         card.querySelector(".mais").addEventListener("click", async () => {
           console.log(`id do produto: ${produto.cart_id_item} quantidade: ${quantidade}`);
@@ -155,22 +156,23 @@ if (nome_value) {
           await atualizaCartQuantidade(quantidade - 1, produto.cart_id_item);
           await carregarCart();
         });
+
+
       itensVenda = data.data.map(produto => ({
         id_produto_variacao: produto.produto_id,
         quantidade: Number(produto.qtd_carrinho)
-      }))
+      }));
+
+
       container.appendChild(card);
     });
 
     subtotalEl.textContent = formatBRL(subtotalGeral);
     totalEl.textContent = formatBRL(subtotalGeral);
-    console.log(itensVenda);
   } catch (err) {
     console.error(err.message);
   }
 }
-
-
 
  
 
