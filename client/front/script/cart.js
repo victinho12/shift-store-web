@@ -1,12 +1,11 @@
 // fazer o cart da aplicação com js puro
-import { API_CLIENT_KEY, API_CART, getUserFromToken, fetchAuth } from "./services/config.js"
-let id_usuario = getUserFromToken();
-console.log(id_usuario)
+import { API_CLIENT_KEY, API_CART, getUserFromToken, fetchAuth, API_CHEKOUT, logoutUser } from "./services/config.js"
+let id_usuario;
+let itensVenda = [];
 
 
 
 export async function addToCart(id_usuario, id_produto_variacao, quantidade) {
-
     try {
         const payload ={
             id_usuario: Number(id_usuario),
@@ -28,7 +27,10 @@ export async function addToCart(id_usuario, id_produto_variacao, quantidade) {
     }
 }
 export async function verCart(id_usuario) {
+    id_usuario = getUserFromToken();
      let id = Number(id_usuario);
+     
+     if(!id) return alert("loge ou cadastre-se para comprar um item")
     try {
         const res = await fetchAuth(`${API_CART}/${id}`, {
             headers: {
@@ -44,6 +46,7 @@ export async function verCart(id_usuario) {
     }
 }
 export async function carregarCart() {
+   
   const nome = document.getElementById("nome_cliente")
   const nome_value = localStorage.getItem("nome");
 if (nome_value) {
@@ -53,7 +56,6 @@ if (nome_value) {
   nome.textContent = "user";
   nome.style.display = "block";
 }
-
   const container = document.getElementById("cart-items");
   const emptyContainer = document.getElementById("cart-empty");
   const badge = document.getElementById("cart-count");
@@ -67,17 +69,21 @@ if (nome_value) {
     });
 
   try {
-    const res = await fetchAuth(`${API_CART}/${id_usuario}`, {
+    id_usuario = getUserFromToken();
+    document.getElementById("carrinho").textContent = await verCart(id_usuario) || 0;
+    document.getElementById("logout-btn").addEventListener("click", logoutUser);
+    let id = Number(id_usuario);
+    const res = await fetchAuth(`${API_CART}/${id}`, {
       headers: { "shift-api-key": API_CLIENT_KEY }
     });
 
-    const data = await res.json();
+    const data = await res?.json();
     if (!res.ok) throw new Error(data.message);
 
     container.innerHTML = "";
     emptyContainer.innerHTML = "";
 
-    if (!data.ok || data.data.length === 0) {
+    if (!res.ok || data.data.length === 0) {
       emptyContainer.innerHTML = `
         <div class="cart-emptyBox">
           <h2>Você ainda não tem nada no carrinho</h2>
@@ -99,7 +105,7 @@ if (nome_value) {
     badge.textContent = data.quantidade;
 
     let subtotalGeral = 0;
-
+    itensVenda = [];
     data.data.forEach((produto) => {
 
       const quantidade = Number(produto.qtd_carrinho);
@@ -138,7 +144,6 @@ if (nome_value) {
         card.querySelector('.cart-remove').addEventListener('click', async () => {
             console.log("id od cart Front", produto.cart_id_item);
             await removerCart(produto.cart_id_item);
-            await carregarCart();
         });
         card.querySelector(".mais").addEventListener("click", async () => {
           console.log(`id do produto: ${produto.cart_id_item} quantidade: ${quantidade}`);
@@ -150,16 +155,26 @@ if (nome_value) {
           await atualizaCartQuantidade(quantidade - 1, produto.cart_id_item);
           await carregarCart();
         });
+      itensVenda = data.data.map(produto => ({
+        id_produto_variacao: produto.produto_id,
+        quantidade: Number(produto.qtd_carrinho)
+      }))
       container.appendChild(card);
     });
 
     subtotalEl.textContent = formatBRL(subtotalGeral);
     totalEl.textContent = formatBRL(subtotalGeral);
-
+    console.log(itensVenda);
   } catch (err) {
     console.error(err.message);
   }
 }
+
+
+
+ 
+
+
 
 async function removerCart(id_carrinho_item) {
     try{
@@ -173,6 +188,7 @@ async function removerCart(id_carrinho_item) {
         });
         const data = await res.json();
         console.log(data.data, "item excluido com sucesso");
+        console.log(id_carrinho_item)
     }catch(err){
         console.error(err.message)
     }
@@ -196,8 +212,51 @@ async function atualizaCartQuantidade(quantidade, id_carrinho_item) {
     }
 }
 
-// chama automaticamente se estiver na página do carrinho
-if (window.location.pathname.includes("cart")) {
-  carregarCart();
+
+document.getElementById('btn-vender')?.addEventListener('click', async () =>{ await checkout(); await carregarCart()});
+
+export async function checkout() {
+  getUserFromToken();
+  const venda = {
+    id_usuario: id_usuario,
+    metodo_pagamento: "PIX",
+    itens: itensVenda
+  };
+
+  if(itensVenda.length === 0){
+    alert("Seu carrinho está vazio");
+    return;
+  }
+
+  try {
+
+    const res = await fetchAuth(API_CHEKOUT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "shift-api-key": API_CLIENT_KEY
+      },
+      body: JSON.stringify(venda)
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.message); else{alert("Venda realizada")}
+
+    console.log("Venda realizada:", data);
+
+  } catch (err) {
+    console.error(err.message);
+    alert(err.message);
+  }
+
 }
+
+
+
+
+
+
+// chama automaticamente se estiver na página do carrinho
+carregarCart();
 

@@ -52,6 +52,9 @@ async function fazerVenda(req, res, next) {
                 where pv.id = $1
                 `,[id_produto_variacao]
             );
+            if(produto.rows.length !== 1){
+    throw new AppError("Produto não encontrado", 404, "PRODUTO_NAO_ENCONTRADO");
+}
             //pega o preco unitario no select
             const preco = produto.rows[0].preco_unitario;
             //pega a quantidade da roupa que tem em estoque
@@ -69,8 +72,10 @@ async function fazerVenda(req, res, next) {
         }
         //atualiza o valor total da compra
         await client.query("UPDATE PUBLIC.vendas set valor_total = $1 where id = $2",[valor_total, id_vendas]);
+        await client.query("delete from PUBLIC.carrinho where id_usuario = $1",[id_usuario]);
         await client.query(`COMMIT`);
 
+        
         //da ok e envia um json que a compra foi realizada com successo
         res.json({
             ok: true, data: "venda realizada com sucesso"
