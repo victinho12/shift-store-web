@@ -8,8 +8,9 @@ import {addToCart, verCart} from "./cart.js"
 let limit = 5;
 let offset = 0;
 const token = localStorage.getItem('token')
-const user = JSON.parse(atob(token.split(".")[1]));
-let user_id = Number(user.id);
+const user = !token ? false : JSON.parse(atob(token?.split(".")[1]));
+let user_id = user === false ? false : Number(user.id);
+
 const imgs = document.getElementById("img");
 const img = document.querySelectorAll("#img img");
 const cartNun = document.getElementById("carrinho");
@@ -51,7 +52,7 @@ async function carregarProdutos() {
       },
     );
     const resJson = await res.json();
-
+    
     if (!res.ok) {
       throw new Error(resJson.message || "Erro ao carregar produtos");
     }
@@ -64,7 +65,7 @@ async function carregarProdutos() {
       const card = document.createElement("div");
       card.classList.add("card");
       card.innerHTML = `
-  <div class="card-img">
+  <a><div class="card-img">
     <img src="http://localhost:3000/uploads/${roupa.img}" alt="${roupa.nome}">
   </div>
   <div class="card-info">
@@ -72,13 +73,15 @@ async function carregarProdutos() {
     <p class="card-color">Cor: ${roupa.cor}</p>
     <p class="card-price">R$ ${Number(roupa.preco).toFixed(2)}</p>
   </div>
-  <div class = "btn-add-cart"><button class="addToCart">Adicionar ao carrinho</button></div>
+  <div class = "btn-add-cart"><button class="addToCart">Comprar</button></div>
+  
 `;
       card
         .querySelector(".addToCart")
         .addEventListener("click", async () => {
-          addToCart(user_id,roupa.id, 1);
-          atualizaCart();
+          if(!user_id) return alert("cadastre para comprar");
+          await addToCart(user_id,roupa.id, 1);
+          await atualizaCart();
         });
       lista_produtos_shift.appendChild(card);
     });
@@ -109,15 +112,22 @@ function mostrarSkeleton(qtd = 4) {
   }
 }
 async function atualizaCart() {
+  if(!user_id) return alert("cadastre para usar o carrinho");
+
   const qtd = await verCart(user_id);
-  cartNun.textContent = qtd || 0
-  verCart(user_id);
+  cartNun.textContent = qtd || 0;
 }
 cartNun.addEventListener("click", () =>{
   window.location.href = '../view/cart.html'
 })
 
-carregarProdutos();
+async function init(){
+  await carregarProdutos();
 
-const qtd = await verCart(user_id);
-  cartNun.textContent = qtd || 0
+  if(user_id){
+    const qtd = await verCart(user_id);
+    cartNun.textContent = qtd || 0;
+  }
+}
+
+init();

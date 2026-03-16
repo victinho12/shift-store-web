@@ -8,6 +8,6 @@ router.get("/", validarKeyApi, controller.verVendas);
 // fazer router para buscar as vendas pelo id
 
 
-// fazer um post de uma venda
+router.post("/", validarKeyApi, controller.fazerVenda);
 
 module.exports = router;

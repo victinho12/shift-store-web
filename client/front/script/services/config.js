@@ -2,6 +2,7 @@ export const API_ROUPAS = "http://localhost:3000/roupas/";
 export const API_LOGIN = "http://localhost:3000/user";
 export const API_CART = "http://localhost:3000/cart"
 export const API_CLIENT_KEY = "VICTOR_EDUARDO_MARTINS_123";
+export const API_CHEKOUT = "http://localhost:3000/vendas"
 
 export function validarTokenFront() {
   const token = localStorage.getItem("token");
@@ -19,7 +20,7 @@ export function validarTokenFront() {
 };
 export function getUserFromToken() {
   const token = localStorage.getItem("token");
-  if (!token) return (window.location.href = "../view/home.html");
+  if (!token) return alert("loge para comprar um item");
   
   try{
     const user = JSON.parse(atob(token.split(".")[1])); // payload do JWT

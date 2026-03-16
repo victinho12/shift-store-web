@@ -33,10 +33,11 @@ async function verCart(req, res, next) {
 async function verCartID(req, res, next) {
   try {
     const id = parseInt(req.params.id); // ou req.body.id
-
+    const idExist = Number(id);
     const cart = await pool.query(
       `SELECT
   cart_item.id as cart_id_item,
+  pv.id as produto_id,
   u.nome AS user_nome,
   p.nome AS produto_nome_solicitado,
   cart_item.quantidade AS qtd_carrinho,
@@ -54,7 +55,7 @@ JOIN public.tamanho t ON t.id = pv.id_tamanho
 JOIN public.cor c ON c.id = pv.id_cor
 WHERE u.id = $1
 ORDER BY cart_item.id;`,
-      [id],
+      [idExist],
     );
     if (cart.rowCount === 0)
       return res.send("Nenhum carrinho encontrado com esse id");
