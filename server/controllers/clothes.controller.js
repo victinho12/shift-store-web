@@ -339,7 +339,7 @@ async function buscarRoupaPorGenero(req, res, next) {
     limit = Number.isInteger(parseInt(limit)) ? parseInt(limit) : 50;
 
     const query = `
-select
+SELECT DISTINCT ON (p.id)
   p.id as id_familia,
   pv.id as id,
   p.nome as nome,
@@ -349,34 +349,36 @@ select
   COALESCE(picor.img, piall.img) as img,
   pt.nome as tamanho,
   pc.nome as categoria
-from public.produto_variacao pv
-join public.cor c on c.id = pv.id_cor
-join public.produto p on p.id = pv.id_produto
 
--- 1) tenta pegar imagem da MESMA cor
-left join lateral (
-  select pi2.img
-  from public.produto_imagem pi2
-  where pi2.id_produto = p.id
-    and pi2.id_cor = pv.id_cor
-  order by pi2.principal desc, pi2.id asc
-  limit 1
-) picor on true
+FROM public.produto_variacao pv
+JOIN public.cor c ON c.id = pv.id_cor
+JOIN public.produto p ON p.id = pv.id_produto
 
--- 2) fallback: pega QUALQUER imagem do produto
-left join lateral (
-  select pi3.img
-  from public.produto_imagem pi3
-  where pi3.id_produto = p.id
-  order by pi3.principal desc, pi3.id asc
-  limit 1
-) piall on true
+LEFT JOIN LATERAL (
+  SELECT pi2.img
+  FROM public.produto_imagem pi2
+  WHERE pi2.id_produto = p.id
+    AND pi2.id_cor = pv.id_cor
+  ORDER BY pi2.principal DESC, pi2.id ASC
+  LIMIT 1
+) picor ON true
 
-join public.tamanho pt on pt.id = pv.id_tamanho
-join public.categoria pc on pc.id = p.id_categoria
-where pc.nome ilike $1 and p.nome ilike $4
-order by pv.id_produto, pv.id_cor
-limit $2 offset $3;`;
+LEFT JOIN LATERAL (
+  SELECT pi3.img
+  FROM public.produto_imagem pi3
+  WHERE pi3.id_produto = p.id
+  ORDER BY pi3.principal DESC, pi3.id ASC
+  LIMIT 1
+) piall ON true
+
+JOIN public.tamanho pt ON pt.id = pv.id_tamanho
+JOIN public.categoria pc ON pc.id = p.id_categoria
+
+WHERE pc.nome ILIKE $1 
+AND p.nome ILIKE $4
+
+ORDER BY p.id, pv.id_cor
+LIMIT $2 OFFSET $3;`;
 
     const resultSelect = await pool.query(query, [
       categoria,

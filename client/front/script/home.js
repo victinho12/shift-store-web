@@ -70,11 +70,11 @@ async function carregarProdutos() {
   </div>
   <div class="card-info">
     <h2 class="card-title">${roupa.nome} ${roupa.tamanho}</h2>
-    <p class="card-color">Cor: ${roupa.cor}</p>
+    <p class="card-color">Cor: ${roupa.cor} ${roupa.categoria}</p>
     <p class="card-price">R$ ${Number(roupa.preco).toFixed(2)}</p>
   </div>
   <div class = "btn-add-cart"><button class="addToCart">Comprar</button></div>
-  
+  </a>
 `;
       card
         .querySelector(".addToCart")
