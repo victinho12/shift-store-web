@@ -7,8 +7,14 @@ async function buscarRoupaPorId(req, res, next) {
     const isNum = Number(id);
     if (!Number.isInteger(isNum) || isNum <= 0)
       throw new AppError("Id invalido", 400, "ID_INVALIDO");
+    const {tamanhoP, corP} = req.query;
+ 
+
+    const tamanhoProd = tamanhoP ? `%${tamanhoP}%` : "%";
+    const cor = corP ? `%${corP}%` : "%";
     const resultSelectId = await pool.query(
-      `select 
+      `select
+      p.id as id_familia,
       pv.id as id,
       p.nome as nome,
       c.nome as cor,
@@ -23,10 +29,32 @@ async function buscarRoupaPorId(req, res, next) {
       join public.produto_imagem pi on pi.id_produto = p.id
       join public.tamanho pt on pt.id = pv.id_tamanho
       join public.categoria pc on pc.id = p.id_categoria
-      where pv.id = $1`,
-      [id],
+      where pv.id = $1 and pt.nome ilike $2 and c.nome ilike $3`,
+      [id,tamanhoProd, cor],
     );
-    return res.json({ ok: true, data: resultSelectId.rows[0] });
+
+    const id_familia = resultSelectId.rows[0].id_familia;
+   
+    const tamanho = resultSelectId.rows[0].tamanho
+  
+    const buscarTamanho = await pool.query(`select t.nome as tamanho from public.produto_variacao pv
+      join public.produto p on p.id = pv.id_produto 
+      join public.tamanho t on t.id = pv.id_tamanho
+      join public.categoria c on c.id = p.id_categoria
+      where p.id = $1 and pv.estoque > 0`,[id_familia]
+    );
+    
+    //const tamanho = buscarTamanho.rows.tamanho
+
+    const buscarCorProduto = await pool.query(`select c.nome as cor from produto_variacao pv
+      join public.produto p on p.id = pv.id_produto
+      join public.cor c on c.id = pv.id_cor
+      join public.tamanho t on t.id = pv.id_tamanho 
+      where p.id = $1 and pv.estoque > 0 and t.nome ilike $2
+       `,[id_familia, tamanho]);
+
+    
+    return res.json({ ok: true, tamanhos: buscarTamanho.rows, cores: buscarCorProduto.rows, data: resultSelectId.rows[0], });
   } catch (err) {
     return next(err);
   }

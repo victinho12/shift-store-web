@@ -1,0 +1,268 @@
+/* ================= RESET ================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+/* ================= BODY ================= */
+body {
+  background-color: rgb(51, 13, 13);
+  color: white;
+}
+
+/* ================= HEADER ================= */
+.conteiner-header {
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 5%;
+  border-bottom: 2px solid #8b0000;
+}
+.conteiner-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+/* Logo */
+.header img {
+  width: 90px;
+}
+
+/* Navegação central */
+.header-infos {
+  display: flex;
+  gap: 30px;
+}
+
+.header-infos a {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+.header-infos a:hover {
+  color: rgb(150, 24, 24);
+}
+
+/* Entrar / Cadastrar / Carrinho */
+.entrar-cadastrar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.entrar-cadastrar a {
+  text-decoration: none;
+  color: white;
+  font-size: 0.9rem;
+  background-color: black;
+  border-radius: 18px;
+  padding: 6px 14px;
+  border: 2px solid white;
+  transition: 0.3s;
+}
+
+.entrar-cadastrar a:hover {
+  background-color: rgb(150, 24, 24);
+  border-color: rgb(150, 24, 24);
+}
+
+/* ================= CARRINHO ================= */
+.carrinhoStyle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+/* Ícone */
+.carrinhoStyle img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+/* Badge (quantidade) */
+#carrinho {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  background: #8b0000;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
+  transition: transform 0.2s ease;
+}
+
+.carrinhoStyle:hover #carrinho {
+  transform: scale(1.1);
+}
+
+
+.entrar-cadastrar img {
+  width: 28px;
+  cursor: pointer;
+}
+#user-icon {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 20px;
+  padding: 6px 12px;
+  border-radius: 30px;
+  background-color: rgba(255, 255, 255, 0.05);
+  transition: 0.3s;
+  cursor: pointer;
+}
+
+/* Hover elegante */
+#user-icon:hover {
+  background-color: rgba(139, 0, 0, 0.2);
+}
+
+/* Nome do usuário */
+#user-icon .nome {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #fff;
+  white-space: nowrap;
+}
+
+/* Avatar */
+#user-icon img {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #8b0000;
+}
+/* ================= LOGOUT ================= */
+.logoutClass {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 12px;
+}
+
+#logout-btn {
+  background: linear-gradient(135deg, #000000, #000000);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 18px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid white
+}
+
+/* Hover */
+#logout-btn:hover {
+  background: linear-gradient(135deg, hsl(0, 100%, 27%), hsl(0, 100%, 27%));
+  border: 2px solid hsl(0, 100%, 27%)
+}
+
+/* Click */
+#logout-btn:active {
+  transform: scale(0.96);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.footer {
+  background-color: #000;
+  color: #fff;
+  padding: 40px 20px 20px;
+  margin-top: 60px;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+}
+
+.footer-col h3 {
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+}
+
+.footer-col ul {
+  list-style: none;
+}
+
+.footer-col ul li {
+  margin-bottom: 8px;
+}
+
+.footer-col a {
+  color: #bbb;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.footer-col a:hover {
+  color: #fff;
+}
+
+.footer-logo {
+  width: 80px;
+  margin-bottom: 10px;
+}
+
+.footer-text {
+  font-size: 0.9rem;
+  color: #bbb;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 30px;
+  padding-top: 15px;
+  border-top: 1px solid #333;
+  font-size: 0.85rem;
+  color: #aaa;
+}

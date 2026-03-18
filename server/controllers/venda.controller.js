@@ -94,3 +94,20 @@ async function fazerVenda(req, res, next) {
 }
 
 module.exports = { verVendas, fazerVenda };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

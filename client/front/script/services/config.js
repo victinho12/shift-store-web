@@ -82,3 +82,7 @@ export function logoutUser() {
   window.location.href = "./index.html";
 };
 
+export function exibirNome(){
+  const nome = localStorage.getItem("nome");
+  return nome
+}
