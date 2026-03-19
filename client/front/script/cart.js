@@ -243,7 +243,7 @@ export async function checkout() {
 
     const data = await res.json();
 
-    if (!res.ok) throw new Error(data.message); else{alert("Venda realizada")}
+    if (!res.ok) throw new Error(data.message); else{alert("Venda realizada"); window.location.reload();}
 
     console.log("Venda realizada:", data);
 

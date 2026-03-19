@@ -46,12 +46,13 @@ async function buscarRoupaPorId(req, res, next) {
     
     //const tamanho = buscarTamanho.rows.tamanho
 
-    const buscarCorProduto = await pool.query(`select c.nome as cor from produto_variacao pv
+    const buscarCorProduto = await pool.query(`select distinct c.nome as cor from produto_variacao pv
       join public.produto p on p.id = pv.id_produto
       join public.cor c on c.id = pv.id_cor
       join public.tamanho t on t.id = pv.id_tamanho 
-      where p.id = $1 and pv.estoque > 0 and t.nome ilike $2
-       `,[id_familia, tamanho]);
+      join public.categoria ct on ct.id = p.id_categoria 
+      where p.id = $1 and pv.estoque > 0
+       `,[id_familia]);
 
     
     return res.json({ ok: true, tamanhos: buscarTamanho.rows, cores: buscarCorProduto.rows, data: resultSelectId.rows[0], });
