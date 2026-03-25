@@ -11,7 +11,6 @@ let preco = document.getElementById("produto_preco");
 let parcela = document.getElementById("produto_preco_parcela");
 let select = document.getElementById("produto_tamanho");
 let selectCor = document.getElementById("produto_cor");
-let selectQuantidade = document.getElementById("produto_quantidade");
 
 const queryString = window.location.search;
 const url_params = new URLSearchParams(queryString);
@@ -20,13 +19,11 @@ let id = url_params.get("id");
 
 let btn_add_ao_carrinho = document.getElementById("btn-comprar");
 btn_add_ao_carrinho.addEventListener("click", async () =>{
-    await addToCart(id_usuario, id, selectQuantidade.value);
+    await addToCart(id_usuario, id, 4);
     if(addToCart){
         window.location.href = "../view/cart.html";
     }
 })
-
-
 
 
 let tamanhoP;
@@ -66,17 +63,9 @@ async function exibirProduto() {
     });
     const qtd = dados.data.estoque_qtd;
     console.log(qtd);
-    for(let i = 0; qtd + 1 > i; i++){
-        const option = document.createElement("option");
-        console.log(i)
-        option.textContent = i
-        option.value = i
-        selectQuantidade.appendChild(option);
-    }
 
     select.addEventListener("change", () =>{select.value;  });
     selectCor.addEventListener("change", () =>{selectCor.value; });
-    selectQuantidade.addEventListener("change", () => {selectQuantidade.value});
     }catch(err){
        return alert(err.message);
     }

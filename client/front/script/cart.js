@@ -7,11 +7,13 @@ let itensVenda = [];
 
 export async function addToCart(id_usuario, id_produto_variacao, quantidade) {
     try {
+      
         const payload ={
             id_usuario: Number(id_usuario),
             id_produto_variacao: Number(id_produto_variacao),
             quantidade: Number(quantidade)
         }
+        console.log(payload)
         const res = await fetchAuth(API_CART, {
             method: "POST",
             headers: {
