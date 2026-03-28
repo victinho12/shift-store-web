@@ -1,49 +1,87 @@
 const pool = require("../db");
 const AppError = require("../middleware/AppError");
+/// fazer uma nova query para buscar pelo tamnho, pela cor e pela cetegoira/genero e retornar o id da variação, 
+async function buscarPeloTamanhoCorCategoira(req, res, next) {
+  try {
+    const { cor, tamanho, categoria } = req.query;
 
+    let idCategoria = Number(categoria)
+    if (!Number.isInteger(idCategoria) || idCategoria <= 0) {
+  throw new AppError("Dados da cor, tamanho ou categoria invalidos!", 400, "INVALID_DATA");
+}
+
+    const resposta = await pool.query(`select
+  p.nome as produto_nome,
+  t.nome as tamanho,
+  c.nome as categoria,
+  cor.nome as cor,
+  pv.id_cor, 
+  pv.id_tamanho, 
+  c.id as categoria_id,   
+  pv.id as id, 
+  pv.preco,
+  pv.estoque as qtd_estoque,
+  pi.img
+from produto_variacao pv
+join produto p on p.id = pv.id_produto
+join categoria c on c.id = p.id_categoria
+join cor on cor.id = pv.id_cor
+join tamanho t on t.id = pv.id_tamanho
+inner join produto_imagem pi on pi.id_cor = pv.id_cor
+      where cor.nome = $1 and t.nome = $2 and c.id = $3`, [cor, tamanho, idCategoria]);
+
+      if(resposta.rowCount < 1) throw new AppError("Cor ou tamanho insuficientes", 400)
+    return res.json({ data: resposta.rows[0] });
+
+  } catch (err) {
+    return next(err);
+  }
+}
 async function buscarRoupaPorId(req, res, next) {
   try {
     const id = parseInt(req.params.id);
     const isNum = Number(id);
     if (!Number.isInteger(isNum) || isNum <= 0)
       throw new AppError("Id invalido", 400, "ID_INVALIDO");
-    const {tamanhoP, corP} = req.query;
- 
 
-    const tamanhoProd = tamanhoP ? `%${tamanhoP}%` : "%";
-    const cor = corP ? `%${corP}%` : "%";
     const resultSelectId = await pool.query(
-      `select
-      p.id as id_familia,
-      pv.id as id,
-      p.nome as nome,
-      c.nome as cor,
-      pv.preco as preco,
-      pv.estoque as estoque_qtd,
-      pi.img as img,
-      pt.nome as tamanho,
-      pc.nome as categoria
-      from public.produto_variacao pv
-      join public.cor c on c.id = pv.id_cor
-      join public.produto p on p.id = pv.id_produto
-      join public.produto_imagem pi on pi.id_produto = p.id
-      join public.tamanho pt on pt.id = pv.id_tamanho
-      join public.categoria pc on pc.id = p.id_categoria
-      where pv.id = $1 and pt.nome ilike $2 and c.nome ilike $3`,
-      [id,tamanhoProd, cor],
+      `select 
+  p.id as id_familia,
+  pv.id as id,
+  p.nome as nome,
+  c.nome as cor,
+  c.id as id_cor,
+  pv.preco as preco,
+  pv.estoque as estoque_qtd,
+  (
+    select pi.img 
+    from public.produto_imagem pi 
+    where pi.id_produto = p.id 
+    limit 1
+  ) as img,
+  pt.nome as tamanho,
+  pt.id as id_tamanho,
+  pc.nome as categoria,
+  pc.id as id_categoria
+from public.produto_variacao pv
+join public.cor c on c.id = pv.id_cor
+join public.produto p on p.id = pv.id_produto
+join public.tamanho pt on pt.id = pv.id_tamanho
+join public.categoria pc on pc.id = p.id_categoria
+      where pv.id = $1`,
+      [id],
     );
 
     const id_familia = resultSelectId.rows[0].id_familia;
-   
-    const tamanho = resultSelectId.rows[0].tamanho
-  
+
+
     const buscarTamanho = await pool.query(`select t.nome as tamanho from public.produto_variacao pv
       join public.produto p on p.id = pv.id_produto 
       join public.tamanho t on t.id = pv.id_tamanho
       join public.categoria c on c.id = p.id_categoria
-      where p.id = $1 and pv.estoque > 0`,[id_familia]
+      where p.id = $1 and pv.estoque > 0`, [id_familia]
     );
-    
+
     //const tamanho = buscarTamanho.rows.tamanho
 
     const buscarCorProduto = await pool.query(`select distinct c.nome as cor from produto_variacao pv
@@ -52,9 +90,9 @@ async function buscarRoupaPorId(req, res, next) {
       join public.tamanho t on t.id = pv.id_tamanho 
       join public.categoria ct on ct.id = p.id_categoria 
       where p.id = $1 and pv.estoque > 0
-       `,[id_familia]);
+       `, [id_familia]);
 
-    
+
     return res.json({ ok: true, tamanhos: buscarTamanho.rows, cores: buscarCorProduto.rows, data: resultSelectId.rows[0], });
   } catch (err) {
     return next(err);
@@ -430,4 +468,5 @@ module.exports = {
   alterarRoupa,
   buscarRoupaPorGenero,
   contarRoupas,
+  buscarPeloTamanhoCorCategoira
 };

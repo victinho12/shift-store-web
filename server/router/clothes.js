@@ -13,6 +13,7 @@ console.log("Tipos:", {
   admin: typeof admin,
   contarRoupas: typeof controller?.contarRoupas,
 });
+router.get("/mandarCart", controller.buscarPeloTamanhoCorCategoira);
 
 router.get("/genero", controller.buscarRoupaPorGenero);
 
