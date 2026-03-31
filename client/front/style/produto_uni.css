@@ -192,11 +192,17 @@ body {
 
 /* ================= CONTEINER BODY ================= */
 .conteiner-body {
+  position: relative;
   display: flex;
+  align-items: center;
+  margin-left: 23%;
+  margin-top: 20px;
+  border-radius: 18px;
   justify-content: center;
   padding: 40px 20px;
-  background-color: rgb(51, 13, 13);
+  background-color: rgba(0, 0, 0, 0.76);
   min-height: 80vh;
+  width: 50%;
 }
 
 /* LAYOUT */
@@ -217,7 +223,7 @@ body {
 
 .produto_img img {
   width: 100%;
-  max-width: 300px;
+  max-width: 1000px;
   border-radius: 6px;
 }
 
@@ -225,35 +231,35 @@ body {
 .produto-info {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 40px;
   max-width: 380px;
 }
 
 /* TEXTOS */
 #proudto_title {
-  font-size: 22px;
+  font-size: 30px;
   font-weight: 600;
 }
 
 #produto_code {
-  font-size: 12px;
+  font-size: 20px;
   color: #777;
 }
 
 #produto_preco {
-  font-size: 24px;
+  font-size: 35px;
   font-weight: bold;
-  color: green;
+  color: #00c853;
 }
 
 #produto_preco_parcela {
-  font-size: 12px;
+  font-size: 20px;
   color: #aaa;
 }
 
 /* FORM */
 label {
-  font-size: 12px;
+  font-size: 20px;
   color: #aaa;
 }
 
@@ -265,7 +271,7 @@ select {
   border: 1px solid #333;
   background-color: #111;
   color: white;
-  font-size: 13px;
+  font-size: 20px;
 }
 
 /* BOTÃO */
@@ -277,6 +283,7 @@ select {
   border: 1px solid #8b0000;
   background: transparent;
   color: white;
+  font-size: 2vh;
   cursor: pointer;
   transition: 0.25s;
 }
@@ -357,3 +364,8 @@ select {
   font-size: 0.85rem;
   color: #aaa;
 }
+
+
+
+
+

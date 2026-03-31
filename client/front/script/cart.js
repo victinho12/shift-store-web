@@ -24,6 +24,7 @@ export async function addToCart(id_usuario, id_produto_variacao, quantidade) {
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.message);
+        return true;
     } catch (err) {
         console.error(err.message);
     }
