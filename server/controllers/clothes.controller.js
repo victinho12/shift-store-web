@@ -70,7 +70,7 @@ async function buscarRoupaPorId(req, res, next) {
   c.id AS id_cor,
   pv.preco,
   pv.estoque AS estoque_qtd,
-  pi.img,
+  COALESCE(pi_var.img, pi_all.img) AS img,
   pt.nome AS tamanho,
   pt.id AS id_tamanho,
   pc.nome AS categoria,
@@ -89,9 +89,23 @@ JOIN public.tamanho pt
 JOIN public.categoria pc 
   ON pc.id = p.id_categoria
 
-LEFT JOIN public.produto_imagem pi 
-  ON pi.id_produto = p.id
-  AND pi.principal = true
+LEFT JOIN LATERAL (
+  SELECT pi.img
+  FROM public.produto_imagem pi
+  WHERE pi.id_produto = p.id
+    AND pi.id_cor = pv.id_cor
+    AND pi.id_tamanho = pv.id_tamanho
+  ORDER BY pi.principal DESC, pi.id ASC
+  LIMIT 1
+) pi_var ON true
+
+LEFT JOIN LATERAL (
+  SELECT pi.img
+  FROM public.produto_imagem pi
+  WHERE pi.id_produto = p.id
+  ORDER BY pi.principal DESC, pi.id ASC
+  LIMIT 1
+) pi_all ON true
  where pv.estoque > 0 and pv.id = $1`,
       [id],
     );

@@ -4,52 +4,49 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Produto || shift-web</title>
-    <link rel="stylesheet" href="../style/global/globla.css">
+    <link rel="stylesheet" href="../style/global/globla.css" />
     <link rel="stylesheet" href="../style/produto_uni.css" />
     <script type="module" src="../script/produto_uni.js" defer></script>
   </head>
   <body>
     <header class="conteiner-header">
+      <div class="header">
+        <a href="home.html">
+          <img src="../assets/goku (1).png" alt="" />
+        </a>
+      </div>
 
-  <div class="header">
-    <a href="home.html">
-      <img src="../assets/goku (1).png" alt="" />
-    </a>
-  </div>
+      <div class="header-infos">
+        <a href="./home.html">Home</a>
+        <a href="./produtos.html">Produtos</a>
+        <a href="">Atendimento</a>
+        <a href="">Sobre nós</a>
+      </div>
 
-  <div class="header-infos">
-    <a href="./home.html">Home</a>
-    <a href="./produtos.html">Produtos</a>
-    <a href="">Atendimento</a>
-    <a href="">Sobre nós</a>
-  </div>
+      <div class="entrar-cadastrar">
+        <a href="index.html">Entrar</a>
+        <a href="./cadastro.html">Cadastrar-se</a>
+      </div>
 
-  <div class="entrar-cadastrar">
-    <a href="index.html">Entrar</a>
-    <a href="./cadastro.html">Cadastrar-se</a>
-  </div>
+      <div id="user-icon">
+        <p id="nome_cliente" class="nome">nome</p>
+        <img src="../assets/avatar-do-usuario.png" />
+      </div>
 
-  <div id="user-icon">
-    <p id="nome_cliente" class="nome">nome</p>
-    <img src="../assets/avatar-do-usuario.png" />
-  </div>
+      <div class="logoutClass">
+        <button id="logout-btn">Sair</button>
+      </div>
 
-  <div class="logoutClass">
-    <button id="logout-btn">Sair</button>
-  </div>
+      <div class="carrinhoStyle">
+        <p id="carrinho">0</p>
+        <img src="../assets/ChatGPT Image Dec 15, 2025, 04_44_20 AM.png" />
+      </div>
+    </header>
 
-  <div class="carrinhoStyle">
-    <p id="carrinho">0</p>
-    <img src="../assets/ChatGPT Image Dec 15, 2025, 04_44_20 AM.png" />
-  </div>
-
-</header>
-    
     <div id="divLoad" class="divLoad"></div>
 
     <section class="conteiner-body">
       <div class="conteiner-produto" id="conteiner-produto">
-
         <!-- IMAGEM -->
         <div class="produto_img">
           <img id="produto_img" />
@@ -57,7 +54,6 @@
 
         <!-- 🔥 BLOCO DIREITO (ESSENCIAL) -->
         <div class="produto-info">
-
           <div class="proudto_title">
             <p id="proudto_title"></p>
           </div>
@@ -74,11 +70,11 @@
             <p id="produto_preco_parcela"></p>
           </div>
 
-       
-
           <div class="produto_cor">
-            <label>Escolha uma cor</label>
-            <select id="produto_cor"></select>
+            <label for="produto_cor">Escolha uma cor</label>
+            <select name="cor" id="produto_cor" required>
+              <option value="" selected disabled>Selecione uma cor</option>
+            </select>
           </div>
 
           <div class="produto_tamanho_disponivel">
@@ -89,7 +85,6 @@
           <div class="btn-comprar">
             <button id="btn-comprar">Adicionar ao carrinho</button>
           </div>
-
         </div>
       </div>
     </section>

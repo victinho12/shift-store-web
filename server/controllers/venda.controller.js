@@ -16,17 +16,18 @@ async function verVendas(req, res, next) {
 async function GetDetalhesVenda(req, res, next) {
   try {
     const id = parseInt(req.params.id);
-    const detalhes =
-      await pool.query(`select p.nome as produto, vi.quantidade as quantidade_solicitada, vi.preco_unitario, vi.subtotal, t.nome as tamanho, vi.id_vendas, v.criado_em as data_da_compra
+    const detalhes = await pool.query(
+      `select p.nome as produto, vi.quantidade as quantidade_solicitada, vi.preco_unitario, vi.subtotal, t.nome as tamanho, vi.id_vendas, v.criado_em as data_da_compra
         from public.venda_item vi 
         join public.produto_variacao pv on pv.id = vi.id_produto_variacao
         join public.produto p on p.id = pv.id_produto
         join public.tamanho t on t.id = pv.id_tamanho
         join public.vendas v on v.id = vi.id_vendas
-        where vi.id_vendas = $1`
-    ,[id]);
-    if(detalhes.rowCount === 0 )throw new AppError("detalhes não encontrados");
-    return res.json({detalhes: detalhes.rows});
+        where vi.id_vendas = $1`,
+      [id],
+    );
+    if (detalhes.rowCount === 0) throw new AppError("detalhes não encontrados");
+    return res.json({ detalhes: detalhes.rows });
   } catch (err) {
     return next(err);
   }
@@ -39,7 +40,13 @@ async function fazerVenda(req, res, next) {
     //beggin para começar as querys
     await client.query(`BEGIN`);
     //body da requisisão
-    const { id_usuario, metodo_pagamento, frete = 0.0, itens } = req.body;
+    const {
+      id_usuario,
+      metodo_pagamento,
+      frete = 0.0,
+      itens,
+      parcelas,
+    } = req.body;
     let valor_total = 0;
     //PESQUISAR SE O USUARIO EXISTE
     const pesquisar_usuario = await client.query(
@@ -60,8 +67,8 @@ async function fazerVenda(req, res, next) {
 
     //INSERT QUANDO O USUARIO EXISTIR
     const add_venda = await client.query(
-      `INSERT INTO PUBLIC.vendas (id_usuario, valor_total, metodo_pagamento, frete) VALUES ($1, $2 ,$3 ,$4) RETURNING *`,
-      [id_usuario_exist, valor_total, metodo_pagamento, frete],
+      `INSERT INTO PUBLIC.vendas (id_usuario, valor_total, metodo_pagamento, frete, parcelas) VALUES ($1, $2 ,$3 ,$4, $5) RETURNING *`,
+      [id_usuario_exist, valor_total, metodo_pagamento, frete, parcelas],
     );
     let id_vendas = add_venda.rows[0].id;
 

@@ -34,8 +34,8 @@ btn_add_ao_carrinho.addEventListener("click", async () => {
   try {
     loading();
     if (!idVariacao) {
-      alert("Selecione cor e tamanho");
       divLoading.innerHTML = "";
+      idVariacao = id;
       return;
     }
     const sucesso = await addToCart(id_usuario, idVariacao, 1);

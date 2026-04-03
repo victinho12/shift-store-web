@@ -5,6 +5,7 @@
     <link rel="icon" href="../assets/goku.svg" type="image/x-icon" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../style/cart.css" />
+    <link rel="stylesheet" href="../style/global/globla.css" />
     <script type="module" src="../script/cart.js" defer></script>
     <title>Carrinho | Shift Store</title>
   </head>
@@ -47,11 +48,10 @@
         />
       </nav>
     </header>
-
+    <div id="divLoad" class="divLoad"></div>
     <!-- CONTEÚDO -->
     <main class="conteiner-body">
       <section class="cart-wrap">
-
         <!-- TOPO -->
         <div class="cart-top">
           <div>
@@ -67,10 +67,8 @@
         </div>
 
         <div class="cart-grid">
-
           <!-- LISTA DE ITENS -->
           <section class="cart-card">
-
             <div class="cart-card-head">
               <h2>Itens</h2>
               <span class="cart-badge" id="cart-count">0</span>
@@ -89,18 +87,15 @@
 
             <!-- JS vai inserir mensagem de vazio aqui -->
             <div id="cart-empty"></div>
-
           </section>
 
           <!-- RESUMO -->
           <aside class="cart-card cart-summary">
-
             <div class="cart-card-head">
               <h2>Resumo</h2>
             </div>
 
             <div class="cart-summary-body">
-
               <div class="cart-row">
                 <span>Subtotal</span>
                 <strong id="cart-subtotal">R$ 0,00</strong>
@@ -113,10 +108,11 @@
               <div>
                 <span>Selecione uma forma de pagamento</span>
                 <select id="select-pagamento">
-                  <option value="PIX">PIX</option>
+                  <option value="PIX" selected>PIX</option>
                   <option value="CREDITO">CREDITO</option>
                   <option value="DEBITO">DEBITO</option>
                 </select>
+                <span id="parcelar"></span>
               </div>
 
               <div class="cart-line"></div>
@@ -125,14 +121,12 @@
                 <span>Total</span>
                 <span id="cart-total">R$ 0,00</span>
               </div>
-              
+
               <div class="btn-add-cart cart-finalizar">
                 <button type="button" id="btn-vender">Finalizar compra</button>
               </div>
-
             </div>
           </aside>
-
         </div>
       </section>
     </main>

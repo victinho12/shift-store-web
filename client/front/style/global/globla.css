@@ -1,48 +1,57 @@
-.loading{
+/* ================= LOADING OVERLAY ================= */
+.loading {
   position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  text-align: center;
-    width: 100%;
-    height: 100%;
-    background-color: #000000b9;
-    border-radius: 18px;
-    z-index: 1; /* Valor maior, fica por cima */
-}
-.loading p {
-  font-size: 5vh;
-}
-.loading img{
-  width: 20%;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(6px);
+
+  z-index: 9999;
 }
 
+/* TEXTO */
+.loading p {
+  font-size: 1.8rem;
+  margin-top: 20px;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+/* IMAGEM (spinner) */
+.loading img {
+  width: 80px;
+  height: 80px;
+  animation: girar 1s linear infinite;
+}
+
+/* ROTAÇÃO SUAVE */
 @keyframes girar {
   from {
-    transform: rotate(0deg); /* Início */
+    transform: rotate(0deg);
   }
   to {
-    transform: rotate(10000deg); /* Fim (uma volta completa) */
+    transform: rotate(360deg);
   }
 }
 
-/* 3. Aplicação */
-.loading img {
-  animation-name: girar;
-  animation-duration: 4s;
-  animation-timing-function: ease-out;
-  animation-fill-mode: forwards; /* Mantém o estado final */
-}
-
-
-
+/* ================= PONTINHOS ================= */
 .pontos::after {
-  content: '.';
+  content: '';
   animation: carregar 1.5s steps(4, end) infinite;
 }
 
-/* Keyframes que adicionam os pontinhos */
 @keyframes carregar {
-  0% { content: '.'; }
-  35% { content: '..'; }
-  66% { content: '...'; }
-  100% { content: ''; } /* Volta para vazio ao final */
+  0% { content: ''; }
+  25% { content: '.'; }
+  50% { content: '..'; }
+  75% { content: '...'; }
+  100% { content: ''; }
 }
