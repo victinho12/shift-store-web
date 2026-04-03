@@ -1,0 +1,42 @@
+/* ================= RESET ================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background: #0b0c0f;
+  color: #eaeaea;
+}
+
+/* ================= HEADER ================= */
+header {
+  background-color: #111;
+  color: #fff;
+  padding: 15px 30px;
+  display: flex ;
+  align-items: center;
+  border-bottom: 2px solid #b11226; /* linha vermelha */
+  justify-content: space-between;
+  
+}
+
+header h1 {
+  font-size: 20px;
+}
+
+
+header .voltar button {
+  background: #444;
+  border: none;
+  color: #fff;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+header .voltar button:hover {
+  background: #740000;
+}

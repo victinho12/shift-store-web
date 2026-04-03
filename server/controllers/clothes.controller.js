@@ -1,32 +1,172 @@
 const pool = require("../db");
 const AppError = require("../middleware/AppError");
+/// fazer uma nova query para buscar pelo tamnho, pela cor e pela cetegoira/genero e retornar o id da variação,
 
+async function buscarPeloTamanhoCorCategoira(req, res, next) {
+  try {
+    const { cor, tamanho, categoria } = req.query;
+    let idCor = Number(cor);
+    if(!Number.isInteger(idCor)){
+      throw new AppError("Dados da cor invalida", 400, 'INVALID_DATA')
+    }
+    let idTamanho = Number(tamanho);
+    if(!Number.isInteger(idTamanho)){
+      throw new AppError("Dados do tamanho invalido", 400, "INVALID_DATA");
+    }
+    let idCategoria = Number(categoria);
+    if (!Number.isInteger(idCategoria) || idCategoria <= 0) {
+      throw new AppError(
+        "Dados da cor, tamanho ou categoria invalidos!",
+        400,
+        "INVALID_DATA",
+      );
+    }
+
+    const resposta = await pool.query(
+      `select
+  p.nome as produto_nome,
+  t.nome as tamanho,
+  c.nome as categoria,
+  cor.nome as cor,
+  pv.id_cor, 
+  pv.id_tamanho, 
+  c.id as categoria_id,   
+  pv.id as id, 
+  pv.preco,
+  pv.estoque as qtd_estoque,
+  pi.img
+from produto_variacao pv
+join produto p on p.id = pv.id_produto
+join categoria c on c.id = p.id_categoria
+join cor on cor.id = pv.id_cor
+join tamanho t on t.id = pv.id_tamanho
+LEFT JOIN produto_imagem pi 
+  ON pi.id_produto = p.id
+
+      where cor.id = $1 and t.id = $2 and c.id = $3`,
+      [idCor, idTamanho, idCategoria],
+    );
+
+    if (resposta.rowCount < 1)
+      throw new AppError("Cor ou tamanho insuficientes", 400, "invalid_data", resposta.rows);
+    return res.json({ data: resposta.rows[0] });
+  } catch (err) {
+    return next(err);
+  }
+}
 async function buscarRoupaPorId(req, res, next) {
   try {
     const id = parseInt(req.params.id);
     const isNum = Number(id);
     if (!Number.isInteger(isNum) || isNum <= 0)
       throw new AppError("Id invalido", 400, "ID_INVALIDO");
+
     const resultSelectId = await pool.query(
-      `select 
-      pv.id as id,
-      p.nome as nome,
-      c.nome as cor,
-      pv.preco as preco,
-      pv.estoque as estoque_qtd,
-      pi.img as img,
-      pt.nome as tamanho,
-      pc.nome as categoria
-      from public.produto_variacao pv
-      join public.cor c on c.id = pv.id_cor
-      join public.produto p on p.id = pv.id_produto
-      join public.produto_imagem pi on pi.id_produto = p.id
-      join public.tamanho pt on pt.id = pv.id_tamanho
-      join public.categoria pc on pc.id = p.id_categoria
-      where pv.id = $1`,
+      `SELECT
+  p.id AS id_familia,
+  pv.id AS id,
+  p.nome,
+  c.nome AS cor,
+  c.id AS id_cor,
+  pv.preco,
+  pv.estoque AS estoque_qtd,
+  COALESCE(pi_var.img, pi_all.img) AS img,
+  pt.nome AS tamanho,
+  pt.id AS id_tamanho,
+  pc.nome AS categoria,
+  pc.id AS id_categoria
+FROM public.produto_variacao pv
+
+JOIN public.produto p 
+  ON p.id = pv.id_produto
+
+JOIN public.cor c 
+  ON c.id = pv.id_cor
+
+JOIN public.tamanho pt 
+  ON pt.id = pv.id_tamanho
+
+JOIN public.categoria pc 
+  ON pc.id = p.id_categoria
+
+LEFT JOIN LATERAL (
+  SELECT pi.img
+  FROM public.produto_imagem pi
+  WHERE pi.id_produto = p.id
+    AND pi.id_cor = pv.id_cor
+    AND pi.id_tamanho = pv.id_tamanho
+  ORDER BY pi.principal DESC, pi.id ASC
+  LIMIT 1
+) pi_var ON true
+
+LEFT JOIN LATERAL (
+  SELECT pi.img
+  FROM public.produto_imagem pi
+  WHERE pi.id_produto = p.id
+  ORDER BY pi.principal DESC, pi.id ASC
+  LIMIT 1
+) pi_all ON true
+ where pv.estoque > 0 and pv.id = $1`,
       [id],
     );
-    return res.json({ ok: true, data: resultSelectId.rows[0] });
+
+    if (resultSelectId.rows.length === 0) {
+      throw new AppError("Produto não encontrado", 404, "NOT_FOUND");
+    }
+
+    const id_familia = resultSelectId.rows[0].id_familia;
+
+    const buscarTamanho = await pool.query(
+      `select distinct 
+  t.id as id_tamanho,
+  t.nome as tamanho
+from public.produto_variacao pv
+join public.produto p on p.id = pv.id_produto 
+join public.tamanho t on t.id = pv.id_tamanho
+where p.id = $1 and pv.estoque > 0`,
+      [id_familia],
+    );
+
+    //const tamanho = buscarTamanho.rows.tamanho
+
+    const buscarCorProduto = await pool.query(
+      `select distinct 
+  c.id as id_cor,
+  c.nome as cor
+from public.produto_variacao pv
+join public.produto p on p.id = pv.id_produto
+join public.cor c on c.id = pv.id_cor
+where p.id = $1 and pv.estoque > 0
+       `,
+      [id_familia],
+    );
+
+
+
+    const buscarVariacoes = await pool.query(
+  `SELECT 
+    pv.id,
+    pv.id_cor,
+    pv.id_tamanho,
+    pv.estoque,
+    c.nome AS cor,
+    t.nome AS tamanho
+  FROM produto_variacao pv
+  JOIN cor c ON c.id = pv.id_cor
+  JOIN tamanho t ON t.id = pv.id_tamanho
+  WHERE pv.id_produto = $1
+  AND pv.estoque > 0`,
+  [id_familia]
+);
+
+
+    return res.json({
+      ok: true,
+      tamanhos: buscarTamanho.rows,
+      cores: buscarCorProduto.rows,
+      data: resultSelectId.rows[0],
+      variacao: buscarVariacoes.rows
+    });
   } catch (err) {
     return next(err);
   }
@@ -376,6 +516,7 @@ JOIN public.categoria pc ON pc.id = p.id_categoria
 
 WHERE pc.nome ILIKE $1 
 AND p.nome ILIKE $4
+and pv.estoque > 0
 
 ORDER BY p.id, pv.id_cor
 LIMIT $2 OFFSET $3;`;
@@ -401,4 +542,6 @@ module.exports = {
   alterarRoupa,
   buscarRoupaPorGenero,
   contarRoupas,
+  buscarPeloTamanhoCorCategoira,
+
 };

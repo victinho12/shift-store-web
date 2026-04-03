@@ -65,7 +65,9 @@ async function carregarProdutos() {
       const card = document.createElement("div");
       card.classList.add("card");
       card.innerHTML = `
-  <a><div class="card-img">
+  <a href="produto_uni.html?id=${
+    roupa.id
+  }&tamanhoP=${roupa.tamanho}&corP=${roupa.cor}"<div class="card-img">
     <img src="http://localhost:3000/uploads/${roupa.img}" alt="${roupa.nome}">
   </div>
   <div class="card-info">
