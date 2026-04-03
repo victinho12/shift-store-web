@@ -3,6 +3,11 @@ import { API_CLIENT_KEY, API_CART, getUserFromToken, fetchAuth, API_CHEKOUT, log
 let id_usuario;
 let itensVenda = [];
 
+let pagamento = document.getElementById("select-pagamento");
+
+
+
+
 
 
 export async function addToCart(id_usuario, id_produto_variacao, quantidade) {
@@ -222,9 +227,12 @@ document.getElementById('btn-vender')?.addEventListener('click', async () =>{ aw
 
 export async function checkout() {
   getUserFromToken();
+  pagamento.addEventListener("change", () => {return pagamento.value});
+  let metodo_pagamento_select = pagamento.value
+  console.log(metodo_pagamento_select);
   const venda = {
     id_usuario: id_usuario,
-    metodo_pagamento: "PIX",
+    metodo_pagamento: metodo_pagamento_select,
     itens: itensVenda
   };
 
