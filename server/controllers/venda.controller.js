@@ -7,7 +7,9 @@ async function verVendas(req, res, next) {
       `select v.id as id_venda ,u.nome, u.email ,v.parcelas ,v.metodo_pagamento, v.valor_total, v.criado_em as data_compra from public.vendas v join public.usuarios u on u.id = v.id_usuario`,
     );
 
-    return res.json({ ok: true, venda: venda.rows });
+    const couterVendas = await pool.query("select count(id) from public.vendas")
+    const faturamento = await pool.query("select sum(valor_total) as faturamento from public.vendas");
+    return res.json({ ok: true, venda: venda.rows, count: couterVendas.rows[0], faturamento: faturamento.rows[0] });
   } catch (err) {
     return next(err);
   }
@@ -17,7 +19,7 @@ async function GetDetalhesVenda(req, res, next) {
   try {
     const id = parseInt(req.params.id);
     const detalhes = await pool.query(
-      `select p.nome as produto, vi.quantidade as quantidade_solicitada, vi.preco_unitario, vi.subtotal, t.nome as tamanho, vi.id_vendas, v.criado_em as data_da_compra
+      `select p.nome as produto, vi.quantidade as quantidade_solicitada, vi.preco_unitario, vi.subtotal, t.nome as tamanho, vi.id_vendas, v.criado_em as data_da_compra, v.parcelas
         from public.venda_item vi 
         join public.produto_variacao pv on pv.id = vi.id_produto_variacao
         join public.produto p on p.id = pv.id_produto
@@ -27,7 +29,7 @@ async function GetDetalhesVenda(req, res, next) {
       [id],
     );
     if (detalhes.rowCount === 0) throw new AppError("detalhes não encontrados");
-    return res.json({ detalhes: detalhes.rows });
+    return res.json({ detalhes: detalhes.rows[0] });
   } catch (err) {
     return next(err);
   }

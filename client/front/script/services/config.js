@@ -71,6 +71,9 @@ export async function fetchAuth(url, options = {}) {
   return res;
 }
 
+
+
+
 export function logoutUser() {
   console.log("deslogando config");
   localStorage.removeItem("token");
@@ -79,9 +82,20 @@ export function logoutUser() {
   window.location.href = "./index.html";
 }
 
-export function exibirNome() {
-  const nome = localStorage.getItem("nome");
-  return nome;
+export function exibirNomeFront() {
+  // pega nome no front
+  const nome = document.getElementById("nome_cliente");
+  // paga o nome no localstorage se ele ja estiver logado
+  const getNome = localStorage.getItem("nome");
+
+  // Se o getNome não existir e o nome do front também não existir, pro padrão ele seta um nome base
+  if (!nome || !getNome) {
+    // seta um nome por default
+    nome.textContent = "Usuario";
+    return;
+  }
+  // seta o nome do usuario no front
+  nome.textContent = getNome;
 }
 
 export function loading() {

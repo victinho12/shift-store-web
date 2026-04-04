@@ -7,7 +7,7 @@ import {
   loading,
 } from "../script/services/config.js";
 import { addToCart, carregarCart } from "./cart.js";
-//nome do client
+loading();
 let id_usuario = getUserFromToken();
 if (!id_usuario) alert("crie uma conta");
 document.getElementById("nome_cliente").textContent = exibirNome();
@@ -20,7 +20,10 @@ let select = document.getElementById("produto_tamanho");
 let selectCor = document.getElementById("produto_cor");
 let divLoading = document.getElementById("divLoad");
 let categoira;
-
+if (!id_usuario) {
+  alert("crie uma conta");
+  window.location.href = "../view/index.html";
+}
 let idVariacao = null;
 select.value || "";
 selectCor.value || "";
@@ -34,8 +37,7 @@ btn_add_ao_carrinho.addEventListener("click", async () => {
   try {
     loading();
     if (!idVariacao) {
-      divLoading.innerHTML = "";
-      idVariacao = id;
+      alert("Selecione tamanho e cor primeiro");
       return;
     }
     const sucesso = await addToCart(id_usuario, idVariacao, 1);
@@ -69,7 +71,7 @@ async function exibirProduto() {
 
     console.log(dados);
     // colocando dados no html
-    divLoading.innerHTML = "";
+
     img.src = `http://localhost:3000/uploads/${dados.data.img}`;
     img.alt = `${dados.data.nome}`;
     nome.textContent = dados.data.nome;
@@ -113,8 +115,8 @@ async function exibirProduto() {
         const tamanho = select.value;
         const corSelecionada = selectCor.value;
         const dados = await buscarProduto(tamanho, corSelecionada, categoira);
-
-        idVariacao = dados.data.id; // 👈 GUARDA AQUI
+        divLoading.innerHTML = "";
+        idVariacao = dados.data.id;
         console.log(idVariacao);
         atualizarDados(dados);
       } catch (err) {

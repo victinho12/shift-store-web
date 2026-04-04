@@ -43,28 +43,38 @@ a {
   color: black;
   text-decoration: none;
 }
+.fatura{
+  display: flex;
+  gap: 10px;
+}
+#faturamento{
+  color: rgb(8, 0, 128);
+}
 .qtd {
   display: flex;
   gap: 10px;
 }
 #qtd-produtos,
-#qtd-usuarios {
+#qtd-usuarios,
+#qtd-vendas {
+  align-items: center;
   color: rgb(8, 0, 128);
 }
 .cards {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 30px;
+  gap: 15px;
 }
 
 .card {
   background-color: #fff;
   padding: 20px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-.card:hover {
-  transform: scale(1.1);
   transition: 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.05);
 }
 .hidden {
   display: none;
