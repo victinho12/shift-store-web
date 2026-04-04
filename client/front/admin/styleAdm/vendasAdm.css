@@ -40,3 +40,78 @@ header .voltar button {
 header .voltar button:hover {
   background: #740000;
 }
+
+
+
+
+
+/* Container */
+.tabela-container {
+  width: 100%;
+  padding: 20px;
+  overflow-x: auto;
+}
+
+/* Tabela */
+.tabela-vendas {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #1e1e1e;
+  border-radius: 10px;
+  overflow: hidden;
+  font-family: "Inter", sans-serif;
+}
+
+/* Cabeçalho */
+.tabela-vendas thead {
+  background-color: #111;
+}
+
+.tabela-vendas th {
+  padding: 15px;
+  text-align: left;
+  font-size: 14px;
+  color: #bbb;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Linhas */
+.tabela-vendas td {
+  padding: 14px;
+  border-top: 1px solid #2a2a2a;
+  color: #eee;
+  font-size: 14px;
+}
+
+/* Hover nas linhas */
+.tabela-vendas tbody tr:hover {
+  background-color: #2a2a2a;
+  transition: 0.2s;
+}
+
+/* Botão */
+.btn-detalhes {
+  padding: 8px 12px;
+  border: none;
+  background: linear-gradient(135deg, #ff416c, #ff4b2b);
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  transition: 0.3s;
+}
+
+.btn-detalhes:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .tabela-vendas th,
+  .tabela-vendas td {
+    padding: 10px;
+    font-size: 12px;
+  }
+}

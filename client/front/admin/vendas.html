@@ -1,35 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./styleAdm/vendasAdm.css">
-    <script type="module" src="./scriptAdm/vendas.js"  defer></script>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./styleAdm/vendasAdm.css" />
+    <script type="module" src="./scriptAdm/vendas.js" defer></script>
     <title>Vendas</title>
-</head>
-<body>
-     <header>
+  </head>
+  <body>
+    <header>
       <h1>Dashboard Administrativo — Shift Store</h1>
       <div class="voltar">
         <button id="btn-voltar-dashboard">Dashboard</button>
       </div>
     </header>
     <section class="conteiner-vendas">
-        <div class="vendas">
-            <!--aqui dentro são as informações no titulo da table-->
-            <div id="id" class="id">Id</div>
-            <div id="nome" class="nome">Nome</div>
-            <div id="email" class="email">Email</div>
-            <div id="pagamento" class="pagamento">Metodo de pagamento</div>
-            <div id="valor" class="valor">Valor total</div>
-            <div class="data">Data da compra</div>
-            <div id="detalhes" class="detalhes">Ver detalhes</div>
-
-        </div>  
-        <div id="lista-vendas">
-            <!--Criar a lista no js agora-->
+      <div class="vendas">
+        <!--aqui dentro são as informações no titulo da table-->
+        <div class="tabela-container">
+          <table class="tabela-vendas">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Método de pagamento</th>
+                <th>Valor total</th>
+                <th>Parcelas</th>
+                <th>Data da compra</th>
+                <th>Detalhes</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-vendas">
+              <tr>
+                <td>1</td>
+                <td>João Silva</td>
+                <td>joao@email.com</td>
+                <td>Cartão</td>
+                <td>R$ 199,90</td>
+                <td>03/04/2026</td>
+                <td><button class="btn-detalhes">Ver</button></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+        <div id="modal-detalhes" class="modal-overlay">
+          <div class="modal">
+            <!-- Header -->
+            <div class="modal-header">
+              <h2>Detalhes da Compra</h2>
+              <button class="btn-fechar">&times;</button>
+            </div>
 
+            <!-- Conteúdo -->
+            <div class="modal-body" id="modal-body" >
+              <div class="item">
+                <span>Produto:</span>
+                <strong id="modal-produto">Camiseta Básica</strong>
+              </div>
+
+              <div class="item">
+                <span>Quantidade:</span>
+                <strong id="modal-quantidade">2</strong>
+              </div>
+
+              <div class="item">
+                <span>Preço Unitário:</span>
+                <strong id="modal-preco">R$ 100,00</strong>
+              </div>
+
+              <div class="item">
+                <span>Subtotal:</span>
+                <strong id="modal-subtotal">R$ 200,00</strong>
+              </div>
+
+              <div class="item">
+                <span>Tamanho:</span>
+                <strong id="modal-tamanho">G</strong>
+              </div>
+
+              <div class="item">
+                <span>ID da Venda:</span>
+                <strong id="modal-id">47</strong>
+              </div>
+
+              <div class="item">
+                <span>Data da Compra:</span>
+                <strong id="modal-data">04/04/2026</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="lista-vendas">
+        <!--Criar a lista no js agora-->
+      </div>
     </section>
-</body>
+  </body>
 </html>

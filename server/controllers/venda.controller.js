@@ -4,7 +4,7 @@ const AppError = require("../middleware/AppError");
 async function verVendas(req, res, next) {
   try {
     const venda = await pool.query(
-      `select v.id as id_venda ,u.nome, u.email , v.metodo_pagamento, v.valor_total, v.criado_em as data_compra from public.vendas v join public.usuarios u on u.id = v.id_usuario`,
+      `select v.id as id_venda ,u.nome, u.email ,v.parcelas ,v.metodo_pagamento, v.valor_total, v.criado_em as data_compra from public.vendas v join public.usuarios u on u.id = v.id_usuario`,
     );
 
     return res.json({ ok: true, venda: venda.rows });

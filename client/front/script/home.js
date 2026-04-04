@@ -50,7 +50,7 @@ async function carregarProdutos() {
           "shift-api-key": API_CLIENT_KEY,
         },
       },
-    );
+  );
     const resJson = await res.json();
     
     if (!res.ok) {
