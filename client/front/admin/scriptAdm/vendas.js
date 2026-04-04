@@ -5,14 +5,30 @@ import {
   API_CHEKOUT,
   exibirNome,
   fetchAuth,
+  loading
 } from "../../script/services/config.js";
 
-let divModal = document.getElementById('modal-detalhes');
-function fecharModal(){
-divModal.innerHTML = '';
-}
-fecharModal();
+const btnVoltarDash = document.getElementById("btn-voltar-dashboard");
 
+btnVoltarDash.addEventListener("click", () => {
+  window.location.href = "dashboard.html";
+});
+
+
+
+const modal = document.getElementById("modal-detalhes");
+
+function fecharModal() {
+  modal.classList.add('hidden');
+}
+const btnFechar = document.querySelector(".btn-fechar");
+btnFechar.addEventListener("click", fecharModal);
+
+modal.addEventListener("click", (e) => {
+  if (e.target === modal) {
+    fecharModal();
+  }
+});
 
 
 async function exibirVendas() {
@@ -23,10 +39,11 @@ async function exibirVendas() {
       },
     });
     const dados = await res.json();
-    if (!res.ok) return console.log("Não foi possivel ver os dados da venda " + dados);
-    console.log(dados);
+    if (!res.ok)
+      return console.log("Não foi possivel ver os dados da venda " + dados);
+    
     renderizarTabela(dados.venda);
-    console.log(dados);
+    
   } catch (err) {
     alert(err.message);
   }
@@ -47,28 +64,65 @@ function renderizarTabela(dados) {
         <td>${venda.parcelas}</td>
         <td>${formatarData(venda.data_compra)}</td>
             <td>
-                <button class="btn-detalhes" data-id="${venda.id}">
+                <button class="btn-detalhes" data-id="${venda.id_venda}">
                     Ver
                 </button>
             </td>
     `;
+
+    tr.querySelector('.btn-detalhes').addEventListener('click', (event) => {
+    
+    let vendaId = event.currentTarget.dataset.id; 
+    verDetalhes(vendaId)
+});
+
+
     listaTabela.appendChild(tr);
   });
 }
-//fazer uma função para ler os dados e passar para o fronto, fazer uma função com forEach para ler esses dados junto com um botão de ver detalhes que fazer outra requisição para ver esses detalhes de compra
-//a função que fazer a requisição dos detalhes pode abri um modal com os detlhes da venda para ficar de melhor visialização
+
 function formatarData(data) {
   const d = new Date(data);
   return d.toLocaleDateString("pt-BR");
 }
 
-async function verDetalhes(id){
-    try{
-        
-    }catch(err){
-        console.error(err.message);
-    }
-} 
+async function verDetalhes(id) {
+  const isId = Number(id);
+  if (!Number.isInteger(isId) || isId < 1)
+    alert("Precisa ser um id valido por favor consulte um desenvolvedor");
+  try {
+    const res = await fetchAuth(`${API_CHEKOUT}/${id}`, {
+      headers:{
+        'shift-api-key': API_CLIENT_KEY
+      }
+    });
+    const dados = await res.json();
+    cardDetalhes(dados);
+  } catch (err) {
+    console.error(err.message);
+  }
+}
+function cardDetalhes(dados) {
+  const { detalhes } = dados;
+  modal.classList.remove('hidden');
 
+  const modalProduto = document.getElementById("modal-produto");
+  const modalQuantidade = document.getElementById("modal-quantidade");
+  const modalPreco = document.getElementById("modal-preco");
+  const modalSubtotal = document.getElementById("modal-subtotal");
+  const modalTamanho = document.getElementById("modal-tamanho");
+  const modalId = document.getElementById("modal-id");
+  const modalData = document.getElementById("modal-data");
+  const modalParcela = document.getElementById("modal-parcela");
+
+  modalProduto.textContent = detalhes.produto;
+  modalQuantidade.textContent = detalhes.quantidade_solicitada;
+  modalPreco.textContent = detalhes.preco_unitario;
+  modalSubtotal.textContent = detalhes.subtotal;
+  modalTamanho.textContent = detalhes.tamanho;
+  modalId.textContent = detalhes.id_vendas;
+  modalParcela.textContent = detalhes.parcelas
+  modalData.textContent = formatarData(detalhes.data_da_compra);
+}
 
 await exibirVendas();

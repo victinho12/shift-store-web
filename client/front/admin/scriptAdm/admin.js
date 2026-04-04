@@ -1,4 +1,4 @@
-import { API_ROUPAS, API_CLIENT_KEY, API_LOGIN, validarTokenFront, fetchAuth } from "../../script/services/config.js";
+import { API_ROUPAS, API_CLIENT_KEY, API_LOGIN, API_CHEKOUT, validarTokenFront, fetchAuth } from "../../script/services/config.js";
 
 validarTokenFront();
 const token = localStorage.getItem('token');
@@ -28,17 +28,29 @@ async function carregarProdutosAdm() {
         "Content-Type": "application/json",
         "shift-api-key": API_CLIENT_KEY,
       }
-    })
+    });
+    const resVendas = await fetchAuth(`${API_CHEKOUT}`, {
+      headers: {
+        "shift-api-key": API_CLIENT_KEY
+      }
+    });
+    const dados_venda = await resVendas.json();
     const dados_user = await resUser.json();
     const dados = await res.json();
 
     if (!res.ok) throw new Error(dados.message);
     if (!resUser.ok) throw new Error(dados_user.message);
-
+    if (!resVendas.ok) throw new Error(dados_venda.message);
+ 
     document.querySelectorAll(".skeleton").forEach((card) => card.remove());
     cards.innerHTML = cardsOriginaisHTML;
     const qtdProdutos = document.getElementById("qtd-produtos");
     const qtdUsers = document.getElementById('qtd-usuarios');
+    const qtdVendas = document.getElementById("qtd-vendas");
+    const faturamento = document.getElementById("faturamento");
+
+    faturamento.textContent = `R$ ${dados_venda.faturamento.faturamento}`;
+    qtdVendas.textContent = dados_venda.count.count;
     qtdUsers.textContent = dados_user.total_user;
     qtdProdutos.textContent = dados.data;
     console.log(dados.data);

@@ -2,7 +2,7 @@ const pool = require("../db");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const bcrypt = require("bcrypt");
-const { purge } = require("../router/user");
+
 
 
 async function buscarUser(req, res) {

@@ -4,28 +4,28 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="./styleAdm/dashboard.css">
+    <link rel="stylesheet" href="./styleAdm/dashboard.css" />
     <script type="module" src="./scriptAdm/admin.js" defer></script>
   </head>
   <body>
     <header>
       <h1>Dashboard Administrativo — Shift Store</h1>
       <div class="voltar">
-      <button id="btn-voltar-site">Site</button>
-    </div>
+        <button id="btn-voltar-site">Site</button>
+      </div>
     </header>
 
     <main>
       <section class="cards" id="cards">
         <a href="usuariosAdm.html">
-        <div class="card">
-          <h2>Usuários</h2>
-          <p>Gerenciar usuários do sistema</p>
-          <div class="qtd">
-          <p>Quantidade de usuarios: </p>
-          <p id="qtd-usuarios"></p>
-        </div>
-        </div>
+          <div class="card">
+            <h2>Usuários</h2>
+            <p>Gerenciar usuários do sistema</p>
+            <div class="qtd">
+              <p>Quantidade de usuarios:</p>
+              <p id="qtd-usuarios"></p>
+            </div>
+          </div>
         </a>
 
         <a href="produtoAdm.html">
@@ -35,15 +35,23 @@
             <div class="qtd">
               <p>Quantidade de Produtos:</p>
               <p id="qtd-produtos"></p>
-          </div>
+            </div>
           </div>
         </a>
-<a href="vendas.html">
-        <div class="card">
-          <h2>Pedidos</h2>
-          <p>Visualizar pedidos realizados</p>
-          <p>Quantidade de pedidos: <p id="qtd-pedidos"></p></p>
-        </div>
+        <a href="vendas.html">
+          <div class="card">
+            <h2>Vendas</h2>
+            <p>Visualizar pedidos realizados</p>
+            <div class="qtd">
+              <p>Quantidade de vendas:</p>
+              <p id="qtd-vendas"></p>
+            </div>
+            <br>
+            <div class="fatura">
+              <p>Faturamento</p>
+              <p id='faturamento'>0</p>
+            </div>
+          </div>
         </a>
 
         <div class="card">
