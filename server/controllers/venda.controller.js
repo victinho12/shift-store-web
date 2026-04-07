@@ -4,7 +4,7 @@ const AppError = require("../middleware/AppError");
 async function verVendas(req, res, next) {
   try {
     const venda = await pool.query(
-      `select v.id as id_venda ,u.nome, u.email ,v.parcelas ,v.metodo_pagamento, v.valor_total, v.criado_em as data_compra from public.vendas v join public.usuarios u on u.id = v.id_usuario`,
+      `select v.id as id_venda ,u.nome, u.email ,v.parcelas ,v.metodo_pagamento, v.valor_total, v.criado_em as data_compra from public.vendas v join public.usuarios u on u.id = v.id_usuario order by v.criado_em desc`,
     );
 
     const couterVendas = await pool.query("select count(id) from public.vendas")
@@ -34,6 +34,38 @@ async function GetDetalhesVenda(req, res, next) {
     return next(err);
   }
 }
+
+
+async function dashboard(req, res, next) {
+  try {
+    const result = await pool.query(`
+  SELECT 
+    TO_CHAR(criado_em, 'YYYY-MM') as mes,
+    COUNT(*) as total_vendas,
+    COALESCE(SUM(valor_total), 0) as faturamento
+  FROM public.vendas
+  GROUP BY TO_CHAR(criado_em, 'YYYY-MM')
+  ORDER BY MIN(criado_em)
+`);
+
+    return res.json({
+      ok: true,
+      dados: result.rows.map(item => ({
+        mes: item.mes,
+        total_vendas: item.total_vendas,
+        faturamento: item.faturamento
+      }))
+    });
+
+  } catch (err) {
+    return next(err);
+  }
+}
+
+
+
+
+
 
 async function fazerVenda(req, res, next) {
   //atribuir conexão unica para a query
@@ -148,4 +180,4 @@ async function fazerVenda(req, res, next) {
   }
 }
 
-module.exports = { verVendas, fazerVenda, GetDetalhesVenda };
+module.exports = { verVendas, fazerVenda, GetDetalhesVenda, dashboard };

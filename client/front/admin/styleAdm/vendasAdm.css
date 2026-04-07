@@ -42,23 +42,16 @@ header .voltar button:hover {
 }
 
 
-
-
-
 /* Container */
 .tabela-container {
-  width: 100%;
-  padding: 20px;
-  overflow-x: auto;
+  width: 100%;   /* 👈 ESSENCIAL */
 }
-
 /* Tabela */
 .tabela-vendas {
   width: 100%;
   border-collapse: collapse;
   background-color: #1e1e1e;
   border-radius: 10px;
-  overflow: hidden;
   font-family: "Inter", sans-serif;
 }
 
@@ -66,6 +59,14 @@ header .voltar button:hover {
 .tabela-vendas thead {
   background-color: #111;
 }
+
+thead th {
+  position: sticky;
+  top: 0;
+  background: #111;
+  z-index: 10;
+}
+
 
 .tabela-vendas th {
   padding: 15px;

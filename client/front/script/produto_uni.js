@@ -3,14 +3,14 @@ import {
   API_CLIENT_KEY,
   getUserFromToken,
   fetchAuth,
-  exibirNome,
+  exibirNomeFront,
   loading,
 } from "../script/services/config.js";
 import { addToCart, carregarCart } from "./cart.js";
 loading();
 let id_usuario = getUserFromToken();
 if (!id_usuario) alert("crie uma conta");
-document.getElementById("nome_cliente").textContent = exibirNome();
+exibirNomeFront();
 let img = document.getElementById("produto_img");
 let nome = document.getElementById("proudto_title");
 let code = document.getElementById("produto_code");

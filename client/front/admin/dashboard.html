@@ -1,66 +1,94 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="./styleAdm/dashboard.css" />
-    <script type="module" src="./scriptAdm/admin.js" defer></script>
-  </head>
-  <body>
-    <header>
-      <h1>Dashboard Administrativo — Shift Store</h1>
-      <div class="voltar">
-        <button id="btn-voltar-site">Site</button>
-      </div>
-    </header>
 
-    <main>
-      <section class="cards" id="cards">
-        <a href="usuariosAdm.html">
-          <div class="card">
-            <h2>Usuários</h2>
-            <p>Gerenciar usuários do sistema</p>
-            <div class="qtd">
-              <p>Quantidade de usuarios:</p>
-              <p id="qtd-usuarios"></p>
-            </div>
-          </div>
-        </a>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="./styleAdm/dashboard.css" />
+  <script type="module" src="./scriptAdm/admin.js" defer></script>
+</head>
 
-        <a href="produtoAdm.html">
-          <div class="card">
-            <h2>Produtos</h2>
-            <p>Adicionar, editar ou remover produtos</p>
-            <div class="qtd">
-              <p>Quantidade de Produtos:</p>
-              <p id="qtd-produtos"></p>
-            </div>
-          </div>
-        </a>
-        <a href="vendas.html">
-          <div class="card">
-            <h2>Vendas</h2>
-            <p>Visualizar pedidos realizados</p>
-            <div class="qtd">
-              <p>Quantidade de vendas:</p>
-              <p id="qtd-vendas"></p>
-            </div>
-            <br>
-            <div class="fatura">
-              <p>Faturamento</p>
-              <p id='faturamento'>0</p>
-            </div>
-          </div>
-        </a>
+<body>
+  <header>
+    <h1>Dashboard Administrativo — Shift Store</h1>
+    <div class="voltar">
+      <button id="btn-voltar-site">Site</button>
+    </div>
+  </header>
 
+  <main>
+    <section class="cards" id="cards">
+      <a href="usuariosAdm.html">
         <div class="card">
-          <h2>Configurações</h2>
-          <p>Ajustes gerais do sistema</p>
+          <h2>Usuários</h2>
+          <p>Gerenciar usuários do sistema</p>
+          <div class="qtd">
+            <p>Quantidade de usuarios:</p>
+            <p id="qtd-usuarios"></p>
+          </div>
         </div>
-      </section>
+      </a>
 
-      <footer>© 2026 - Área Administrativa</footer>
-    </main>
-  </body>
+      <a href="produtoAdm.html">
+        <div class="card">
+          <h2>Produtos</h2>
+          <p>Adicionar, editar ou remover produtos</p>
+          <div class="qtd">
+            <p>Quantidade de Produtos:</p>
+            <p id="qtd-produtos"></p>
+          </div>
+        </div>
+      </a>
+      <a href="vendas.html">
+        <div class="card">
+          <h2>Vendas</h2>
+          <p>Visualizar pedidos realizados</p>
+          <div class="qtd">
+            <p>Quantidade de vendas:</p>
+            <p id="qtd-vendas"></p>
+          </div>
+          <br>
+          <div class="fatura">
+            <p>Faturamento</p>
+            <p id='faturamento'>0</p>
+          </div>
+        </div>
+      </a>
+
+      <div class="card">
+        <h2>Configurações</h2>
+        <p>Ajustes gerais do sistema</p>
+      </div>
+    </section>
+
+    <br>
+    <br>
+
+    <section class="dashboard">
+
+      <!-- CARDS -->
+      <br>
+      <!-- CONTEÚDO -->
+      <div class="conteudo">
+        <!-- GRÁFICO -->
+        <div class="card grafico">
+          <h2>Vendas por Mês</h2>
+          <div class="grafico-container">
+            <canvas id="graficoVendas"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+
+
+
+    <footer>© 2026 - Área Administrativa</footer>
+  </main>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </html>

@@ -3,7 +3,6 @@ import {
   API_CLIENT_KEY,
   validarTokenFront,
   API_CHEKOUT,
-  exibirNome,
   fetchAuth,
   loading
 } from "../../script/services/config.js";
