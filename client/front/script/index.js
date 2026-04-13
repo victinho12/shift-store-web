@@ -8,6 +8,16 @@ import {
 } from "./services/config.js";
 // Exibe o nome do usuario em seu icone
 exibirNomeFront();
+// teste do olho password
+let btn = document.querySelector('.lnr-eye');
+btn.addEventListener('click', function() {
+    let input = document.querySelector('#senha');
+    if(input.getAttribute('type') == 'password') {
+        input.setAttribute('type', 'text');
+    } else {
+        input.setAttribute('type', 'password');
+    }
+});
 
 // Área para pegar elementos do html
 const btnEntrar = document.getElementById("btn-entrar");
@@ -19,7 +29,7 @@ btnEntrar.addEventListener("click", logar);
 
 async function logar() {
   try {
-    loading();
+    loading(true);
     const email = document.getElementById("email").value;
     const senha = document.getElementById("senha").value;
 
@@ -51,6 +61,8 @@ async function logar() {
   } catch (err) {
     console.error(err.message);
     alert(err.message);
+  } finally{
+    loading(false)
   }
 }
 // função que valida o token do usuario, se ele for adm, ele vai ser redirecionado para a tela principal de adm, contudo, se for ususario normal, ele vai ser redirecionada para a home de site
