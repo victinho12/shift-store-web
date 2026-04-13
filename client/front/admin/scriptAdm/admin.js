@@ -14,6 +14,7 @@ btnVoltarSite.addEventListener('click', () => {
 })
 
 
+
 async function carregarProdutosAdm() {
   try {
     mostrarSkeleton(4);
@@ -41,7 +42,7 @@ async function carregarProdutosAdm() {
     if (!res.ok) throw new Error(dados.message);
     if (!resUser.ok) throw new Error(dados_user.message);
     if (!resVendas.ok) throw new Error(dados_venda.message);
- 
+
     document.querySelectorAll(".skeleton").forEach((card) => card.remove());
     cards.innerHTML = cardsOriginaisHTML;
     const qtdProdutos = document.getElementById("qtd-produtos");
@@ -79,4 +80,45 @@ function mostrarSkeleton(qtd) {
   }
 }
 
+
+async function mostrarDash() {
+
+  const response = await fetchAuth(`${API_CHEKOUT}/dashboard`, {
+    headers: {
+      "shift-api-key": API_CLIENT_KEY
+    }
+  });
+
+  const json = await response.json(); // 👈 obrigatório
+
+  const dados = json.dados || [];
+
+  const labels = dados.map(v => v.mes);
+  const valores = dados.map(v => v.faturamento);
+
+  const ctx = document.getElementById("graficoVendas");
+
+  if (ctx) {
+    new Chart(ctx, {
+      type: "line",
+      data: {
+        labels,
+        datasets: [
+          {
+            label: "Faturamento",
+            data: valores,
+            tension: 0.3,
+            fill: true
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false
+      }
+    });
+  }
+}
+
 carregarProdutosAdm();
+mostrarDash();

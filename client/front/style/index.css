@@ -282,3 +282,72 @@ body {
     margin-left: 0;
   }
 }
+
+
+.dashboard {
+  padding: 20px;
+}
+
+/* CARDS TOPO */
+.cards-top {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.card {
+  background: #111;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+.card h3 {
+  font-size: 0.9rem;
+  color: #aaa;
+}
+
+.card p {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.destaque {
+  background: linear-gradient(135deg, #8b0000, #5a0000);
+}
+
+/* CONTEÚDO */
+.conteudo {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+/* GRÁFICO */
+.grafico-container {
+  height: 250px;
+}
+
+/* RANKING */
+.ranking ul {
+  list-style: none;
+  margin-top: 10px;
+}
+
+.ranking li {
+  padding: 10px 0;
+  border-bottom: 1px solid #333;
+}
+
+/* RESPONSIVO */
+@media (max-width: 900px) {
+  .cards-top {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .conteudo {
+    grid-template-columns: 1fr;
+  }
+}
