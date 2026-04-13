@@ -10,14 +10,24 @@ const cartRouter = require('./router/carrinho');
 const vendas = require("./router/venda");
 const app = express();
 
-app.use(cors({
+const corsOptions = {
   origin: [
     "https://shift-store-web.vercel.app",
-    "https://shift-store-web-front.onrender.com"
+    "https://shift-store-web-front.onrender.com",
+    "http://127.0.0.1:5500",
+    "http://localhost:5500",
+    "http://127.0.0.1:5501",
+    "http://localhost:5501",
+    "http://localhost:5173",
   ],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
-}));
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "shift-api-key"],
+  credentials: true,
+};
+
+
+
+
 
 app.use(cors(corsOptions));
 app.options(/.*/, cors(corsOptions));
