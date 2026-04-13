@@ -12,6 +12,7 @@ const app = express();
 
 const corsOptions = {
   origin: [
+    "https://victinho12-shift-store-web-2glm.vercel.app",
     "https://shift-store-web.vercel.app",
     "https://shift-store-web-front.onrender.com",
     "http://127.0.0.1:5500",
