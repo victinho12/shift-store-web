@@ -66,7 +66,7 @@ async function exibirProduto() {
     if (!res.ok) throw new Error(dados.message);
     // colocando dados no html
 
-    img.src = `http://localhost:3000/uploads/${dados.data.img}`;
+    img.src = `https://shift-store-web.onrender.com/uploads/${dados.data.img}`;
     img.alt = `${dados.data.nome}`;
     nome.textContent = dados.data.nome;
     code.textContent = `Codigo do produto: ${dados.data.id}`;
@@ -128,7 +128,7 @@ async function buscarProduto(tamanho, cor, categoria) {
 async function atualizarDados(dados) {
   //aqui ta tudo certo
   const { data } = dados;
-  img.src = `http://localhost:3000/uploads/${data.img}`;
+  img.src = `https://shift-store-web.onrender.com/uploads/${data.img}`;
   img.alt = `${data.nome}`;
   nome.textContent = data.nome;
   code.textContent = `Codigo do produto: ${data.id}`;

@@ -59,7 +59,7 @@ export async function fetchAuth(url, options = {}) {
 
   // tenta refresh
   const refreshToken = localStorage.getItem("refreshToken");
-  const refreshRes = await fetch("http://localhost:3000/refresh-token", {
+  const refreshRes = await fetch("https://shift-store-web.onrender.com/refresh-token", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
