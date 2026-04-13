@@ -77,7 +77,7 @@ btnFecharModalAddProdutos.addEventListener("click", () => {
 async function carregarProdutos(nome) {
   try {
     if (nome === undefined || !nome) nome = ''
-    const res = await fetchAuth(`${API_ROUPAS}genero/?nome=${nome}`, {
+    const res = await fetchAuth(`${API_ROUPAS}/genero/?nome=${nome}`, {
       headers: {
         "Content-Type": "application/json",
         "shift-api-key": API_CLIENT_KEY,
@@ -146,7 +146,7 @@ async function carregarProdutos(nome) {
 
 async function excluirRoupa(id) {
   try {
-    const res = await fetchAuth(`${API_ROUPAS}${id}`, {
+    const res = await fetchAuth(`${API_ROUPAS}/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -161,7 +161,7 @@ async function excluirRoupa(id) {
 
 async function inserirRoupa(formData) {
   try {
-    const res = await fetchAuth(`${API_ROUPAS}`, {
+    const res = await fetchAuth(`${API_ROUPAS}/`, {
       method: 'POST',
       headers: {// Não precisa do content-type, pois estamos mandando um formulario
         "shift-api-key": API_CLIENT_KEY,
@@ -182,7 +182,7 @@ async function inserirRoupa(formData) {
 
 async function atualizarRoupa(id, dataUpdate) {
   try {
-    const res = await fetchAuth(`${API_ROUPAS}update/${id}`, {
+    const res = await fetchAuth(`${API_ROUPAS}/update/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
