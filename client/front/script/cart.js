@@ -12,7 +12,6 @@ let id_usuario;
 let itensVenda = [];
 let qtdParcelas = 1;
 let divLoading = document.getElementById("divLoad");
-let pagamento = document.getElementById("select-pagamento");
 
 export async function addToCart(id_usuario, id_produto_variacao, quantidade) {
   try {
@@ -41,8 +40,10 @@ export async function verCart(id_usuario) {
   id_usuario = getUserFromToken();
   let id = Number(id_usuario);
   let parcelar = document.getElementById("parcelar");
+  let pagamento = document.getElementById("select-pagamento");
+  if(pagamento){
   pagamento.addEventListener("change", () => {
-    if (pagamento.value === "DEBITO" || "CREDITO") {
+    if (pagamento.value === "DEBITO" || pagamento.value ===  "CREDITO") {
       parcelar.innerHTML = `
     <span>Seleciono a quantidade de vezes<span>
     <select id='parcelaQtd'>
@@ -65,6 +66,7 @@ export async function verCart(id_usuario) {
       parcelar.innerHTML = "";
     }
   });
+}
   if (!id) return alert("loge ou cadastre-se para comprar um item");
   try {
     const res = await fetchAuth(`${API_CART}/${id}`, {
@@ -84,7 +86,7 @@ export async function verCart(id_usuario) {
   }
 }
 export async function carregarCart() {
-  loading();
+  loading(true);
   const nome = document.getElementById("nome_cliente");
   const nome_value = localStorage.getItem("nome");
   if (nome_value) {
@@ -214,7 +216,7 @@ export async function carregarCart() {
   } catch (err) {
     console.error(err.message);
     divLoading.innerHTML = "";
-  }
+  } finally {loading(false)}
 }
 
 async function removerCart(id_carrinho_item) {
@@ -263,7 +265,14 @@ document.getElementById("btn-vender")?.addEventListener("click", async () => {
 export async function checkout() {
   getUserFromToken();
 
-  let metodo_pagamento_select = pagamento.value;
+  let pagamento = document.getElementById("select-pagamento");
+
+if (!pagamento) {
+  alert("Selecione uma forma de pagamento");
+  return;
+}
+
+let metodo_pagamento_select = pagamento.value;
   let parcelas_quantidade = qtdParcelas;
   console.log(metodo_pagamento_select);
   const venda = {

@@ -18,7 +18,7 @@ btnVoltarSite.addEventListener('click', () => {
 async function carregarProdutosAdm() {
   try {
     mostrarSkeleton(4);
-    const res = await fetchAuth(`${API_ROUPAS}count`, {
+    const res = await fetchAuth(`${API_ROUPAS}/count`, {
       headers: {
         "Content-Type": "application/json",
         "shift-api-key": API_CLIENT_KEY,

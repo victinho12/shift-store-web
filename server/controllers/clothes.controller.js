@@ -24,7 +24,7 @@ async function buscarPeloTamanhoCorCategoira(req, res, next) {
 
     const resposta = await pool.query(
       `select
-  p.nome as produto_nome,
+  p.nome as nome,
   t.nome as tamanho,
   c.nome as categoria,
   cor.nome as cor,

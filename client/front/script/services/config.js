@@ -1,4 +1,4 @@
-export const API_ROUPAS = "http://localhost:3000/roupas/";
+export const API_ROUPAS = "http://localhost:3000/roupas";
 export const API_LOGIN = "http://localhost:3000/user";
 export const API_CART = "http://localhost:3000/cart";
 export const API_CLIENT_KEY = "VICTOR_EDUARDO_MARTINS_123";
@@ -71,9 +71,6 @@ export async function fetchAuth(url, options = {}) {
   return res;
 }
 
-
-
-
 export function logoutUser() {
   console.log("deslogando config");
   localStorage.removeItem("token");
@@ -98,12 +95,54 @@ export function exibirNomeFront() {
   nome.textContent = getNome;
 }
 
-export function loading() {
+export function getUserId() {
+  const token = localStorage.getItem("token");
+  const user = !token ? false : JSON.parse(atob(token?.split(".")[1]));
+  let user_id = user === false ? false : Number(user.id);
+  return user_id;
+}
+
+export function redirecionar(){
+  window.location.href = '../../front/view/index.html'
+}
+
+export function loading(show = true) {
+  
   const div_carregando = document.getElementById("divLoad");
+  const existing = div_carregando.querySelector(".loading");
+  if(!show) {
+    if(existing) existing.remove(); 
+    return;
+  };
+  if(existing) return;
   const loading = document.createElement("div");
   loading.classList.add("loading");
   loading.innerHTML = `
     <img src="../assets/goku (1).png" alt="" />
     <p class="pontos">Carregando</p>`;
   div_carregando.appendChild(loading);
+  console.log("loading rodando");
+}
+
+
+export async function verQuantidadeCart() {
+  try {
+    const cartNun = document.getElementById("carrinho");
+    const id = getUserId();
+    const res = await fetchAuth(`${API_CART}/${id}`, {
+      headers: {
+        "shift-api-key": API_CLIENT_KEY,
+      },
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      data.quantidade = 0;
+      throw new Error(data.message);
+    }
+    cartNun.textContent = data.quantidade
+    return Number(data.quantidade) ?? 0;
+  } catch (err) {
+    console.error(err.message);
+  }
 }

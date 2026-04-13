@@ -1,73 +1,70 @@
+// Funções padrões para a janelas
 import {
   API_ROUPAS,
   API_CLIENT_KEY,
   fetchAuth,
   logoutUser,
+  getUserId,
+  exibirNomeFront,
+  redirecionar,
+  verQuantidadeCart
 } from "./services/config.js";
-import {addToCart, verCart} from "./cart.js"
-let limit = 5;
-let offset = 0;
-const token = localStorage.getItem('token')
-const user = !token ? false : JSON.parse(atob(token?.split(".")[1]));
-let user_id = user === false ? false : Number(user.id);
 
-const imgs = document.getElementById("img");
-const img = document.querySelectorAll("#img img");
-const cartNun = document.getElementById("carrinho");
-
-const lista_produtos_shift = document.getElementById("lista-produtos");
-const nome = document.getElementById("nome_cliente");
-const nome_value = localStorage.getItem("nome");
+// função que vê quantos itens o usuario tem no carrinho
+verQuantidadeCart();
+// Exibe o nome do usuario em seu icone
+exibirNomeFront();
 const btnLogout = document.getElementById("logout-btn");
-
 btnLogout.addEventListener("click", logoutUser);
 
-if (nome_value) {
-  nome.textContent = nome_value;
-  nome.style.display = "block";
-} else {
-  nome.textContent = "user";
-  nome.style.display = "block";
-}
+// Área para pegar elementos do html
+const cartNun = document.getElementById("carrinho");
+const lista_produtos_shift = document.getElementById("lista-produtos");
 
-let idx = 0;
-function carrocel() {
-  idx++;
-  if (idx > img.length - 1) {
-    idx = 0;
+// eventos de click
+cartNun.addEventListener("click", () => {
+  if (!getUserId()) {
+    alert("Loge para entrar no carrinho");
+    redirecionar();
+  } else {
+    window.location.href = "../view/cart.html";
   }
-  imgs.style.transform = `translateX(${-idx * 100}%)`;
-}
-setInterval(carrocel, 3000);
+});
 
+// função que carrega os produtos na tela
 async function carregarProdutos() {
   try {
-    mostrarSkeleton(5);
+    const limit = 10;
+    mostrarSkeleton(limit);
     const res = await fetchAuth(
-      `${API_ROUPAS}genero/?limit=${limit}&offset=${offset}`,
+      `${API_ROUPAS}/genero/?limit=${limit}&offset=${0}`,
       {
         headers: {
           "shift-api-key": API_CLIENT_KEY,
         },
       },
-  );
-    const resJson = await res.json();
-    
+    );
+    const dados = await res.json();
+
     if (!res.ok) {
-      throw new Error(resJson.message || "Erro ao carregar produtos");
-    }
-    if (resJson.ok === false) {
-      throw new Error(resJson.message || "Erro ao carregar produtos");
+      throw new Error(dados.message || "Erro ao carregar produtos");
     }
     lista_produtos_shift.innerHTML = "";
+    cardProdutos(dados);
+  } catch (err) {
+    console.error(err.message);
+  }
+}
 
-    resJson.data.forEach((roupa) => {
-      const card = document.createElement("div");
-      card.classList.add("card");
-      card.innerHTML = `
-  <a href="produto_uni.html?id=${
-    roupa.id
-  }&tamanhoP=${roupa.tamanho}&corP=${roupa.cor}"<div class="card-img">
+// função que constroi o card dos produtos
+function cardProdutos(dados) {
+  dados.data.forEach((roupa) => {
+    const card = document.createElement("div");
+    card.classList.add("card");
+    card.innerHTML = `
+  <a href="produto_uni.html?id=${roupa.id}&tamanho=${roupa.tamanho}&cor=${
+      roupa.cor
+    }"<div class="card-img">
     <img src="http://localhost:3000/uploads/${roupa.img}" alt="${roupa.nome}">
   </div>
   <div class="card-info">
@@ -78,21 +75,11 @@ async function carregarProdutos() {
   <div class = "btn-add-cart"><button class="addToCart">Comprar</button></div>
   </a>
 `;
-      card
-        .querySelector(".addToCart")
-        .addEventListener("click", async () => {
-          if(!user_id) return alert("cadastre para comprar");
-          await addToCart(user_id,roupa.id, 1);
-          await atualizaCart();
-        });
-      lista_produtos_shift.appendChild(card);
-    });
-  } catch (err) {
-    console.error(err.message);
-    alert(err.message);
-  }
+    lista_produtos_shift.appendChild(card);
+  });
 }
 
+// função que mostra um "eskeleto" para o usuario para que ele não ache que o site não está funcionando
 function mostrarSkeleton(qtd = 4) {
   lista_produtos_shift.innerHTML = "";
 
@@ -113,23 +100,6 @@ function mostrarSkeleton(qtd = 4) {
     lista_produtos_shift.appendChild(skeleton);
   }
 }
-async function atualizaCart() {
-  if(!user_id) return alert("cadastre para usar o carrinho");
 
-  const qtd = await verCart(user_id);
-  cartNun.textContent = qtd || 0;
-}
-cartNun.addEventListener("click", () =>{
-  window.location.href = '../view/cart.html'
-})
 
-async function init(){
-  await carregarProdutos();
-
-  if(user_id){
-    const qtd = await verCart(user_id);
-    cartNun.textContent = qtd || 0;
-  }
-}
-
-init();
+carregarProdutos();
