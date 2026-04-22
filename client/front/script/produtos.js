@@ -22,6 +22,16 @@ const btnFiltro = document.getElementById("btn-filtrar");
 const btnMasc = document.getElementById("btn-genero-masc");
 const btnFeme = document.getElementById("btn-genero-feme");
 const divLoad = document.getElementById("divLoad");
+const inputPesquisar = document.getElementById("inputPesquisar");
+const btnPesquisar = document.getElementById("btn-pesquisar");
+
+btnPesquisar.addEventListener("click", () => {
+    if(inputPesquisar.value == ""){
+      return alert("Digite algo para pesquisar");
+    };
+    
+})
+
 
 // eventos de click
 btnFiltro.addEventListener("click", () => {
