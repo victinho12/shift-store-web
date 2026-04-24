@@ -76,7 +76,7 @@ btnFecharModalAddProdutos.addEventListener("click", () => {
 
 async function carregarProdutos(nome) {
   try {
-    if (nome === undefined || !nome) nome = ''
+    if (nome === undefined || !nome) nome = '';
     const res = await fetchAuth(`${API_ROUPAS}/genero/?nome=${nome}`, {
       headers: {
         "Content-Type": "application/json",

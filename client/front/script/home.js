@@ -56,6 +56,7 @@ async function carregarProdutos() {
   }
 }
 
+
 // função que constroi o card dos produtos
 function cardProdutos(dados) {
   dados.data.forEach((roupa) => {
@@ -65,7 +66,7 @@ function cardProdutos(dados) {
   <a href="produto_uni.html?id=${roupa.id}&tamanho=${roupa.tamanho}&cor=${
       roupa.cor
     }"<div class="card-img">
-    <img src="https://shift-store-web.onrender.com/uploads/${roupa.img}" alt="${roupa.nome}">
+    <img src="http://localhost:3000/uploads/${roupa.img}">
   </div>
   <div class="card-info">
     <h2 class="card-title">${roupa.nome} ${roupa.tamanho}</h2>
@@ -74,6 +75,7 @@ function cardProdutos(dados) {
   </div>
   <div class = "btn-add-cart"><button class="addToCart">Comprar</button></div>
   </a>
+  
 `;
     lista_produtos_shift.appendChild(card);
   });

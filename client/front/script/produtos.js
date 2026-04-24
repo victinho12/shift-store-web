@@ -24,12 +24,13 @@ const btnFeme = document.getElementById("btn-genero-feme");
 const divLoad = document.getElementById("divLoad");
 const inputPesquisar = document.getElementById("inputPesquisar");
 const btnPesquisar = document.getElementById("btn-pesquisar");
+const btnLimparPesquisa = document.getElementById("btn-limpar")
 
-btnPesquisar.addEventListener("click", () => {
-    if(inputPesquisar.value == ""){
-      return alert("Digite algo para pesquisar");
-    };
-    
+btnLimparPesquisa.addEventListener("click", () => inputPesquisar.value = '');
+btnPesquisar.addEventListener("click", async () => {
+    console.log(inputPesquisar.value);
+    await carregarProdutos('',inputPesquisar.value)
+
 })
 
 
@@ -64,15 +65,18 @@ btnFeme.addEventListener("click", () => {
 });
 
 // função que carrega os produtos na tela
-async function carregarProdutos(genero) {
+async function carregarProdutos(genero, nome) {
   try {
+
+    if (nome === undefined || !nome) nome = '';
+
     const limit = 20;
     if (!genero) {
-      genero = "";
+      genero = "%";
     }
     mostrarSkeleton(limit);
     const res = await fetchAuth(
-      `${API_ROUPAS}/genero?limit=${limit}&offset=${0}&categoria_nome=${genero}`,
+      `${API_ROUPAS}/genero?limit=${limit}&offset=${0}&categoria_nome=${genero}&nome=${nome}`,
       {
         headers: {
           "shift-api-key": API_CLIENT_KEY,
@@ -81,7 +85,8 @@ async function carregarProdutos(genero) {
     );
     const dados = await res.json();
     if (!res.ok) {
-      throw new Error(dados.message || "Erro ao carregar produtos");
+     alert(dados.message);
+     return await carregarProdutos("","");
     }
 
     lista_produtos_shift.innerHTML = ""; // remove skeleton
@@ -103,7 +108,7 @@ function cardProdutos(dados) {
           }" class="card-link"> <div class="card">
           <div class="card-img">
             <img
-              src="https://shift-store-web.onrender.com/uploads/${roupa.img}"
+              src="http://localhost:3000/uploads/${roupa.img}"
               alt="${roupa.nome}"
             />
           </div>
@@ -117,8 +122,8 @@ function cardProdutos(dados) {
             <p class="card-price">
               R$ <strong>${Number(roupa.preco).toFixed(2)}</strong>
             </p>
+             <div class = "btn-add-cart"><button class="addToCart">Comprar</button></div>
             </a>
-
           </div>
         </div>
       `;

@@ -4,7 +4,7 @@ const AppError = require("../middleware/AppError");
 
 async function buscarPeloTamanhoCorCategoira(req, res, next) {
   try {
-    const { cor, tamanho, categoria } = req.query;
+    const { cor, tamanho, categoria, nome } = req.query;
     let idCor = Number(cor);
     if(!Number.isInteger(idCor)){
       throw new AppError("Dados da cor invalida", 400, 'INVALID_DATA')

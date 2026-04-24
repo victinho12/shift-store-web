@@ -89,7 +89,7 @@ async function mostrarDash() {
     }
   });
 
-  const json = await response.json(); // 👈 obrigatório
+  const json = await response.json(); 
 
   const dados = json.dados || [];
 
