@@ -24,14 +24,13 @@ const btnFeme = document.getElementById("btn-genero-feme");
 const divLoad = document.getElementById("divLoad");
 const inputPesquisar = document.getElementById("inputPesquisar");
 const btnPesquisar = document.getElementById("btn-pesquisar");
+const btnLimparPesquisa = document.getElementById("btn-limpar");
 
-btnPesquisar.addEventListener("click", () => {
-    if(inputPesquisar.value == ""){
-      return alert("Digite algo para pesquisar");
-    };
-    
-})
-
+btnLimparPesquisa.addEventListener("click", () => (inputPesquisar.value = ""));
+btnPesquisar.addEventListener("click", async () => {
+  console.log(inputPesquisar.value);
+  await carregarProdutos("", inputPesquisar.value);
+});
 
 // eventos de click
 btnFiltro.addEventListener("click", () => {
@@ -64,15 +63,17 @@ btnFeme.addEventListener("click", () => {
 });
 
 // função que carrega os produtos na tela
-async function carregarProdutos(genero) {
+async function carregarProdutos(genero, nome) {
   try {
+    if (nome === undefined || !nome) nome = "";
+
     const limit = 20;
     if (!genero) {
-      genero = "";
+      genero = "%";
     }
     mostrarSkeleton(limit);
     const res = await fetchAuth(
-      `${API_ROUPAS}/genero?limit=${limit}&offset=${0}&categoria_nome=${genero}`,
+      `${API_ROUPAS}/genero?limit=${limit}&offset=${0}&categoria_nome=${genero}&nome=${nome}`,
       {
         headers: {
           "shift-api-key": API_CLIENT_KEY,
@@ -81,7 +82,8 @@ async function carregarProdutos(genero) {
     );
     const dados = await res.json();
     if (!res.ok) {
-      throw new Error(dados.message || "Erro ao carregar produtos");
+      alert(dados.message);
+      return await carregarProdutos("", "");
     }
 
     lista_produtos_shift.innerHTML = ""; // remove skeleton
@@ -95,35 +97,37 @@ async function carregarProdutos(genero) {
 // função que constroi o card dos produtos
 function cardProdutos(dados) {
   dados.data.forEach((roupa) => {
-      const card = document.createElement("div");
-      card.classList.add("card");
-      card.innerHTML = `
-          <a href="produto_uni.html?id=${
-            roupa.id
-          }" class="card-link"> <div class="card">
-          <div class="card-img">
-            <img
-              src="https://shift-store-web.onrender.com/uploads/${roupa.img}"
-              alt="${roupa.nome}"
-            />
-          </div>
+    const card = document.createElement("a");
+card.href = `produto_uni.html?id=${roupa.id}`;
+card.classList.add("card-link");
 
-          <div class="card-info">
-            <h2 class="card-title">${roupa.nome}</h2>
-            <span class="card-category">${roupa.categoria}</span>
+card.innerHTML = `
+  <div class="card">
+    <div class="card-img">
+      <img loading="lazy"
+        src="http://localhost:3000/uploads/${roupa.img}"
+        alt="${roupa.nome}"
+      />
+    </div>
 
-            <p class="card-color">Cor: ${roupa.cor}</p>
+    <div class="card-info">
+      <h2 class="card-title">${roupa.nome}</h2>
+      <span class="card-category">${roupa.categoria}</span>
 
-            <p class="card-price">
-              R$ <strong>${Number(roupa.preco).toFixed(2)}</strong>
-            </p>
-            </a>
+      <p class="card-color">Cor: ${roupa.cor}</p>
 
-          </div>
-        </div>
-      `;
-      lista_produtos_shift.appendChild(card);
-    });
+      <p class="card-price">
+        R$ <strong>${Number(roupa.preco).toFixed(2)}</strong>
+      </p>
+
+      <div class="btn-add-cart">
+        <button class="addToCart">Comprar</button>
+      </div>
+    </div>
+  </div>
+`;
+    lista_produtos_shift.appendChild(card);
+  });
 }
 
 // função que mostra um "eskeleto" para o usuario para que ele não ache que o site não está funcionando
