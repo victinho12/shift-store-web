@@ -16,6 +16,8 @@ let parcela = document.getElementById("produto_preco_parcela");
 let selectTamanho = document.getElementById("produto_tamanho");
 let selectCor = document.getElementById("produto_cor");
 
+let id_familia;
+
 loading(true);
 const produtoState = {
   categoria: null,
@@ -65,7 +67,7 @@ async function exibirProduto() {
     const dados = await res.json();
     if (!res.ok) throw new Error(dados.message);
     // colocando dados no html
-
+    id_familia = dados.data.id_familia;
     img.src = `http://localhost:3000/uploads/${dados.data.img}`;
     img.alt = `${dados.data.nome}`;
     nome.textContent = dados.data.nome;
@@ -103,12 +105,12 @@ async function exibirProduto() {
   }
 }
 
-async function buscarProduto(tamanho, cor, categoria, nome) {
+async function buscarProduto(tamanho, cor, categoria, id_familia) {
   try {
     loading(true);
 
     const res = await fetchAuth(
-      `${API_ROUPAS}/mandarCart/?tamanho=${tamanho}&cor=${cor}&categoria=${categoria}`,
+      `${API_ROUPAS}/mandarCart/?tamanho=${tamanho}&cor=${cor}&categoria=${categoria}&id_familia=${id_familia}`,
       {
         headers: {
           "shift-api-key": API_CLIENT_KEY,
@@ -141,8 +143,10 @@ async function changeSelect() {
     
     const tamanho = selectTamanho.value;
     const cor = selectCor.value;
+     
+    console.log(id_familia);
     if(!tamanho || !cor) return;
-    const dados = await buscarProduto(tamanho, cor, produtoState.categoria);
+    const dados = await buscarProduto(tamanho, cor, produtoState.categoria, id_familia);
     produtoState.idVariacao = dados.data.id;
     atualizarDados(dados); 
   }catch(err){
