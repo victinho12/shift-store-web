@@ -4,7 +4,7 @@ const AppError = require("../middleware/AppError");
 
 async function buscarPeloTamanhoCorCategoira(req, res, next) {
   try {
-    const { cor, tamanho, categoria, nome } = req.query;
+    const { cor, tamanho, categoria, id_familia } = req.query;
     let idCor = Number(cor);
     if(!Number.isInteger(idCor)){
       throw new AppError("Dados da cor invalida", 400, 'INVALID_DATA')
@@ -21,9 +21,14 @@ async function buscarPeloTamanhoCorCategoira(req, res, next) {
         "INVALID_DATA",
       );
     }
+    let isIdFamilia = Number(id_familia);
+    if(!Number.isInteger(isIdFamilia)){
+      throw new AppError("Id da familia do produto esta invalido");
+    }
 
     const resposta = await pool.query(
       `select
+  p.id as id_familia,
   p.nome as nome,
   t.nome as tamanho,
   c.nome as categoria,
@@ -43,8 +48,8 @@ join tamanho t on t.id = pv.id_tamanho
 LEFT JOIN produto_imagem pi 
   ON pi.id_produto = p.id
 
-      where cor.id = $1 and t.id = $2 and c.id = $3`,
-      [idCor, idTamanho, idCategoria],
+      where cor.id = $1 and t.id = $2 and c.id = $3 and p.id = $4`,
+      [idCor, idTamanho, idCategoria, isIdFamilia],
     );
 
     if (resposta.rowCount < 1)
