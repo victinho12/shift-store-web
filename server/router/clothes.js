@@ -7,12 +7,6 @@ const admin = require("../middleware/admin");
 const authToken = require("../middleware/authToken");
 const controller = require("../controllers/clothes.controller");
 
-console.log("Tipos:", {
-  authToken: typeof authToken,
-  validarKeyApi: typeof validarKeyApi,
-  admin: typeof admin,
-  contarRoupas: typeof controller?.contarRoupas,
-});
 router.get("/mandarCart", controller.buscarPeloTamanhoCorCategoira);
 
 router.get("/genero", controller.buscarRoupaPorGenero);
