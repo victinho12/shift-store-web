@@ -32,12 +32,12 @@ cartNun.addEventListener("click", () => {
 });
 
 // função que carrega os produtos na tela
-async function carregarProdutos() {
+async function carregarProdutos(limit) {
   try {
-    const limit = 10;
-    mostrarSkeleton(limit);
+    let limite = limit || 4;
+    mostrarSkeleton(limite);
     const res = await fetchAuth(
-      `${API_ROUPAS}/genero/?limit=${limit}&offset=${0}`,
+      `${API_ROUPAS}/genero/?limit=${limite}&offset=${0}`,
       {
         headers: {
           "shift-api-key": API_CLIENT_KEY,
@@ -62,21 +62,27 @@ function cardProdutos(dados) {
   dados.data.forEach((roupa) => {
     const card = document.createElement("div");
     card.classList.add("card");
+
     card.innerHTML = `
-  <a href="produto_uni.html?id=${roupa.id}&tamanho=${roupa.tamanho}&cor=${
-      roupa.cor
-    }"<div class="card-img">
-    <img src="http://localhost:3000/uploads/${roupa.img}">
-  </div>
-  <div class="card-info">
-    <h2 class="card-title">${roupa.nome} ${roupa.tamanho}</h2>
-    <p class="card-color">Cor: ${roupa.cor} ${roupa.categoria}</p>
-    <p class="card-price">R$ ${Number(roupa.preco).toFixed(2)}</p>
-  </div>
-  <div class = "btn-add-cart"><button class="addToCart">Comprar</button></div>
-  </a>
-  
-`;
+      <a href="produto_uni.html?id=${roupa.id}&tamanho=${roupa.tamanho}&cor=${roupa.cor}">
+        
+        <div class="card-img">
+          <img src="http://localhost:3000/uploads/${roupa.img}">
+        </div>
+
+        <div class="card-info">
+          <h2 class="card-title">${roupa.nome} ${roupa.tamanho}</h2>
+          <p class="card-color">Cor: ${roupa.cor} ${roupa.categoria}</p>
+          <p class="card-price">R$ ${Number(roupa.preco).toFixed(2)}</p>
+        </div>
+
+      </a>
+
+      <div class="btn-add-cart">
+        <button class="addToCart">Comprar</button>
+      </div>
+    `;
+
     lista_produtos_shift.appendChild(card);
   });
 }
@@ -98,7 +104,6 @@ function mostrarSkeleton(qtd = 4) {
         <div class="skeleton-btn"></div>
       </div>
     `;
-
     lista_produtos_shift.appendChild(skeleton);
   }
 }

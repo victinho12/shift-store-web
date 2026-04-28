@@ -1,105 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="../assets/goku.svg" type="image/x-icon" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../style/home.css" />
-    <script type="module" src="../script/home.js" defer></script>
-    
-    <title>Home</title>
-  </head>
-  <body>
-    <header class="conteiner-header">
-      <nav class="header">
-        <a href="home.html"><img src="../assets/goku (1).png" alt="" /></a>
-      </nav>
-      <nav class="header-infos">
-        <a href="./home.html">Home</a>
-        <a href="./produtos.html">Produtos</a>
-        <a href="">Atendimento</a>
-        <a href="">Sobre nós</a>
-      </nav>
-      <nav class="entrar-cadastrar">
-        <a href="index.html">Entrar</a>
-        <a href="./cadastro.html">Cadastrar-se</a>
-        
-      </nav>
-      <nav id="user-icon">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="../assets/goku.svg" type="image/x-icon" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../style/home.css" />
+  <script type="module" src="../script/home.js" defer></script>
+
+  <title>Home</title>
+</head>
+
+<body>
+  <header class="conteiner-header">
+    <nav class="header">
+      <a href="home.html"><img src="../assets/goku (1).png" alt="" /></a>
+    </nav>
+    <nav class="header-infos">
+      <a href="./home.html">Home</a>
+      <a href="./produtos.html">Produtos</a>
+      <a href="">Atendimento</a>
+      <a href="">Sobre nós</a>
+    </nav>
+    <nav class="entrar-cadastrar">
+      <a href="index.html">Entrar</a>
+      <a href="./cadastro.html">Cadastrar-se</a>
+
+    </nav>
+    <nav id="user-icon">
       <p id="nome_cliente" class="nome">nome</p>
       <img src="../assets/avatar-do-usuario.png" alt="">
     </nav>
-    
-    <nav class="logoutClass" >
+
+    <nav class="logoutClass">
       <button id="logout-btn">Sair</button>
     </nav>
     <nav class="carrinhoStyle">
       <p id="carrinho">0</p>
-        <img src="../assets/ChatGPT Image Dec 15, 2025, 04_44_20 AM.png"alt=""/>
+      <img src="../assets/ChatGPT Image Dec 15, 2025, 04_44_20 AM.png" alt="" />
     </nav>
-    </header>
-    <section class="conteiner-body">
-      <div class="conteiner-carrocel">
+  </header>
+  <section class="conteiner-body">
+    <div class="conteiner-carrocel">
       <div class="carrocel">
-        <a href="produtos.html"><div class="conteiner" id="img">
-          <img src="../assets/img-carrocel1.png" />
-          <img src="../assets/carrocel2.png" alt="" />
-          <img src="../assets/carrocel3.png" alt="" />
-        </div>
+        <a href="produtos.html">
+          <div class="conteiner" id="img">
+            <img src="../assets/img-carrocel1.png" />
+          </div>
         </a>
       </div>
+    </div>
+    <div class="produtos">
+      <h1>Mais vendidos</h1>
+      <div id="lista-produtos" class="conteiner-produtos"></div>
+    </div>
+    <h1 id="tendencias">Tendências para sua maior inspiração</h1>
+    <div class="conteiner-carrocel-segundo"> 
+      <div class="carrocel">
+        <a href="produtos.html">
+          <div class="conteiner" id="img">
+            <img src="../assets/img-carrocel3.png" />
+          </div>
+        </a>
       </div>
-      <div class="produtos">
-        <h1>Mais vendidos</h1>
-        <div id="lista-produtos" class="conteiner-produtos"></div>
+    </div>
+    </a>
+    </div>
+
+    <div class="parceirias">
+  <h2>NAVEGUE PELAS MARCAS PARCEIRAS</h2>
+
+  <div class="marcas-container">
+    <button class="arrow left">&#10094;</button>
+
+    <div class="marcas">
+      <div class="marca">
+        <img src="../assets/mac.png" alt="MAC">
+        <p>MAC</p>
       </div>
-      
 
+      <div class="marca">
+        <img src="../assets/wella.png" alt="Wella">
+        <p>Wella</p>
+      </div>
 
-      <footer class="footer">
-  <div class="footer-container">
+      <div class="marca">
+        <img src="../assets/fila.png" alt="Fila">
+        <p>Fila</p>
+      </div>
 
-    <!-- Logo / Nome -->
-    <div class="footer-col">
-      <img src="../assets/goku (1).png" alt="Logo" class="footer-logo" />
-      <p class="footer-text">
-        Sua loja de roupas com estilo, qualidade e atitude.
-      </p>
+      <div class="marca">
+        <img src="../assets/mizuno.png" alt="Mizuno">
+        <p>Mizuno</p>
+      </div>
+
+      <div class="marca">
+        <img src="../assets/newera.png" alt="New Era">
+        <p>New Era</p>
+      </div>
+
+      <div class="marca">
+        <img src="../assets/newbalance.png" alt="New Balance">
+        <p>New Balance</p>
+      </div>
+
+      <div class="marca">
+        <img src="../assets/loreal.png" alt="L'Oréal">
+        <p>L'Oréal</p>
+      </div>
     </div>
 
-    <!-- Navegação -->
-    <div class="footer-col">
-      <h3>Navegação</h3>
-      <ul>
-        <li><a href="./home.html">Home</a></li>
-        <li><a href="./produtos.html">Produtos</a></li>
-        <li><a href="./atendimento.html">Atendimento</a></li>
-        <li><a href="#">Sobre nós</a></li>
-      </ul>
-    </div>
-
-    <!-- Conta -->
-    <div class="footer-col">
-      <h3>Conta</h3>
-      <ul>
-        <li><a href="./index.html">Entrar</a></li>
-        <li><a href="./cadastro.html">Cadastrar-se</a></li>
-        <li><a href="#">Meu carrinho</a></li>
-      </ul>
-    </div>
-
-    <!-- Atendimento -->
-    <div class="footer-col">
-      <h3>Atendimento</h3>
-      <p>Email: suporte@shiftstore.com</p>
-      <p>Horário: Seg à Sex - 9h às 18h</p>
-    </div>
-
+    <button class="arrow right">&#10095;</button>
   </div>
+</div>
 
-  <div class="footer-bottom">
-    <p>© 2026 Shift Store — Todos os direitos reservados</p>
-  </div>
-</footer>
-  </body>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+
+      <!-- Logo / Nome -->
+      <div class="footer-col">
+        <img src="../assets/goku (1).png" alt="Logo" class="footer-logo" />
+        <p class="footer-text">
+          Sua loja de roupas com estilo, qualidade e atitude.
+        </p>
+      </div>
+
+      <!-- Navegação -->
+      <div class="footer-col">
+        <h3>Navegação</h3>
+        <ul>
+          <li><a href="./home.html">Home</a></li>
+          <li><a href="./produtos.html">Produtos</a></li>
+          <li><a href="#">Atendimento</a></li>
+          <li><a href="#">Sobre nós</a></li>
+        </ul>
+      </div>
+
+      <!-- Conta -->
+      <div class="footer-col">
+        <h3>Conta</h3>
+        <ul>
+          <li><a href="./index.html">Entrar</a></li>
+          <li><a href="./cadastro.html">Cadastrar-se</a></li>
+          <li><a href="#">Meu carrinho</a></li>
+        </ul>
+      </div>
+
+      <!-- Atendimento -->
+      <div class="footer-col">
+        <h3>Atendimento</h3>
+        <p>Email: suporte@shiftstore.com</p>
+        <p>Horário: Seg à Sex - 9h às 18h</p>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 Shift Store — Todos os direitos reservados</p>
+    </div>
+  </footer>
+</body>
+
 </html>
