@@ -41,10 +41,10 @@ export async function verCart(id_usuario) {
   let id = Number(id_usuario);
   let parcelar = document.getElementById("parcelar");
   let pagamento = document.getElementById("select-pagamento");
-  if(pagamento){
-  pagamento.addEventListener("change", () => {
-    if (pagamento.value === "DEBITO" || pagamento.value ===  "CREDITO") {
-      parcelar.innerHTML = `
+  if (pagamento) {
+    pagamento.addEventListener("change", () => {
+      if (pagamento.value === "DEBITO" || pagamento.value === "CREDITO") {
+        parcelar.innerHTML = `
     <span>Seleciono a quantidade de vezes<span>
     <select id='parcelaQtd'>
     <option value ='1'> 1x sem juros </option>
@@ -56,17 +56,17 @@ export async function verCart(id_usuario) {
     <option value ='7'> 7x sem juros</option>
     <option value ='8'> 8x sem juros</option>
     </select> `;
-      let parcelaQtd = document.getElementById("parcelaQtd");
-      parcelaQtd.addEventListener("change", () => {
-        qtdParcelas = parcelaQtd.value;
-        carregarCart();
-      });
-    }
-    if (pagamento.value === "PIX") {
-      parcelar.innerHTML = "";
-    }
-  });
-}
+        let parcelaQtd = document.getElementById("parcelaQtd");
+        parcelaQtd.addEventListener("change", () => {
+          qtdParcelas = parcelaQtd.value;
+          carregarCart();
+        });
+      }
+      if (pagamento.value === "PIX") {
+        parcelar.innerHTML = "";
+      }
+    });
+  }
   if (!id) return alert("loge ou cadastre-se para comprar um item");
   try {
     const res = await fetchAuth(`${API_CART}/${id}`, {
@@ -218,7 +218,9 @@ export async function carregarCart() {
   } catch (err) {
     console.error(err.message);
     divLoading.innerHTML = "";
-  } finally {loading(false)}
+  } finally {
+    loading(false);
+  }
 }
 
 async function removerCart(id_carrinho_item) {
@@ -260,8 +262,7 @@ async function atualizaCartQuantidade(quantidade, id_carrinho_item) {
 }
 
 document.getElementById("btn-vender")?.addEventListener("click", async () => {
-  await checkout();
-  await carregarCart();
+  qrCode();
 });
 
 export async function checkout() {
@@ -269,12 +270,12 @@ export async function checkout() {
 
   let pagamento = document.getElementById("select-pagamento");
 
-if (!pagamento) {
-  alert("Selecione uma forma de pagamento");
-  return;
-}
+  if (!pagamento) {
+    alert("Selecione uma forma de pagamento");
+    return;
+  }
 
-let metodo_pagamento_select = pagamento.value;
+  let metodo_pagamento_select = pagamento.value;
   let parcelas_quantidade = qtdParcelas;
   console.log(metodo_pagamento_select);
   const venda = {
@@ -313,6 +314,31 @@ let metodo_pagamento_select = pagamento.value;
     console.error(err.message);
     alert(err.message);
   }
+}
+
+function qrCode() {
+  const btnFinalizar = document.getElementById("btn-vender");
+  const divQrCode = document.getElementById("qrCode");
+  const btnPagarQrCode = document.getElementById("btn-pagar-qrCode");
+  const btnNaoPagarQrCode = document.getElementById("btn-nao-pagar-qrCode");
+  const formaPagamento = document.getElementById("select-pagamento");
+
+  if (formaPagamento.value === "CREDITO" || formaPagamento.value === "DEBITO") {
+    checkout();
+    return;
+  }
+
+  divQrCode.style.display = "flex";
+  btnFinalizar.style.display = "none";
+
+  btnNaoPagarQrCode.addEventListener("click", () => {
+    divQrCode.style.display = "none";
+    btnFinalizar.style.display = "flex";
+  });
+  btnPagarQrCode.addEventListener("click", async () => {
+    await checkout();
+    await carregarCart();
+  });
 }
 
 // chama automaticamente se estiver na página do carrinho
