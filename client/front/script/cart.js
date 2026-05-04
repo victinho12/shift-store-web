@@ -173,8 +173,10 @@ export async function carregarCart() {
         <div class="center">
           <input class="cart-qty-input" type="number" min="1" max="5" value="${quantidade}" />
         </div>
+        <div class ="brns"> 
         <div class="quantidade-mais"><button class="mais">+</button></div>
         <div class="quantidade-menos"><button class="menos">-</button></div>
+        <div>
         <p class="right cart-green">
           ${formatBRL(valorTotalItem)}
         </p>
