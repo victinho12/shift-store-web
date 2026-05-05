@@ -8,20 +8,23 @@
 
 /* ================= BODY ================= */
 body {
-  background-color: rgb(51, 13, 13);
+   background: linear-gradient(180deg, #1a0505, #0d0202);
   color: white;
 }
 
 /* ================= HEADER ================= */
 .conteiner-header {
-  background-color: black;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(8px);
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 15px 5%;
-  border-bottom: 2px solid #8b0000;
-}
-.conteiner-header {
+
+  padding: 14px 5%;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -29,171 +32,118 @@ body {
 
 /* Logo */
 .header img {
-  width: 90px;
+  width: 85px;
 }
 
-/* Navegação central */
+/* Navegação */
 .header-infos {
   display: flex;
-  gap: 30px;
+  gap: 28px;
 }
 
 .header-infos a {
-  color: white;
+  color: #bbb;
   text-decoration: none;
-  font-size: 1rem;
-  transition: color 0.3s;
+  font-size: 0.95rem;
+  position: relative;
+  transition: 0.3s;
+}
+
+/* linha animada */
+.header-infos a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background: #ff2e2e;
+  transition: 0.3s;
+}
+
+.header-infos a:hover::after {
+  width: 100%;
 }
 
 .header-infos a:hover {
-  color: rgb(150, 24, 24);
+  color: #fff;
 }
 
-/* Entrar / Cadastrar / Carrinho */
+/* Entrar / cadastrar */
 .entrar-cadastrar {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .entrar-cadastrar a {
-  text-decoration: none;
-  color: white;
-  font-size: 0.9rem;
-  background-color: black;
-  border-radius: 18px;
   padding: 6px 14px;
-  border: 2px solid white;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #fff;
+  text-decoration: none;
   transition: 0.3s;
 }
 
 .entrar-cadastrar a:hover {
-  background-color: rgb(150, 24, 24);
-  border-color: rgb(150, 24, 24);
+  background: #8b0000;
+  border-color: #8b0000;
 }
 
-/* ================= CARRINHO ================= */
-.carrinhoStyle {
-  position: relative;
+/* user */
+#user-icon {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
+  padding: 6px 12px;
+  border-radius: 30px;
+  background: rgba(255,255,255,0.05);
+  transition: 0.3s;
+}
+
+#user-icon:hover {
+  background: rgba(139, 0, 0, 0.2);
+}
+
+#user-icon img {
+  width: 36px;
+  border-radius: 50%;
+  border: 2px solid #8b0000;
+}
+
+/* logout */
+#logout-btn {
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1px solid #fff;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#logout-btn:hover {
+  background: #8b0000;
+  border-color: #8b0000;
+}
+
+/* carrinho */
+.carrinhoStyle {
+  position: relative;
   cursor: pointer;
 }
 
-/* Ícone */
 .carrinhoStyle img {
-  width: 30px;
-  height: 30px;
-  object-fit: contain;
-  transition: transform 0.3s ease;
+  width: 28px;
 }
 
-/* Badge (quantidade) */
 #carrinho {
   position: absolute;
   top: -6px;
   right: -8px;
   background: #8b0000;
-  color: white;
-  font-size: 0.75rem;
-  font-weight: bold;
-  min-width: 20px;
-  height: 20px;
-  padding: 0 6px;
+  font-size: 0.7rem;
+  padding: 3px 6px;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
-  transition: transform 0.2s ease;
-}
-
-.carrinhoStyle:hover #carrinho {
-  transform: scale(1.1);
-}
-
-.entrar-cadastrar img {
-  width: 28px;
-  cursor: pointer;
-}
-#user-icon {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-left: 20px;
-  padding: 6px 12px;
-  border-radius: 30px;
-  background-color: rgba(255, 255, 255, 0.05);
-  transition: 0.3s;
-  cursor: pointer;
-}
-
-/* Hover elegante */
-#user-icon:hover {
-  background-color: rgba(139, 0, 0, 0.2);
-}
-
-/* Nome do usuário */
-#user-icon .nome {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #fff;
-  white-space: nowrap;
-}
-
-/* Avatar */
-#user-icon img {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid #8b0000;
-}
-/* ================= LOGOUT ================= */
-.logoutClass {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 12px;
-}
-
-#logout-btn {
-  background: linear-gradient(135deg, #000000, #000000);
-  color: white;
-  border: none;
-  border-radius: 20px;
-  padding: 8px 18px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: 2px solid white;
-}
-
-/* Hover */
-#logout-btn:hover {
-  background: linear-gradient(135deg, hsl(0, 100%, 27%), hsl(0, 100%, 27%));
-  border: 2px solid hsl(0, 100%, 27%);
-}
-
-/* Click */
-#logout-btn:active {
-  transform: scale(0.96);
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
-}
-#btn-genero-masc,
-#btn-genero-feme {
-  display: none;
-}
-
-.conteiner-body {
-  width: 100%;
-}
-
-.conteiner {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
 }
 
 /* ================= PRODUTOS ================= */
