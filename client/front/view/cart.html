@@ -1,134 +1,149 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="../assets/goku.svg" type="image/x-icon" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../style/cart.css" />
-    <link rel="stylesheet" href="../style/global/globla.css" />
-    <script type="module" src="../script/cart.js" defer></script>
-    <title>Carrinho | Shift Store</title>
-  </head>
 
-  <body>
-    <!-- HEADER -->
-    <header class="conteiner-header">
-      <nav class="header">
-        <a href="home.html">
-          <img src="../assets/goku (1).png" alt="Logo Shift Store" />
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="../assets/goku.svg" type="image/x-icon" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../style/cart.css" />
+  <link rel="stylesheet" href="../style/global/globla.css" />
+  <script type="module" src="../script/cart.js" defer></script>
+  <title>Carrinho | Shift Store</title>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header class="conteiner-header">
+    <nav class="header">
+      <a href="home.html">
+        <img src="../assets/goku (1).png" alt="Logo Shift Store" />
+      </a>
+    </nav>
+
+    <nav class="header-infos">
+      <a href="./home.html">Home</a>
+      <a href="./produtos.html">Produtos</a>
+      <a href="">Atendimento</a>
+      <a href="">Sobre nós</a>
+    </nav>
+
+    <nav class="entrar-cadastrar">
+      <a href="index.html">Entrar</a>
+      <a href="./cadastro.html">Cadastrar-se</a>
+    </nav>
+
+    <nav id="user-icon">
+      <p id="nome_cliente" class="nome">nome</p>
+      <img src="../assets/avatar-do-usuario.png" alt="Avatar do usuário" />
+    </nav>
+
+    <nav class="logoutClass">
+      <button id="logout-btn" type="button">Sair</button>
+    </nav>
+
+    <nav class="carrinhoStyle">
+      <p id="carrinho">0</p>
+      <img src="../assets/ChatGPT Image Dec 15, 2025, 04_44_20 AM.png" alt="Carrinho" />
+    </nav>
+  </header>
+  <div id="divLoad" class="divLoad"></div>
+  <!-- CONTEÚDO -->
+  <main class="conteiner-body">
+    <section class="cart-wrap">
+      <!-- TOPO -->
+      <div class="cart-top">
+        <div>
+          <h1 class="cart-title">Seu carrinho</h1>
+          <p class="cart-subtitle">
+            Revise seus produtos antes de finalizar a compra.
+          </p>
+        </div>
+
+        <a class="cart-btn-ghost" href="./produtos.html">
+          Continuar comprando
         </a>
-      </nav>
+      </div>
 
-      <nav class="header-infos">
-        <a href="./home.html">Home</a>
-        <a href="./produtos.html">Produtos</a>
-        <a href="">Atendimento</a>
-        <a href="">Sobre nós</a>
-      </nav>
-
-      <nav class="entrar-cadastrar">
-        <a href="index.html">Entrar</a>
-        <a href="./cadastro.html">Cadastrar-se</a>
-      </nav>
-
-      <nav id="user-icon">
-        <p id="nome_cliente" class="nome">nome</p>
-        <img src="../assets/avatar-do-usuario.png" alt="Avatar do usuário" />
-      </nav>
-
-      <nav class="logoutClass">
-        <button id="logout-btn" type="button">Sair</button>
-      </nav>
-
-      <nav class="carrinhoStyle">
-        <p id="carrinho">0</p>
-        <img
-          src="../assets/ChatGPT Image Dec 15, 2025, 04_44_20 AM.png"
-          alt="Carrinho"
-        />
-      </nav>
-    </header>
-    <div id="divLoad" class="divLoad"></div>
-    <!-- CONTEÚDO -->
-    <main class="conteiner-body">
-      <section class="cart-wrap">
-        <!-- TOPO -->
-        <div class="cart-top">
-          <div>
-            <h1 class="cart-title">Seu carrinho</h1>
-            <p class="cart-subtitle">
-              Revise seus produtos antes de finalizar a compra.
-            </p>
+      <div class="cart-grid">
+        <!-- LISTA DE ITENS -->
+        <section class="cart-card">
+          <div class="cart-card-head">
+            <h2>Itens</h2>
+            <span class="cart-badge" id="cart-count">0</span>
           </div>
 
-          <a class="cart-btn-ghost" href="./produtos.html">
-            Continuar comprando
-          </a>
-        </div>
+          <div class="cart-table-head">
+            <span>Produto</span>
+            <span class="right">Preço</span>
+            <span class="center">Qtd</span>
+            <span class="right">Subtotal</span>
+            <span class="right">Remover</span>
+          </div>
 
-        <div class="cart-grid">
-          <!-- LISTA DE ITENS -->
-          <section class="cart-card">
-            <div class="cart-card-head">
-              <h2>Itens</h2>
-              <span class="cart-badge" id="cart-count">0</span>
+          <!-- JS vai inserir os produtos aqui -->
+          <div id="cart-items"></div>
+
+          <!-- JS vai inserir mensagem de vazio aqui -->
+          <div id="cart-empty"></div>
+        </section>
+
+        <!-- RESUMO -->
+        <aside class="cart-card cart-summary">
+          <div class="cart-card-head">
+            <h2>Resumo</h2>
+          </div>
+
+          <div class="cart-summary-body">
+            <div class="cart-row">
+              <span>Subtotal</span>
+              <strong id="cart-subtotal">R$ 0,00</strong>
             </div>
 
-            <div class="cart-table-head">
-              <span>Produto</span>
-              <span class="right">Preço</span>
-              <span class="center">Qtd</span>
-              <span class="right">Subtotal</span>
-              <span class="right">Remover</span>
+            <div class="cart-row">
+              <span>Frete</span>
+              <strong class="cart-green">Grátis</strong>
+            </div>
+            <div>
+              <span>Selecione uma forma de pagamento</span>
+              <select id="select-pagamento">
+                <option value="PIX" selected>PIX</option>
+                <option value="CREDITO">CREDITO</option>
+                <option value="DEBITO">DEBITO</option>
+              </select>
+              <span id="parcelar"></span>
             </div>
 
-            <!-- JS vai inserir os produtos aqui -->
-            <div id="cart-items"></div>
+            <div class="cart-line"></div>
 
-            <!-- JS vai inserir mensagem de vazio aqui -->
-            <div id="cart-empty"></div>
-          </section>
-
-          <!-- RESUMO -->
-          <aside class="cart-card cart-summary">
-            <div class="cart-card-head">
-              <h2>Resumo</h2>
+            <div class="cart-total">
+              <span>Total</span>
+              <span id="cart-total">R$ 0,00</span>
             </div>
 
-            <div class="cart-summary-body">
-              <div class="cart-row">
-                <span>Subtotal</span>
-                <strong id="cart-subtotal">R$ 0,00</strong>
-              </div>
+            <div class="btn-add-cart cart-finalizar">
+              <div class="qrCode" id="qrCode">
+  <div class="qrCard">
+    <h2>Pagamento via Pix</h2>
 
-              <div class="cart-row">
-                <span>Frete</span>
-                <strong class="cart-green">Grátis</strong>
-              </div>
-              <div>
-                <span>Selecione uma forma de pagamento</span>
-                <select id="select-pagamento">
-                  <option value="PIX" selected>PIX</option>
-                  <option value="CREDITO">CREDITO</option>
-                  <option value="DEBITO">DEBITO</option>
-                </select>
-                <span id="parcelar"></span>
-              </div>
+    <div class="qrImage">
+      <img src="../assets/qrcode-pix.png" alt="QR Code">
+    </div>
 
-              <div class="cart-line"></div>
+    <p>Escaneie o QR Code para pagar</p>
 
-              <div class="cart-total">
-                <span>Total</span>
-                <span id="cart-total">R$ 0,00</span>
-              </div>
-
-              <div class="btn-add-cart cart-finalizar">
-                <button type="button" id="btn-vender">Finalizar compra</button>
-              </div>
+    <div class="qrActions">
+      <button id="btn-pagar-qrCode">Já realizei o pagamento</button>
+      <button id="btn-nao-pagar-qrCode">Cancelar</button>
+    </div>
+  </div>
+</div>
+              <button type="button" id="btn-vender">Finalizar compra</button>
             </div>
-          </aside>
-        </div>
-      </section>
-    </main>
-  </body>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+</body>
+
 </html>
