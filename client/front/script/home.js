@@ -67,7 +67,7 @@ function cardProdutos(dados) {
       <a href="produto_uni.html?id=${roupa.id}&tamanho=${roupa.tamanho}&cor=${roupa.cor}">
         
         <div class="card-img">
-          <img src="https://shift-store-web.onrender.com/uploads/${roupa.img}">
+          <img src=https://shift-store-web.onrender.com/uploads/${roupa.img}>
         </div>
 
         <div class="card-info">
