@@ -42,6 +42,7 @@ export async function verCart(id_usuario) {
   let parcelar = document.getElementById("parcelar");
   let pagamento = document.getElementById("select-pagamento");
   if (pagamento) {
+
     pagamento.addEventListener("change", () => {
       if (pagamento.value === "DEBITO" || pagamento.value === "CREDITO") {
         parcelar.innerHTML = `
@@ -58,12 +59,16 @@ export async function verCart(id_usuario) {
     </select> `;
         let parcelaQtd = document.getElementById("parcelaQtd");
         parcelaQtd.addEventListener("change", () => {
-          qtdParcelas = parcelaQtd.value;
-          carregarCart();
+          qtdParcelas = Number(parcelaQtd.value);
+          atualizarTotais();
         });
       }
       if (pagamento.value === "PIX") {
+
         parcelar.innerHTML = "";
+        qtdParcelas = 1;
+        atualizarTotais();
+
       }
     });
   }
@@ -85,6 +90,27 @@ export async function verCart(id_usuario) {
     console.error(err.message);
   }
 }
+
+function atualizarTotais() {
+  const subtotalEl = document.getElementById("cart-subtotal");
+  const totalEl = document.getElementById("cart-total");
+  const pagamento = document.getElementById("select-pagamento");
+
+  const subtotal = Number(subtotalEl.dataset.valor || 0);
+
+  // PIX não parcela
+  if (pagamento && pagamento.value === "PIX") {
+    qtdParcelas = 1;
+  }
+
+  const total = subtotal / Number(qtdParcelas);
+
+  totalEl.textContent = Number(total).toLocaleString("pt-BR", {
+    style: "currency",
+    currency: "BRL",
+  });
+}
+
 export async function carregarCart() {
   loading(true);
   const nome = document.getElementById("nome_cliente");
@@ -162,9 +188,8 @@ export async function carregarCart() {
         <div class="cart-prod">
           <p class="cart-name">${produto.produto_nome_solicitado}</p>
           <p class="cart-meta">
-            Cor: ${produto.produto_cor_solicitado} • Tam: ${
-        produto.produto_tamanho_solicitado
-      }
+            Cor: ${produto.produto_cor_solicitado} • Tam: ${produto.produto_tamanho_solicitado
+        }
           </p>
         </div>
 
@@ -213,7 +238,9 @@ export async function carregarCart() {
     }));
 
     subtotalEl.textContent = formatBRL(subtotalGeral);
-    totalEl.textContent = formatBRL(subtotalGeral / qtdParcelas);
+    subtotalEl.dataset.valor = subtotalGeral;
+
+    atualizarTotais();
     divLoading.innerHTML = "";
   } catch (err) {
     console.error(err.message);
@@ -324,6 +351,7 @@ function qrCode() {
   const formaPagamento = document.getElementById("select-pagamento");
 
   if (formaPagamento.value === "CREDITO" || formaPagamento.value === "DEBITO") {
+
     checkout();
     return;
   }

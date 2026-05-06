@@ -289,6 +289,7 @@ body {
   overflow-y: auto;
 }
 
+
 #cart-items::-webkit-scrollbar {
   width: 5px;
 }
@@ -394,8 +395,7 @@ body {
   .brns {
     justify-content: flex-start;
   }
-<<<<<<< HEAD
-=======
+
 }
 .qrCode {
   position: fixed;
@@ -490,5 +490,4 @@ body {
 
 #btn-nao-pagar-qrCode:hover {
   background: #1a1a1a;
->>>>>>> fce6705d4fe15c8520c9cca4ae573536ace4e3c4
 }
