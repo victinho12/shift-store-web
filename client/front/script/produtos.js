@@ -105,7 +105,7 @@ card.innerHTML = `
   <div class="card">
     <div class="card-img">
       <img loading="lazy"
-        src="http://localhost:3000/uploads/${roupa.img}"
+        src="https://shift-store-web.onrender.com/uploads/${roupa.img}"
         alt="${roupa.nome}"
       />
     </div>

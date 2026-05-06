@@ -68,7 +68,7 @@ async function exibirProduto() {
     if (!res.ok) throw new Error(dados.message);
     // colocando dados no html
     id_familia = dados.data.id_familia;
-    img.src = `http://localhost:3000/uploads/${dados.data.img}`;
+    img.src = `https://shift-store-web.onrender.com/uploads/${dados.data.img}`;
     img.alt = `${dados.data.nome}`;
     nome.textContent = dados.data.nome;
     code.textContent = `Codigo do produto: ${dados.data.id}`;
