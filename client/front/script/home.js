@@ -11,7 +11,6 @@ import {
   API_BASE
 } from "./services/config.js";
 
-const API_BASE = "https://shift-store-web.onrender.com";
 
 // função que vê quantos itens o usuario tem no carrinho
 verQuantidadeCart();
@@ -70,7 +69,7 @@ function cardProdutos(dados) {
       <a href="produto_uni.html?id=${roupa.id}&tamanho=${roupa.tamanho}&cor=${roupa.cor}">
         
         <div class="card-img">
-          <img src="${API_BASE}/uploads/${roupa.img}">
+          <img src="http://localhost:3000/uploads/${roupa.img}" alt="${roupa.nome}">
         </div>
 
         <div class="card-info">
