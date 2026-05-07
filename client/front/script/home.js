@@ -7,7 +7,8 @@ import {
   getUserId,
   exibirNomeFront,
   redirecionar,
-  verQuantidadeCart
+  verQuantidadeCart,
+  API_BASE
 } from "./services/config.js";
 
 // função que vê quantos itens o usuario tem no carrinho

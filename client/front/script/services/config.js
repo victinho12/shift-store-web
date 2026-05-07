@@ -3,7 +3,7 @@ export const API_LOGIN = "https://shift-store-web.onrender.com/user";
 export const API_CART = "https://shift-store-web.onrender.com/cart";
 export const API_CLIENT_KEY = "VICTOR_EDUARDO_MARTINS_123";
 export const API_CHEKOUT = "https://shift-store-web.onrender.com/vendas";
-
+export const API_BASE = "https://shift-store-web.onrender.com";
 
 // export const API_ROUPAS = "http://localhost:3000/roupas";
 // export const API_LOGIN = "http://localhost:3000/user";

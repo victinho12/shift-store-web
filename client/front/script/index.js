@@ -5,6 +5,7 @@ import {
   logoutUser,
   exibirNomeFront,
   loading,
+  
 } from "./services/config.js";
 // Exibe o nome do usuario em seu icone
 exibirNomeFront();
