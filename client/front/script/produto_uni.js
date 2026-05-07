@@ -130,7 +130,7 @@ async function buscarProduto(tamanho, cor, categoria, id_familia) {
 async function atualizarDados(dados) {
   //aqui ta tudo certo
   const { data } = dados;
-  img.src = `https://shift-store-web.onrender.com/uploads/${data.img}`;
+  img.src = `http://localhost:3000/uploads/${data.img}`;
   img.alt = `${data.nome}`;
   nome.textContent = data.nome;
   code.textContent = `Codigo do produto: ${data.id}`;
