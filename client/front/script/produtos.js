@@ -8,6 +8,7 @@ import {
   getUserId,
   exibirNomeFront,
   verQuantidadeCart,
+  API_BASE,
 } from "./services/config.js";
 // Exibe o nome do usuario em seu icone
 exibirNomeFront();
@@ -105,7 +106,7 @@ card.innerHTML = `
   <div class="card">
     <div class="card-img">
       <img loading="lazy"
-        src="https://shift-store-web.onrender.com/uploads/${roupa.img}"
+        src="${API_BASE}/uploads/${roupa.img}"
         alt="${roupa.nome}"
       />
     </div>
