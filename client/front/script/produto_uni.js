@@ -122,7 +122,7 @@ async function buscarProduto(tamanho, cor, categoria, id_familia) {
     const dados = await res.json();
 
     if (!res.ok) throw new Error(dados.message || "Erro na requisição");
-    console.log(dados.data.img);
+    console.log(dados.data.id);
     return dados;
   } finally {
     loading(false);
@@ -130,10 +130,10 @@ async function buscarProduto(tamanho, cor, categoria, id_familia) {
 }
 function atualizarDados(dados) {
   const { data } = dados;
-  console.log(data.img);
-  img.src = `${API_BASE}/uploads/${data.img}`;
+  
+  img.src = `http://localhost:3000/uploads/${data.img}?t=${Date.now()}`;
   img.alt = `${data.nome}`;
-
+  console.log(data);
   nome.textContent = data.nome;
 
   code.textContent = `Codigo do produto: ${data.id}`;
@@ -151,10 +151,14 @@ async function changeSelect() {
     const tamanho = selectTamanho.value;
     const cor = selectCor.value;
 
-    console.log(id_familia);
-    if (!tamanho || !cor) return;
+    if (!tamanho || !cor) {
+      produtoState.idVariacao = null;
+      return;
+    }
+
     const dados = await buscarProduto(tamanho, cor, produtoState.categoria, id_familia);
     produtoState.idVariacao = dados.data.id;
+
     atualizarDados(dados);
   } catch (err) {
     return alert(err.message);

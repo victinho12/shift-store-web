@@ -27,7 +27,7 @@ async function buscarPeloTamanhoCorCategoira(req, res, next) {
     }
 
     const resposta = await pool.query(
-      `select
+      `select distinct
   p.id as id_familia,
   p.nome as nome,
   t.nome as tamanho,
@@ -47,6 +47,7 @@ join cor on cor.id = pv.id_cor
 join tamanho t on t.id = pv.id_tamanho
 LEFT JOIN produto_imagem pi 
   ON pi.id_produto = p.id
+ AND pi.id_cor = pv.id_cor
 
       where cor.id = $1 and t.id = $2 and c.id = $3 and p.id = $4`,
       [idCor, idTamanho, idCategoria, isIdFamilia],

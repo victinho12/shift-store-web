@@ -42,7 +42,6 @@ export async function verCart(id_usuario) {
   let parcelar = document.getElementById("parcelar");
   let pagamento = document.getElementById("select-pagamento");
   if (pagamento) {
-
     pagamento.addEventListener("change", () => {
       if (pagamento.value === "DEBITO" || pagamento.value === "CREDITO") {
         parcelar.innerHTML = `
@@ -64,11 +63,9 @@ export async function verCart(id_usuario) {
         });
       }
       if (pagamento.value === "PIX") {
-
         parcelar.innerHTML = "";
         qtdParcelas = 1;
         atualizarTotais();
-
       }
     });
   }
@@ -185,31 +182,39 @@ export async function carregarCart() {
       card.dataset.preco = precoUnitario;
 
       card.innerHTML = `
-        <div class="cart-prod">
-          <p class="cart-name">${produto.produto_nome_solicitado}</p>
-          <p class="cart-meta">
-            Cor: ${produto.produto_cor_solicitado} • Tam: ${produto.produto_tamanho_solicitado
-        }
-          </p>
-        </div>
+  <div class="cart-prod">
+    <p class="cart-name">${produto.produto_nome_solicitado}</p>
+    <p class="cart-meta">
+      Cor: ${produto.produto_cor_solicitado} • Tam: ${
+        produto.produto_tamanho_solicitado
+      }
+    </p>
+  </div>
 
-        <p class="right">${formatBRL(precoUnitario)}</p>
+  <p class="right">${formatBRL(precoUnitario)}</p>
 
-        <div class="center">
-          <input class="cart-qty-input" type="number" min="1" max="5" value="${quantidade}" />
-        </div>
-        <div class ="brns"> 
-        <div class="quantidade-mais"><button class="mais">+</button></div>
-        <div class="quantidade-menos"><button class="menos">-</button></div>
-        <div>
-        <p class="right cart-green">
-          ${formatBRL(valorTotalItem)}
-        </p>
+  <div class="center">
+    <input class="cart-qty-input" type="number" min="1" max="5" value="${quantidade}" />
+  </div>
 
-        <div class="right">
-          <button class="cart-remove" type="button">✕</button>
-        </div>
-      `;
+  <div class="brns"> 
+    <div class="quantidade-mais">
+      <button class="mais">+</button>
+    </div>
+
+    <div class="quantidade-menos">
+      <button class="menos">-</button>
+    </div>
+  </div>
+
+  <p class="right cart-green">
+    ${formatBRL(valorTotalItem)}
+  </p>
+
+  <div class="right">
+    <button class="cart-remove" type="button">✕</button>
+  </div>
+`;
       card.querySelector(".cart-remove").addEventListener("click", async () => {
         console.log("id od cart Front", produto.cart_id_item);
         await removerCart(produto.cart_id_item);
@@ -351,7 +356,6 @@ function qrCode() {
   const formaPagamento = document.getElementById("select-pagamento");
 
   if (formaPagamento.value === "CREDITO" || formaPagamento.value === "DEBITO") {
-
     checkout();
     return;
   }
