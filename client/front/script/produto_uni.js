@@ -5,6 +5,7 @@ import {
   exibirNomeFront,
   loading,
   getUserId,
+  API_BASE
 } from "../script/services/config.js";
 import { addToCart } from "./cart.js";
 exibirNomeFront();
@@ -36,22 +37,22 @@ let btn_add_ao_carrinho = document.getElementById("btn-comprar");
 btn_add_ao_carrinho.addEventListener("click", async () => {
   // e aqui ele recebe o que veio das selecões que o user fez
   try {
-    
+
     if (!produtoState.idVariacao) {
-      alert("Selecione uma cor e tamanho"); return; 
+      alert("Selecione uma cor e tamanho"); return;
     }
     loading(true);
     const sucesso = await addToCart(getUserId(), produtoState.idVariacao, 1);
     console.log(sucesso);
     if (!sucesso) {
       alert("Não foi possivel adicionar ao carrinho");
-     
+
     } else {
       window.location.href = "../view/cart.html";
     }
   } catch (err) {
     console.log(err.message);
-  }finally{
+  } finally {
     loading(false)
   }
 });
@@ -68,7 +69,7 @@ async function exibirProduto() {
     if (!res.ok) throw new Error(dados.message);
     // colocando dados no html
     id_familia = dados.data.id_familia;
-    img.src = `https://shift-store-web.onrender.com/uploads/${dados.data.img}`;
+    img.src = `${API_BASE}/uploads/${dados.data.img}`;
     img.alt = `${dados.data.nome}`;
     nome.textContent = dados.data.nome;
     code.textContent = `Codigo do produto: ${dados.data.id}`;
@@ -78,7 +79,7 @@ async function exibirProduto() {
     produtoState.categoria = dados.data.id_categoria;
     //forEecht paara ver os tamanhos
     selectTamanho.innerHTML = `<option value="" disabled selected>Selecione o tamanho</option>`;
-    
+
     dados.tamanhos.forEach((item) => {
       const option = document.createElement("option");
       option.textContent = item.tamanho; // o usuário vê
@@ -100,7 +101,7 @@ async function exibirProduto() {
     selectCor.addEventListener("change", changeSelect);
   } catch (err) {
     return alert(err.message);
-  } finally{
+  } finally {
     loading(false);
   }
 }
@@ -108,9 +109,9 @@ async function exibirProduto() {
 async function buscarProduto(tamanho, cor, categoria, id_familia) {
   try {
     loading(true);
-
+    console.log(cor, tamanho, categoria, id_familia);
     const res = await fetchAuth(
-      `${API_ROUPAS}/mandarCart/?tamanho=${tamanho}&cor=${cor}&categoria=${categoria}&id_familia=${id_familia}`,
+      `${API_ROUPAS}/mandarCart/?cor=${cor}&tamanho=${tamanho}&categoria=${categoria}&id_familia=${id_familia}`,
       {
         headers: {
           "shift-api-key": API_CLIENT_KEY,
@@ -121,35 +122,45 @@ async function buscarProduto(tamanho, cor, categoria, id_familia) {
     const dados = await res.json();
 
     if (!res.ok) throw new Error(dados.message || "Erro na requisição");
-
+    console.log(dados.data.id);
     return dados;
   } finally {
     loading(false);
   }
 }
-async function atualizarDados(dados) {
-  //aqui ta tudo certo
+function atualizarDados(dados) {
   const { data } = dados;
-  img.src = `http://localhost:3000/uploads/${data.img}`;
+  
+  img.src = `http://localhost:3000/uploads/${data.img}?t=${Date.now()}`;
   img.alt = `${data.nome}`;
+  console.log(data);
   nome.textContent = data.nome;
+
   code.textContent = `Codigo do produto: ${data.id}`;
+
   const valor_parcela = data.preco / 7;
+
   parcela.textContent = `7x de R$ ${valor_parcela.toFixed(2)}`;
+
+  preco.textContent = `R$ ${data.preco}`;
 }
 
 async function changeSelect() {
-  try{
-    
+  try {
+
     const tamanho = selectTamanho.value;
     const cor = selectCor.value;
-     
-    console.log(id_familia);
-    if(!tamanho || !cor) return;
+
+    if (!tamanho || !cor) {
+      produtoState.idVariacao = null;
+      return;
+    }
+
     const dados = await buscarProduto(tamanho, cor, produtoState.categoria, id_familia);
     produtoState.idVariacao = dados.data.id;
-    atualizarDados(dados); 
-  }catch(err){
+
+    atualizarDados(dados);
+  } catch (err) {
     return alert(err.message);
   }
 }

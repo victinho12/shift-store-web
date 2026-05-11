@@ -14,14 +14,17 @@ body {
 
 /* ================= HEADER ================= */
 .conteiner-header {
-  background-color: black;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(10px);
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 15px 5%;
-  border-bottom: 2px solid #8b0000;
-}
-.conteiner-header {
+
+  padding: 14px 5%;
+
+  border-bottom: 1px solid rgba(255, 0, 0, 0.15);
+
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -39,10 +42,29 @@ body {
 }
 
 .header-infos a {
-  color: white;
+  color: #ccc;
   text-decoration: none;
-  font-size: 1rem;
-  transition: color 0.3s;
+  font-size: 0.95rem;
+  transition: 0.3s;
+  position: relative;
+}
+.header-infos a::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background: #ff2e2e;
+  transition: 0.3s;
+}
+
+.header-infos a:hover::after {
+  width: 100%;
+}
+
+.header-infos a:hover {
+  color: white;
 }
 
 .header-infos a:hover {
@@ -57,21 +79,20 @@ body {
 }
 
 .entrar-cadastrar a {
-  text-decoration: none;
   color: white;
-  font-size: 0.9rem;
-  background-color: black;
-  border-radius: 18px;
+  text-decoration: none;
   padding: 6px 14px;
-  border: 2px solid white;
+
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.3);
+
   transition: 0.3s;
 }
 
 .entrar-cadastrar a:hover {
-  background-color: rgb(150, 24, 24);
-  border-color: rgb(150, 24, 24);
+  background: #8b0000;
+  border-color: #8b0000;
 }
-
 /* ================= CARRINHO ================= */
 .carrinhoStyle {
   position: relative;
@@ -111,6 +132,16 @@ body {
 
 .carrinhoStyle:hover #carrinho {
   transform: scale(1.1);
+}
+.conteiner{
+  width: 100%;
+  text-align: center;
+  align-items: center;
+}
+#tendencias{
+  align-items: center;
+  text-align: center;
+  margin: 5%;
 }
 
 
@@ -183,8 +214,6 @@ body {
   transform: scale(0.96);
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.6);
 }
-
-
 
 
 
