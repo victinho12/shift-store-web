@@ -57,7 +57,7 @@ btnInsertUser.addEventListener("click", async () => {
         return
       }
 
-      alert("deu bom");
+      alert("Seja muito bem vindo!!");
       console.log("deu bom");
       window.location.href = "./index.html";
     
@@ -86,6 +86,7 @@ function validarCamposObrigatorios(campos) {
 function validarEmail(email) {
   let validar = true;
 
+  
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email.value)) {
     email.value = "";

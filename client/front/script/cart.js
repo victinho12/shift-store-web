@@ -189,6 +189,7 @@ export async function carregarCart() {
         produto.produto_tamanho_solicitado
       }
     </p>
+    
   </div>
 
   <p class="right">${formatBRL(precoUnitario)}</p>
